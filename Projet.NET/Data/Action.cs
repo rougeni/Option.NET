@@ -16,11 +16,11 @@ namespace Projet.NET.Data
 
         #endregion Private Fields
 
-        public string Name { get; }
+        public string Name { get { return name; } }
 
-        public int Date { get; }
+        public int Date { get { return date; } }
 
-        public int Price { get; }
+        public int Price { get { return price; } }
 
 
     }
