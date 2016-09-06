@@ -16,6 +16,7 @@ namespace ProjetNET
         private DispatcherTimer dispatcherTimer;
         private bool tickerStarted;
         private IControleViewModel selectedControl;
+        private WholeViewModel wholeView;
         #endregion Private Fields
 
         public IControleViewModel SelectedControl
@@ -23,7 +24,9 @@ namespace ProjetNET
             get { return selectedControl; }
             set 
             {
+                selectedControl.Leave(wholeView);
                 SetProperty(ref selectedControl, value);
+                selectedControl.Arrive(wholeView);
             }
         }
 
@@ -37,6 +40,7 @@ namespace ProjetNET
             System.Console.WriteLine("init " + init.Name);
             List<IControleViewModel> myList = new List<IControleViewModel>() {init};
             AvailableControl = new ObservableCollection<IControleViewModel>(myList);
+            wholeView = new WholeViewModel();
         }
 
         #endregion Public Constructors
