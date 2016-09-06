@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Prism, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -56,7 +60,6 @@
     <Compile Include="Data\Action.cs" />
     <Compile Include="Data\DataConnection.cs" />
     <Compile Include="Data\IGenerationActionHistory.cs" />
-    <Compile Include="Data\testAdd.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Views\FieldDisplayView.xaml.cs">
       <DependentUpon>FieldDisplayView.xaml</DependentUpon>

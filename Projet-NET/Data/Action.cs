@@ -23,11 +23,6 @@ namespace ProjetNET.Data
             this.name = nom;
             this.date = date;
             this.price = prix;
-            /*
- * lgnes de commmentaires
- * pour tester git
- * ça commence à me 
- * souler */
         }
 
         #endregion Public Constructor
@@ -38,9 +33,5 @@ namespace ProjetNET.Data
 
         public int Price { get { return price; } }
 
-        /* fonction pour tester le  projet de tests */
-        public String afficher(){
-            return this.name;
-        }
     }
 }
