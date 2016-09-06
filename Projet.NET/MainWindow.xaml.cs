@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Projet.NET
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class MainWindow : Window
     {
-        public Page1()
+        public MainWindow()
         {
             InitializeComponent();
         }

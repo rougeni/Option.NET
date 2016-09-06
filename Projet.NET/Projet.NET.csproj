@@ -40,6 +40,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Prism">
+      <HintPath>..\..\GameOfLife\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,18 +61,18 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="Page1.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -89,6 +92,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Include="Projet.NET_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -96,6 +102,12 @@
     </None>
     <None Include="Properties\app.manifest" />
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <PropertyGroup>
     <StartArguments />
