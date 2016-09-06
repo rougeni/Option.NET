@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/packages/Prism.Core.6.1.0
+/Projet.NET/obj/Debug
