@@ -17,10 +17,7 @@ namespace ProjetNET.Data
                 new System.Data.SqlClient.SqlConnection();
             // TODO: Modify the connection string and include any
             // additional required properties for your database.
-            conn.ConnectionString =
-             "integrated security=SSPI;data source=ingefin.ensimag.fr;" +
-             "persist security info=False;initial catalog=northwind" +
-             "Server=ingefin.ensimag.fr;Database=DotNetDB;User Id=etudiant; Password=edn!2015;";
+            conn.ConnectionString = "Data Source=ingefin.ensimag.fr;Initial Gestion=DotNetDB;User ID=etudiant;Password=edn!2015";
             try
             {
                 conn.Open();
