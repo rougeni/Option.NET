@@ -10,7 +10,7 @@ namespace ProjetNET.Data
     {
         public DataConnection()
         {
-            bd = new BaseDataContext();
+            this.bd = new BaseDataContext();
         }
         public BaseDataContext bd
         {
@@ -44,7 +44,11 @@ namespace ProjetNET.Data
          * */
         public String getID(String nom)
         {
-            return null;
+            BaseDataContext baseData = new BaseDataContext();
+            string id = (from p in baseData.ShareNames
+                     where p.name == nom
+                     select p.id).FirstOrDefault();
+            return id;
         }
 
         /**
@@ -54,15 +58,20 @@ namespace ProjetNET.Data
          * */
         public int[] getCotation(String ID, int duree)
         {
-            var cotations = from p in this.bd.HistoricalShareValues
+            BaseDataContext baseData = new BaseDataContext();
+            var cotations = from p in baseData.HistoricalShareValues
                             where p.id == ID
                             orderby p.date
                             select p.value;
             int[] tableauCotation = new int[duree];
             int compteur = 0;
             foreach (var cote in cotations){
-                compteur++;
                 tableauCotation[compteur] = (int)cote;
+                compteur++;
+                if (compteur >= duree)
+                {
+                    return tableauCotation;
+                }
             }
                 return tableauCotation;
         }
