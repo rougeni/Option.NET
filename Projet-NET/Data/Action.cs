@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Data
 {
-    internal class Action
+    public class Action
     {
         #region Private Fields
 
@@ -16,12 +16,26 @@ namespace ProjetNET.Data
 
         #endregion Private Fields
 
+        #region Public Constructor
+
+        public Action(String nom, int date, int prix)
+        {
+            this.name = nom;
+            this.date = date;
+            this.price = prix;
+        }
+
+        #endregion Public Constructor
+
         public string Name { get { return name; } }
 
         public int Date { get { return date; } }
 
         public int Price { get { return price; } }
 
-
+        /* fonction pour tester le  projet de tests */
+        public String afficher(){
+            return this.name;
+        }
     }
 }
