@@ -6,8 +6,14 @@
         Title="MainWindow" Height="815" Width="1080">
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="2">
-            <TabControl RenderTransformOrigin="0.509,1.01" Height="523" Width="1064" SelectedItem="{Binding SelectedControl}">
-                <StackPanel HorizontalAlignment="Left" Height="453" Margin="20,10,0,0" VerticalAlignment="Top" Width="343"/>
+            <TabControl RenderTransformOrigin="0.509,1.01" Height="523" Width="1064" ItemsSource="{Binding AvailableControl}" SelectedItem="{Binding SelectedControl}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TabItem Header="{Binding Name}">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
             </TabControl>
         </StackPanel>
     </Grid>
