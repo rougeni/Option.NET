@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Prism">
-      <HintPath>..\..\..\Downloads\GameOfLife\GameOfLife\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
+      <HintPath>..\..\GameOfLife\GameOfLife\bin\Release\Prism.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -57,7 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Action.cs" />
+    <Compile Include="Data\DataConnection.cs" />
     <Compile Include="Data\IGenerationActionHistory.cs" />
+    <Compile Include="Data\testAdd.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Views\FieldDisplayView.xaml.cs">
       <DependentUpon>FieldDisplayView.xaml</DependentUpon>
