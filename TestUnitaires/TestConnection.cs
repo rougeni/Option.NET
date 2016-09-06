@@ -11,7 +11,7 @@ namespace TestUnitaires
         [TestMethod]
         public void TestEtablissementConnection()
         {
-            DataConnection dataConn = new DataConnection();
+            DataConnection dataConn = new DataConnection() ;
             dataConn.ConnectToSql();
         }
     }
