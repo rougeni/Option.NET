@@ -13,10 +13,48 @@ namespace TestUnitaires
         public void testTailleTableauCotation()
         {
             DataConnection dataConn = new DataConnection();
-            int[] tabCote = dataConn.getCotation("CA FP", 10);
+            double[] tabCote = dataConn.getCotation("CA FP", 10);
+            if (tabCote.Length != 10)
+            {
+                throw new ArgumentOutOfRangeException("le tableau de cotation n'a pas la bonne taille");
+            }
             Debug.Assert(tabCote.Length == 10);
+        }
+
+        [TestMethod]
+        public void testValeurTableauCotation()
+        {
+            DataConnection dataConn = new DataConnection();
+            double[] tabCote = dataConn.getCotation("CA FP", 10);
+            if( tabCote[0] != 29.3173 ||
+                tabCote[1] != 29.7017 ||
+                tabCote[2] != 30.4049 ||
+                tabCote[3] != 30.1821)
+            {
+                throw new ArgumentOutOfRangeException("une des valeurs n'est pas bonne dans le tableau de  cotation");
+            }
+        }
+
+        [TestMethod]
+        public void testFakeGetID()
+        {
+            DataConnection dataConn = new DataConnection();
             String id = dataConn.getID("test");
-            Debug.Assert(id == null);
+            if (id != null)
+            {
+                throw new ArgumentOutOfRangeException("id non null dans tastFakeGetId");
+            }
+        }
+
+        [TestMethod]
+        public void testGetID()
+        {
+            DataConnection dataConn = new DataConnection();
+            String id = dataConn.getID("ALSTOM");
+            if (!id.Contains("ALO FP"))
+            {
+                throw new ArgumentOutOfRangeException("l'ID récupéré n'est pas bon :" + id);
+            }
         }
         [TestMethod]
         public void listingNames()

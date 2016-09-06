@@ -18,8 +18,8 @@ namespace ProjetNET.Data
             {
                 return this.bd;
             }
-            set { }
-
+            set{}
+ 
         }
         #region Public Methods
 
@@ -42,13 +42,13 @@ namespace ProjetNET.Data
         /** 
          * Méthode qui renvoie l'ID a partir du nom
          * */
-        public String getID(String nom)
+        public string getID(String nom)
         {
             BaseDataContext baseData = new BaseDataContext();
-            string id = (from p in baseData.ShareNames
-                         where p.name == nom
-                         select p.id).FirstOrDefault();
-            return id;
+            var id = from p in baseData.ShareNames
+                     where p.name == nom
+                     select p.id;
+            return id.FirstOrDefault();
         }
 
         /**
@@ -56,25 +56,24 @@ namespace ProjetNET.Data
          * a partir de son ID
          * et pour une durée (nombre de jours ouvrés)
          * */
-        public int[] getCotation(String ID, int duree)
+        public double[] getCotation(String ID, int duree)
         {
             BaseDataContext baseData = new BaseDataContext();
             var cotations = from p in baseData.HistoricalShareValues
                             where p.id == ID
                             orderby p.date
                             select p.value;
-            int[] tableauCotation = new int[duree];
+            double[] tableauCotation = new double[duree];
             int compteur = 0;
-            foreach (var cote in cotations)
-            {
-                tableauCotation[compteur] = (int)cote;
+            foreach (var cote in cotations){
+                tableauCotation[compteur] = (double)cote;
                 compteur++;
                 if (compteur >= duree)
                 {
                     return tableauCotation;
                 }
             }
-            return tableauCotation;
+                return tableauCotation;
         }
 
         public List<String> getNames()
@@ -91,12 +90,9 @@ namespace ProjetNET.Data
             }
             return appellations;
         }
+
         #endregion Public Methods
-        /*public List<String> ListofNames;
-        public  List<String> getNames(){
-            ListofNames = new List<String>();
-            un_nom = from Sharename in 
-        }*/
+
 
     }
 }
