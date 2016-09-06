@@ -8,19 +8,15 @@ namespace ProjetNET.Data
 {
     public class DataConnection
     {
+
         public DataConnection()
         {
-            bd = new BaseDataContext();
+            
         }
-        public BaseDataContext bd
-        {
-            get
-            {
-                return this.bd;
-            }
-            set{}
  
-        }
+        public List<String> ListofNames;
+
+
         #region Public Methods
 
         /**
@@ -66,13 +62,18 @@ namespace ProjetNET.Data
             }
                 return tableauCotation;
         }
+        public void getNames()
+        {
+            //ListofNames = new List<String>();
+            BaseDataContext connection = new BaseDataContext();
+            var un_nom = from p in this.bd.ShareNames
+                         select p;
 
+            System.Console.WriteLine(un_nom);
+            return;
+        }
         #endregion Public Methods
-        /*public List<String> ListofNames;
-        public  List<String> getNames(){
-            ListofNames = new List<String>();
-            un_nom = from Sharename in 
-        }*/
+
 
     }
 }
