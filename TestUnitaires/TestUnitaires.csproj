@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Projet-NET\Projet-NET.csproj">
+    <ProjectReference Include="..\Projet-NET\ProjetNET.csproj">
       <Project>{1147cd08-0f7e-4190-9e9e-3275dbfe7ff1}</Project>
-      <Name>Projet-NET</Name>
+      <Name>ProjetNET</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

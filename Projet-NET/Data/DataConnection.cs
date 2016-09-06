@@ -1,5 +1,4 @@
-﻿using ProjetNET.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +8,18 @@ namespace ProjetNET.Data
 {
     public class DataConnection
     {
+        public DataConnection()
+        {
+            bd = new BaseDataContext();
+        }
         public BaseDataContext bd
         {
-            public get;
-            private set;
+            get
+            {
+                return this.bd;
+            }
+            set{}
+ 
         }
         #region Public Methods
 
@@ -61,10 +68,10 @@ namespace ProjetNET.Data
         }
 
         #endregion Public Methods
-        //public List<String> ListofNames;
-        /*public  List<String> getNames(){
+        /*public List<String> ListofNames;
+        public  List<String> getNames(){
             ListofNames = new List<String>();
-            //un_nom = from Sharename in 
+            un_nom = from Sharename in 
         }*/
 
     }
