@@ -7,7 +7,7 @@
     <ProjectGuid>{1147CD08-0F7E-4190-9E9E-3275DBFE7FF1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Projet_NET</RootNamespace>
+    <RootNamespace>ProjetNET</RootNamespace>
     <AssemblyName>Projet-NET</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -59,6 +59,9 @@
     <Compile Include="Data\Action.cs" />
     <Compile Include="Data\IGenerationActionHistory.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\IControleViewModel.cs" />
+    <Compile Include="ViewModels\InitControleViewModel.cs" />
+    <Compile Include="ViewModels\WholeViewModel.cs" />
     <Compile Include="Views\FieldDisplayView.xaml.cs">
       <DependentUpon>FieldDisplayView.xaml</DependentUpon>
     </Compile>
@@ -109,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
