@@ -10,8 +10,9 @@ namespace ProjetNET.Data
     {
         #region Public Methods
 
-        public void ConnectToSql()
+        public bool ConnectToSql()
         {
+            bool connectionReussi = false;
             System.Data.SqlClient.SqlConnection conn =
                 new System.Data.SqlClient.SqlConnection();
             // TODO: Modify the connection string and include any
@@ -23,6 +24,7 @@ namespace ProjetNET.Data
             try
             {
                 conn.Open();
+                connectionReussi = true;
                 // Insert code to process data.
             }
             catch (Exception ex)
@@ -33,6 +35,7 @@ namespace ProjetNET.Data
             {
                 conn.Close();
             }
+            return connectionReussi;
         }
 
         #endregion Public Methods
