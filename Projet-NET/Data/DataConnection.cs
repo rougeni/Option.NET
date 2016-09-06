@@ -42,19 +42,30 @@ namespace ProjetNET.Data
 
         /**
          * méthode qui donne les cotations pour une action donnée
+         * a partir de son ID
          * et pour une durée (nombre de jours ouvrés)
          * */
         public int[] getCotation(String ID, int duree)
         {
-            return null;
+            var cotations = from p in this.bd.HistoricalShareValues
+                            where p.id == ID
+                            orderby p.date
+                            select p.value;
+            int[] tableauCotation = new int[duree];
+            int compteur = 0;
+            foreach (var cote in cotations){
+                compteur++;
+                tableauCotation[compteur] = (int)cote;
+            }
+                return tableauCotation;
         }
 
         #endregion Public Methods
-        public List<String> ListofNames;
-        public  List<String> getNames(){
+        //public List<String> ListofNames;
+        /*public  List<String> getNames(){
             ListofNames = new List<String>();
-            un_nom = from Sharename in 
-        }
+            //un_nom = from Sharename in 
+        }*/
 
     }
 }

@@ -6,13 +6,15 @@ using System.Diagnostics;
 namespace TestUnitaires
 {
     [TestClass]
-    public class TestConnection
+    public class TestDataBase
     {
+
         [TestMethod]
-        public void TestEtablissementConnection()
+        public void testTailleTableauCotation()
         {
             DataConnection dataConn = new DataConnection();
-            Debug.Assert(dataConn.ConnectToSql());
+            int[] tabCote = dataConn.getCotation("CA FP", 10);
+            Debug.Assert(tabCote.Length == 10);
         }
     }
 }
