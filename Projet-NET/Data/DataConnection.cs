@@ -76,12 +76,20 @@ namespace ProjetNET.Data
                 return tableauCotation;
         }
 
+        public void getNames()
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var NomsActions = (from p in baseData.ShareNames
+                               select p.name);
+            foreach (var appellation in NomsActions)
+            {
+                string affiche = (appellation);
+                System.Console.WriteLine(affiche);
+            }
+        }
+
         #endregion Public Methods
-        /*public List<String> ListofNames;
-        public  List<String> getNames(){
-            ListofNames = new List<String>();
-            un_nom = from Sharename in 
-        }*/
+
 
     }
 }

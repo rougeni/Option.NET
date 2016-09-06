@@ -56,5 +56,11 @@ namespace TestUnitaires
                 throw new ArgumentOutOfRangeException("l'ID récupéré n'est pas bon :" + id);
             }
         }
+        [TestMethod]
+        public void listingNames()
+        {
+            DataConnection dataConn = new DataConnection();
+            dataConn.getNames();
+        }
     }
 }
