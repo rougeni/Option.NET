@@ -33,9 +33,5 @@ namespace ProjetNET.Data
 
         public int Price { get { return price; } }
 
-        /* fonction pour tester le  projet de tests */
-        public String afficher(){
-            return this.name;
-        }
     }
 }
