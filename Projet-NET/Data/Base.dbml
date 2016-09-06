@@ -14,4 +14,10 @@
       <Column Name="value" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.ShareNames" Member="ShareNames">
+    <Type Name="ShareName">
+      <Column Name="id" Type="System.String" DbType="NChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>
