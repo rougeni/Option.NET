@@ -28,7 +28,21 @@ namespace ProjetNET.Data
          * */
         public String[,] getIDNames()
         {
-            return null;
+            BaseDataContext baseData = new BaseDataContext();
+            List<String> identifiants = getListofID();
+            int nbr = identifiants.Count;
+            String[,] table = new String[nbr,2];
+            int a =0;
+            foreach (var iden in identifiants)
+            {
+                table[a, 0] = iden;
+                //System.Console.WriteLine(iden);
+                table[a, 1] = getName(iden);
+                //System.Console.WriteLine(getName(iden));
+                a = a + 1;
+            }
+            return table;
+
         }
 
         /**
@@ -36,7 +50,11 @@ namespace ProjetNET.Data
          * */
         public String getName(String ID)
         {
-            return null;
+            BaseDataContext baseData = new BaseDataContext();
+            var action_name = from p in baseData.ShareNames
+                   where p.id == ID
+                              select p.name;
+            return action_name.FirstOrDefault();
         }
 
         /** 
@@ -75,8 +93,11 @@ namespace ProjetNET.Data
             }
                 return tableauCotation;
         }
-
-        public List<String> getNames()
+       
+        /**
+        * méthode qui retourne la liste des actions
+        * */
+        public List<String> getListofID()
         {
             BaseDataContext baseData = new BaseDataContext();
             var NomsActions = (from p in baseData.ShareNames
@@ -91,6 +112,23 @@ namespace ProjetNET.Data
             return appellations;
         }
 
+        /**
+        * méthode qui retourne le nom des actions
+        * */
+        public List<String> getListofNames()
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var NomsActions = (from p in baseData.ShareNames
+                               select p.name);
+            List<String> appellations = new List<String>();
+            foreach (var appellation in NomsActions)
+            {
+                appellations.Add(appellation);
+                //string affiche = (appellation);
+                System.Console.WriteLine(appellation);
+            }
+            return appellations;
+        }
         #endregion Public Methods
 
 

@@ -57,10 +57,30 @@ namespace TestUnitaires
             }
         }
         [TestMethod]
-        public void listingNames()
+        public void listingIDs()
         {
             DataConnection dataConn = new DataConnection();
-            dataConn.getNames();
+            dataConn.getListofID();
+        }
+        [TestMethod]
+        public void listingNAMES()
+        {
+            DataConnection dataConn = new DataConnection();
+            dataConn.getListofNames();
+        }
+        [TestMethod]
+        public void pick_a_name()
+        {
+            DataConnection dataConn = new DataConnection();
+            string accor = dataConn.getName("AC FP");
+            Debug.Assert(accor == "ACCOR SA");
+        }
+        [TestMethod]
+        public void getTable()
+        {
+            DataConnection dataConn = new DataConnection();
+            var tableB = dataConn.getIDNames();
+            //TODO: vérifier le contenu de la table
         }
     }
 }
