@@ -34,6 +34,11 @@ namespace ProjetNET.Data
             finally
             {
                 conn.Close();
+                /*
+                 * lgnes de commmentaires
+                 * pour tester git
+                 * ça commence à me 
+                 * souler */
             }
             return connectionReussi;
         }

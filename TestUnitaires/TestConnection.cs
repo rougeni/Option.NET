@@ -12,7 +12,7 @@ namespace TestUnitaires
         public void TestEtablissementConnection()
         {
             DataConnection dataConn = new DataConnection();
-            Debug.Assert(dataConn.ConnectToSql());
+            dataConn.ConnectToSql();
         }
     }
 }
