@@ -9,26 +9,20 @@ namespace ProjetNET.Data
 {
     public class DataConnection
     {
+        public BaseDataContext bd
+        {
+            public get;
+            private set;
+        }
         #region Public Methods
 
-        public bool ConnectToSql()
-        {
-            bool connectionReussi = false;
-
-            try
-            {
-                BaseDataContext bd = new BaseDataContext();
-                connectionReussi = true;
-                // Insert code to process data.
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Failed to connect to data source" + ex);
-            }
-            return connectionReussi;
+        #endregion Public Methods
+        public List<String> ListofNames;
+        public  List<String> getNames(){
+            ListofNames = new List<String>();
+            un_nom = from Sharename in 
         }
 
-        #endregion Public Methods
     }
 }
 
