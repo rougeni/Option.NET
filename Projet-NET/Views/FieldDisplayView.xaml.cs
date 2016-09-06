@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Projet.NET.Views
+namespace ProjetNET.Views
 {
     /// <summary>
     /// Logique d'interaction pour FieldDisplayView.xaml

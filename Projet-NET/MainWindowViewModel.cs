@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Windows.Threading;
 
-namespace Projet.NET
+namespace ProjetNET
 {
     internal class MainWindowViewModel : BindableBase
     {

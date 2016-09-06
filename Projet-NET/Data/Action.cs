@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Projet.NET.Data
+namespace ProjetNET.Data
 {
     internal class Action
     {
