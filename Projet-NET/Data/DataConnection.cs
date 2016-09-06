@@ -18,8 +18,8 @@ namespace ProjetNET.Data
             {
                 return this.bd;
             }
-            set{}
- 
+            set { }
+
         }
         #region Public Methods
 
@@ -46,8 +46,8 @@ namespace ProjetNET.Data
         {
             BaseDataContext baseData = new BaseDataContext();
             string id = (from p in baseData.ShareNames
-                     where p.name == nom
-                     select p.id).FirstOrDefault();
+                         where p.name == nom
+                         select p.id).FirstOrDefault();
             return id;
         }
 
@@ -65,7 +65,8 @@ namespace ProjetNET.Data
                             select p.value;
             int[] tableauCotation = new int[duree];
             int compteur = 0;
-            foreach (var cote in cotations){
+            foreach (var cote in cotations)
+            {
                 tableauCotation[compteur] = (int)cote;
                 compteur++;
                 if (compteur >= duree)
@@ -73,9 +74,20 @@ namespace ProjetNET.Data
                     return tableauCotation;
                 }
             }
-                return tableauCotation;
+            return tableauCotation;
         }
 
+        public void getNames()
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var NomsActions = (from p in baseData.ShareNames
+                               select p.name);
+            foreach (var appellation in NomsActions)
+            {
+                string affiche = (appellation);
+                System.Console.WriteLine(affiche);
+            }
+        }
         #endregion Public Methods
         /*public List<String> ListofNames;
         public  List<String> getNames(){

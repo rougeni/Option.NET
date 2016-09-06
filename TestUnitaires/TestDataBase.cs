@@ -18,5 +18,11 @@ namespace TestUnitaires
             String id = dataConn.getID("test");
             Debug.Assert(id == null);
         }
+        [TestMethod]
+        public void listingNames()
+        {
+            DataConnection dataConn = new DataConnection();
+            dataConn.getNames();
+        }
     }
 }
