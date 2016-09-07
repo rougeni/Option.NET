@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjetNET.Data;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace TestUnitaires
 {
@@ -26,10 +27,10 @@ namespace TestUnitaires
         {
             DataConnection dataConn = new DataConnection();
             double[] tabCote = dataConn.getCotation("CA FP", 10);
-            if( tabCote[0] != 29.3173 ||
-                tabCote[1] != 29.7017 ||
-                tabCote[2] != 30.4049 ||
-                tabCote[3] != 30.1821)
+            if( tabCote[0] != 29.4250 ||
+                tabCote[1] != 29.5050 ||
+                tabCote[2] != 30.2000 ||
+                tabCote[3] != 30.2800)
             {
                 throw new ArgumentOutOfRangeException("une des valeurs n'est pas bonne dans le tableau de  cotation");
             }
@@ -56,31 +57,53 @@ namespace TestUnitaires
                 throw new ArgumentOutOfRangeException("l'ID récupéré n'est pas bon :" + id);
             }
         }
+
         [TestMethod]
         public void listingIDs()
         {
             DataConnection dataConn = new DataConnection();
-            dataConn.getListofID();
+            List<String> liste = dataConn.getListofID();
+            if (liste.Count != 14)
+            {
+                throw new ArgumentOutOfRangeException("La liste d'ID contiens " + liste.Count + " éléments au lieu de 14");
+            }
         }
+
         [TestMethod]
         public void listingNAMES()
         {
             DataConnection dataConn = new DataConnection();
-            dataConn.getListofNames();
+            List<String> liste = dataConn.getListofNames();
+            if (liste.Count != 14)
+            {
+                throw new ArgumentOutOfRangeException("La liste d'ID contiens " + liste.Count + " éléments au lieu de 14");
+            }
         }
+
         [TestMethod]
         public void pick_a_name()
         {
             DataConnection dataConn = new DataConnection();
             string accor = dataConn.getName("AC FP");
-            Debug.Assert(accor == "ACCOR SA");
+            if (!accor.Contains("ACCOR SA"))
+            {
+                throw new ArgumentOutOfRangeException("Le nom récupéré ne correspond pas à l'ID saisi: " + accor);
+            }
         }
+
         [TestMethod]
         public void getTable()
         {
             DataConnection dataConn = new DataConnection();
-            var tableB = dataConn.getIDNames();
-            //TODO: vérifier le contenu de la table
+            string[,] tableB = dataConn.getIDNames();
+            if (tableB.Length != 28)
+            {
+                throw new ArgumentOutOfRangeException("Le tableau n'a pas la bonne  dimension : " + tableB.Length);
+            }
+            if (!tableB[3, 0].Contains("AIR FP") || !tableB[3,1].Contains("AIRBUS GROUP SE"))
+            {
+                throw new ArgumentOutOfRangeException("les valeurs du tableau ne sont pas correctes");
+            }
         }
     }
 }
