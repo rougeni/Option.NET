@@ -71,6 +71,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Action.cs" />
+    <Compile Include="Data\Base.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Base.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Data\DataGestion.cs" />
     <Compile Include="Data\ForwardData.cs" />
     <Compile Include="Models\IPricing.cs" />

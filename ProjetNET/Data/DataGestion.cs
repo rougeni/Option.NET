@@ -186,10 +186,10 @@ namespace ProjetNET.Data
                 obj_ret.Add(one_day);
             }
             return(obj_ret);
-       
+        
 
-        }
-          * * */
+        }*/
+         
         #endregion Public Methods
 
 
