@@ -69,7 +69,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\BackTestGenerateHistory.cs" />
     <Compile Include="Data\Action.cs" />
+    <Compile Include="ViewModels\ForwardTestGenerateHistory.cs" />
     <Compile Include="Models\VanillaCallPricingModel.cs" />
     <Compile Include="Models\Facade.cs" />
     <Compile Include="Models\IGenerateHistory.cs" />
