@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PricingLibrary.Computations;
+using PricingLibrary.FinancialProducts;
+using PricingLibrary.Utilities.MarketDataFeed;
 
 namespace ProjetNET.Models
 {
@@ -12,17 +14,109 @@ namespace ProjetNET.Models
 
         private Pricer vanillaPricer;
 
-        public VanillaCallPricingModel();
+        public VanillaCallPricingModel()
+        {
+            vanillaPricer = new Pricer();
+        }
 
 
-        public List<PricingLibrary.Computations.PricingResults> pricingUntilMaturity(List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> dataFeed, DateTime maturity)
+        public List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity)
         {
             throw new NotImplementedException();
         }
 
-        public PricingLibrary.Computations.PricingResults getPayOff(List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> dataFeed)
+        public PricingResults getPayOff(List<DataFeed> dataFeed)
         {
-            throw new NotImplementedException();
+            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility);
         }
+
+        #region Getter & Setter
+        public string oName
+        {
+            get
+            {
+                return oName;
+            }
+            set
+            {
+                oName = value;
+            }
+        }
+
+        public Share[] oShares
+        {
+            get
+            {
+                return oShares;
+            }
+            set
+            {
+                oShares = value;
+            }
+        }
+
+        public DateTime oMaturity
+        {
+            get
+            {
+                return oMaturity;
+            }
+            set
+            {
+                oMaturity = value;
+            }
+        }
+
+        public double oStrike
+        {
+            get
+            {
+                return oStrike;
+            }
+            set
+            {
+                oStrike = value;
+            }
+        }
+        
+
+
+        public DateTime currentDate
+        {
+            get
+            {
+                return currentDate;
+            }
+            set
+            {
+                currentDate = value;
+            }
+        }
+
+        public double oSpot
+        {
+            get
+            {
+                return oSpot;
+            }
+            set
+            {
+                oSpot = value;
+            }
+        }
+
+
+        public double oVolatility
+        {
+            get
+            {
+                return oVolatility;
+            }
+            set
+            {
+                oVolatility = value;
+            }
+        }
+        #endregion Getter & Setter
     }
 }
