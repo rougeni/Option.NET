@@ -16,22 +16,22 @@ namespace ProjetNET.ViewModels
 
         private IPricingViewModel pricingViewModel;
 
-        private ViewFacade facade;
+        private ViewFacade facadeView;
 
         #endregion Private Fields
 
         public WholeViewModel(int lineNb, int columnNb)
         {
             // generateHistory = new 
-            var facade = new Facade(generateHistory, pricing);
-            facade = new ViewFacade(facade);
+            Facade facade = new Facade(generateHistory.generateHistory, pricingViewModel.Pricing);
+            facadeView = new ViewFacade(facade);
         }
 
         #region Public Properties
 
         public ViewFacade Facade
         {
-            get { return facade; }
+            get { return facadeView; }
         }
 
         public IGenerateHistory GenrateHistory
