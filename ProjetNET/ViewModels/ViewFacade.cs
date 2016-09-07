@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    internal class WholeViewModel
+    internal class ViewFacade
     {
         #region Private Fields
 
-        private IControleViewModel controlViewModel;
+        private GenerateHistoryAction generateHisory;
 
-        private ViewFacade facade;
+        private Facade underlyingUniverse;
 
         #endregion Private Fields
     }

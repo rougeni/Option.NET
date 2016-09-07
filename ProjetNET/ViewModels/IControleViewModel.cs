@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    interface IControleViewModel
+    internal interface IControleViewModel
     {
         #region Public Properties
 
