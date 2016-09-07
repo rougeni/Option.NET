@@ -17,12 +17,19 @@ namespace ProjetNET
         private bool tickerStarted;
         private WholeViewModel wholeView;
 
+        public ObservableCollection<IGenerateHistoryViewModel> CounterList { get; private set; }
+
         #endregion Private Fields
 
         #region Public Constructors
 
         public MainWindowViewModel()
         {
+            BackTestGenerateHistory backTest = new BackTestGenerateHistory();
+            ForwardTestGenerateHistory forwardTest = new ForwardTestGenerateHistory();
+
+            List<IGenerateHistoryViewModel> myList = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
+
         }
 
         #endregion Public Constructors
