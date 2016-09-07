@@ -12,7 +12,7 @@ namespace ProjetNET.ViewModels
     {
         #region Private Fields
 
-        private IGenerateHistory generateHistory;
+        private IGenerateHistoryViewModel generateHistory;
 
         private IPricingViewModel pricingViewModel;
 
@@ -23,7 +23,7 @@ namespace ProjetNET.ViewModels
         public WholeViewModel(int lineNb, int columnNb)
         {
             // generateHistory = new 
-            Facade facade = new Facade(generateHistory.generateHistory, pricingViewModel.Pricing);
+            Facade facade = new Facade(generateHistory.GenerateHistory, pricingViewModel.Pricing);
             facadeView = new ViewFacade(facade);
         }
 
@@ -34,12 +34,12 @@ namespace ProjetNET.ViewModels
             get { return facadeView; }
         }
 
-        public IGenerateHistory GenrateHistory
+        public IGenerateHistoryViewModel GenrateHistory
         {
             get { return generateHistory; }
             set
             {
-                Facade.GenrateHistory = generateHistory;
+                Facade.GenrateHistory = generateHistory.GenerateHistory;
             }
         }
 

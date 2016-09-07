@@ -12,7 +12,10 @@ namespace ProjetNET.Models
 
         private Pricer vanillaPricer;
 
-        public VanillaCallPricingModel();
+        public VanillaCallPricingModel()
+        {
+
+        }
 
 
         public List<PricingLibrary.Computations.PricingResults> pricingUntilMaturity(List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> dataFeed, DateTime maturity)

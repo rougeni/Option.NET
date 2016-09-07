@@ -9,6 +9,6 @@ namespace ProjetNET.Models
 {
     internal interface IGenerateHistory
     {
-        public List<DataFeed> GenerateHistory(DateTime time);
+        List<DataFeed> generateHistory(DateTime time);
     }
 }
