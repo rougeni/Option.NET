@@ -35,8 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Eto.OxyPlot.Wpf">
-      <HintPath>..\packages\Eto.OxyPlot.Wpf.1.0.5377.38510\lib\net45\Eto.OxyPlot.Wpf.dll</HintPath>
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable2100\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Xps">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Xps.dll</HintPath>
     </Reference>
     <Reference Include="PricingLibrary">
       <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
@@ -65,12 +71,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Action.cs" />
-    <Compile Include="Data\Base.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Base.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Data\ForwardData.cs" />
     <Compile Include="Models\IPricing.cs" />
     <Compile Include="Models\VanillaCallPricingModel.cs" />
     <Compile Include="Models\Facade.cs" />
