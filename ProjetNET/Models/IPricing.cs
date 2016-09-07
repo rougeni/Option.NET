@@ -11,9 +11,9 @@ namespace ProjetNET.Models
 {
     interface IPricing
     {
-        public List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity);
+        List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity);
 
-        public PricingResults getPayOff(List<DataFeed> dataFeed);
+        PricingResults getPayOff(List<DataFeed> listDataFeed);
 
         // nom de l option
         String oName { get; set; }

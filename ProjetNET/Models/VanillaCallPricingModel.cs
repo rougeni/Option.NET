@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PricingLibrary.Computations;
 using PricingLibrary.FinancialProducts;
 using PricingLibrary.Utilities.MarketDataFeed;
+using ProjetNET.Data;
 
 namespace ProjetNET.Models
 {
@@ -13,6 +14,7 @@ namespace ProjetNET.Models
     {
 
         private Pricer vanillaPricer;
+        private double[,] vanillaRendement;
 
         public VanillaCallPricingModel()
         {
@@ -27,8 +29,39 @@ namespace ProjetNET.Models
 
         public PricingResults getPayOff(List<DataFeed> dataFeed)
         {
+            calculVolatility(dataFeed);
             return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility);
         }
+
+        private void calculVolatility(List<DataFeed> listDataFeed)
+        {
+            double[,] prix = new double[listDataFeed.Count, oShares.Length];
+            double[,] rendement = new double[listDataFeed.Count-1, oShares.Length];
+            int i = 0;
+            int j;
+            foreach (DataFeed dataF in listDataFeed)
+            {
+                j = 0;
+                Dictionary<string, decimal> dico = dataF.PriceList;
+                foreach (Share s in oShares)
+                {
+                    prix[i, j] = (double)dico[s.Id];
+                    j++;
+                }
+                i++;
+            }
+
+            for (int line = 0; line < listDataFeed.Count; line++)
+            {
+                for (int col = 0; col < oShares.Length; col++)
+                {
+                    rendement[line, col] = Math.Log10(prix[line, col] / prix[line - 1, col]);
+                }
+            }
+            ForwardData fd = new ForwardData();
+            double[,] cov = fd.computeCovarianceMatrix(rendement);
+        }
+
 
         #region Getter & Setter
         public string oName
