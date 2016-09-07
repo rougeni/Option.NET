@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
-    class IPricing
+    interface IPricing
     {
-        public List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity);
+        List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity);
 
-        public PricingResults getPayOff(List<DataFeed> dataFeed);
+        PricingResults getPayOff(List<DataFeed> dataFeed);
 
     }
 }
