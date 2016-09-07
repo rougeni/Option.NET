@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PricingLibrary">
+      <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Prism">
       <HintPath>package\Prism\Prism.dll</HintPath>
     </Reference>
