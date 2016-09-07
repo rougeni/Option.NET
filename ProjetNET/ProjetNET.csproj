@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Eto.OxyPlot.Wpf">
+      <HintPath>..\packages\Eto.OxyPlot.Wpf.1.0.5377.38510\lib\net45\Eto.OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PricingLibrary">
       <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
     </Reference>
@@ -61,12 +64,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Action.cs" />
+    <Compile Include="Models\IPricing.cs" />
     <Compile Include="Models\VanillaCallPricingModel.cs" />
     <Compile Include="Models\Facade.cs" />
     <Compile Include="Models\IGenerateHistory.cs" />
-    <Compile Include="Models\IPricingViewModel.cs" />
-    <Compile Include="ViewModels\IControleViewModel.cs" />
-    <Compile Include="ViewModels\InitControleViewModel.cs" />
+    <Compile Include="ViewModels\IPricingViewModel.cs" />
     <Compile Include="ViewModels\ViewFacade.cs" />
     <Compile Include="ViewModels\WholeViewModel.cs" />
     <Compile Include="Views\FieldDisplayView.xaml.cs">

@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjetNET.Models;
+using Prism.Mvvm;
 
 namespace ProjetNET.ViewModels
 {
-    internal class WholeViewModel
+    internal class WholeViewModel : BindableBase
     {
         #region Private Fields
 
-        private IControleViewModel controlViewModel;
+        private IGenerateHistory generateHistory;
+
+        private IPricingViewModel pricingViewModel;
 
         private ViewFacade facade;
 
@@ -18,9 +22,28 @@ namespace ProjetNET.ViewModels
 
         public WholeViewModel(int lineNb, int columnNb)
         {
-            controlViewModel = new InitControleViewModel();
-            facade = new ViewFacade();
+            // generateHistory = new 
+            var facade = new Facade(generateHistory, pricing);
+            facade = new ViewFacade(facade);
         }
+
+        #region Public Properties
+
+        public ViewFacade Facade
+        {
+            get { return facade; }
+        }
+
+        public IGenerateHistory GenrateHistory
+        {
+            get { return generateHistory; }
+            set
+            {
+                Facade.GenrateHistory = generateHistory;
+            }
+        }
+
+        #endregion Public Properties
 
     }
 }
