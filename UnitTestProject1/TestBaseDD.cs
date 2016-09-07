@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjetNET.Data;
 using System.Diagnostics;
 using System.Collections.Generic;
+using PricingLibrary;
+using PricingLibrary.Utilities.MarketDataFeed;
 
 namespace TestUnitaires
 {
@@ -103,6 +105,19 @@ namespace TestUnitaires
             if (!tableB[3, 0].Contains("AIR FP") || !tableB[3, 1].Contains("AIRBUS GROUP SE"))
             {
                 throw new ArgumentOutOfRangeException("les valeurs du tableau ne sont pas correctes");
+            }
+        }
+
+        [TestMethod]
+        public void testDataFeed()
+        {
+            DataGestion dataConn = new DataGestion();
+            DateTime dateStart = new DateTime(2015, 08, 17);
+            List<DataFeed> liste = dataConn.getListDataField(dateStart);
+
+            if (liste.ToArray().Length != 4)
+            {
+                throw new ArgumentOutOfRangeException("La liste ne contiens pas 4 éléments : " + liste.Count);
             }
         }
     }
