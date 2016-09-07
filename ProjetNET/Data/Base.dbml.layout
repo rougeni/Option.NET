@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Base">
+  <DataContextMoniker Name="/BaseDataContext" />
+  <nestedChildShapes>
+    <classShape Id="0f9c47fb-85bd-487b-adaf-8fbaed496538" absoluteBounds="0.75, 0.75, 2, 1.3862939453125">
+      <DataClassMoniker Name="/BaseDataContext/HistoricalShareValue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3d2f4e58-e4d8-4511-836e-199fd982796c" absoluteBounds="0.765, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="60dec82b-60c5-40ee-9c0f-1174328ed16f" absoluteBounds="3.875, 1, 2, 1.3862939453125">
+      <DataClassMoniker Name="/BaseDataContext/OldValue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a4eb3e61-142d-41d2-bc43-d199e12a6cc0" absoluteBounds="3.8899999999999997, 1.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4528a704-8e2c-4527-96aa-aef2fdb5915e" absoluteBounds="7, 1.125, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/BaseDataContext/ShareName" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fcd5c76e-0ba0-4107-a2cb-bb2064462860" absoluteBounds="7.0150000000000006, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
