@@ -13,7 +13,7 @@ namespace ProjetNET.ViewModels
     {
         #region Public Properties
 
-        IPricing Initializer { get; }
+        IPricing Pricing { get; }
         string Name { get; }
 
         #endregion Public Properties
