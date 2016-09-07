@@ -15,5 +15,12 @@ namespace ProjetNET.ViewModels
         private ViewFacade facade;
 
         #endregion Private Fields
+
+        public WholeViewModel(int lineNb, int columnNb)
+        {
+            controlViewModel = new InitControleViewModel();
+            facade = new ViewFacade();
+        }
+
     }
 }
