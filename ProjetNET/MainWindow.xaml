@@ -4,17 +4,14 @@
         xmlns:views="clr-namespace:ProjetNET.Views"
         xmlns:local="clr-namespace:ProjetNET"
         Title="MainWindow" Height="815" Width="1080">
+    <Window.Resources>
+        <DataTemplate x:Key="FieldDisplayViewTemplate">
+            <views:FieldDisplayView />
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <StackPanel HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="2">
-            <TabControl RenderTransformOrigin="0.509,1.01" Height="523" Width="1064" ItemsSource="{Binding AvailableControl}" SelectedItem="{Binding SelectedControl}">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <TabItem Header="{Binding Name}">
-                            <Grid Background="#FFE5E5E5"/>
-                        </TabItem>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-            </TabControl>
+            <ContentControl Grid.Row="1" Grid.Column="1" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding UniverseVM.Facade}" />
         </StackPanel>
     </Grid>
 </Window>

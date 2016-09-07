@@ -131,7 +131,8 @@ namespace ProjetNET.Data
             }
             return appellations;
         }
-                /**
+        
+        /**
         * méthode qui retourne une liste de DataFeedClass
         * */
         public double getDayCotation(DateTime date_debut, String iden)
@@ -143,51 +144,40 @@ namespace ProjetNET.Data
             return (double) cotation.FirstOrDefault();
         }
 
-
-
-
         /**
         * méthode qui retourne une liste de DataFeedClass
-        
-        public List<DataFeed> getDataFeedClass(DateTime date_debut)
+        */
+        public DataFeed getDataFeedClass(DateTime date)
         {
             BaseDataContext baseData = new BaseDataContext();
-            //récuperer la liste des id d'options
-            List<String> list_id = getListofID();
-            //récuperer le nombre de jours entre date_debut et date_courante
-            DateTime thisDay = DateTime.Today;
-             TimeSpan diff_time = date_debut.Subtract(thisDay);
-             int days_to_print = diff_time.Days;
-            //Pour chaque action réccupérer la liste des actions
-            double[,] pre_list = new double[list_id.Count(),days_to_print];
-            int a = 0;
-             List<DataFeed> obj_ret = new List<DataFeed>();
-            for(int i =0; i<days_to_print; i++){
-                DataFeed one_day = new DataFeed(
+            var liste = from p in baseData.HistoricalShareValues
+                        where p.date == date
+                        orderby p.id
+                        select p;
 
-
-
-
-             foreach (var iden in list_id)
-             {
-                 pre_list[a,] = getCotation(iden, days_to_print);
-                 a=a+1;
-             }
-            
-                Dictionary<string, decimal> one_action = new Dictionary<string,decimal>();
-                int b = 0;
-                foreach (var iden in list_id)
-             {
-                 getCotation(iden, days_to_print);
-                 b=b+1;
-             }
-                one_action.Add()
-                DataFeed one_day = new DataFeed(date_debut,one_action);
-                obj_ret.Add(one_day);
+            Dictionary<string,decimal> dico = new Dictionary<string,decimal>();
+            foreach (var elt in liste)
+            {
+                dico.Add(elt.id,elt.value);   
             }
-            return(obj_ret);
-        * * */
+            DataFeed dataF = new DataFeed(date, dico);
+            return dataF;
+        }
 
+        public List<DataFeed> getListDataField(DateTime dateStart)
+        {
+            List<DataFeed> listeData = new List<DataFeed>();
+            BaseDataContext baseData = new BaseDataContext();
+            var listeDate = from p in baseData.HistoricalShareValues
+                            where p.date >= dateStart
+                            orderby p.date
+                            group p by p.date into q
+                            select q.Key;
+            foreach (var date in listeDate)
+            {
+                listeData.Add(getDataFeedClass(date));
+            }
+            return listeData;
         }
          
         #endregion Public Methods

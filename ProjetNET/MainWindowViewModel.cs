@@ -13,16 +13,22 @@ namespace ProjetNET
     {
         #region Private Fields
 
-        private DispatcherTimer dispatcherTimer;
-        private bool tickerStarted;
         private WholeViewModel wholeView;
 
         #endregion Private Fields
+
+        public ObservableCollection<IGenerateHistoryViewModel> CounterList { get; private set; }
+
 
         #region Public Constructors
 
         public MainWindowViewModel()
         {
+            BackTestGenerateHistoryVM backTest = new BackTestGenerateHistoryVM();
+            ForwardTestGenerateHistoryVM forwardTest = new ForwardTestGenerateHistoryVM();
+
+            List<IGenerateHistoryViewModel> myList = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
+
         }
 
         #endregion Public Constructors

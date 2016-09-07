@@ -2,22 +2,22 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Base">
   <DataContextMoniker Name="/BaseDataContext" />
   <nestedChildShapes>
-    <classShape Id="0f9c47fb-85bd-487b-adaf-8fbaed496538" absoluteBounds="0.75, 0.75, 2, 1.3862939453125">
+    <classShape Id="94af46bd-819f-4a9c-b272-52315cbac383" absoluteBounds="1, 1.125, 2, 1.3862939453125">
       <DataClassMoniker Name="/BaseDataContext/HistoricalShareValue" />
       <nestedChildShapes>
-        <elementListCompartment Id="3d2f4e58-e4d8-4511-836e-199fd982796c" absoluteBounds="0.765, 1.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="fdac4496-d8ed-4632-9e73-435b1692b337" absoluteBounds="1.0150000000000001, 1.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="60dec82b-60c5-40ee-9c0f-1174328ed16f" absoluteBounds="3.875, 1, 2, 1.3862939453125">
+    <classShape Id="5770a269-289b-4f8e-909a-ddfd2cf845a6" absoluteBounds="4.25, 1.25, 2, 1.3862939453125">
       <DataClassMoniker Name="/BaseDataContext/OldValue" />
       <nestedChildShapes>
-        <elementListCompartment Id="a4eb3e61-142d-41d2-bc43-d199e12a6cc0" absoluteBounds="3.8899999999999997, 1.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="deba3896-ebf1-4fb6-876b-7ce0e75532ae" absoluteBounds="4.265, 1.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="4528a704-8e2c-4527-96aa-aef2fdb5915e" absoluteBounds="7, 1.125, 2, 1.1939925130208333">
+    <classShape Id="2f7b8239-b57a-469b-ba4d-5cfd15505fd4" absoluteBounds="7, 1.125, 2, 1.1939925130208333">
       <DataClassMoniker Name="/BaseDataContext/ShareName" />
       <nestedChildShapes>
-        <elementListCompartment Id="fcd5c76e-0ba0-4107-a2cb-bb2064462860" absoluteBounds="7.0150000000000006, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="902adb33-0b5a-4aaa-9f8a-4aa6a261e884" absoluteBounds="7.015, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

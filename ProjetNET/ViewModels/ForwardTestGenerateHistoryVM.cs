@@ -1,0 +1,30 @@
+﻿using ProjetNET.Models;
+using ProjetNET.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ProjetNET
+{
+    internal class ForwardTestGenerateHistoryVM : IGenerateHistoryViewModel
+    {
+
+        private IGenerateHistory forwardTest;
+
+        public ForwardTestGenerateHistoryVM()
+        {
+            forwardTest = new ForwardTestGenerate();
+        }
+
+        public IGenerateHistory GenerateHistory
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Name
+        {
+            get { return "Forward Testing"; }
+        }
+    }
+}
