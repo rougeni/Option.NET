@@ -20,7 +20,9 @@ namespace ProjetNET.Data
                 return this.bd;
             }
             set { }
-
+            /*
+             * lol
+             * */
         }
         #region Public Methods
 
