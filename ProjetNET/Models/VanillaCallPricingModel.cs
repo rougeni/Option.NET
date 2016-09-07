@@ -7,7 +7,7 @@ using PricingLibrary.Computations;
 
 namespace ProjetNET.Models
 {
-    class VanillaCallPricingModel : IPricingViewModel
+    class VanillaCallPricingModel : IPricing
     {
 
         private Pricer vanillaPricer;

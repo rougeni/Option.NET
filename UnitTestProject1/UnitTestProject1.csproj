@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Eto.OxyPlot.Wpf">
+      <HintPath>..\packages\Eto.OxyPlot.Wpf.1.0.5377.38510\lib\net45\Eto.OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -52,12 +55,16 @@
   <ItemGroup>
     <Compile Include="TestBaseDD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestForwardData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjetNET\ProjetNET.csproj">
       <Project>{478c5bf3-4736-4f28-88bc-19ba797d9af4}</Project>
       <Name>ProjetNET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
