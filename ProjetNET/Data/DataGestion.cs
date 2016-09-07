@@ -168,9 +168,10 @@ namespace ProjetNET.Data
              }
             List<DataFeed> obj_ret = new List<DataFeed>();
             foreach (var day in pre_list[0,])
-        */
+        
 
         }
+         * */
         #endregion Public Methods
 
 
