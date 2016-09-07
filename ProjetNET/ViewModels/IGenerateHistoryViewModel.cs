@@ -9,12 +9,10 @@ namespace ProjetNET.ViewModels
 {
     internal interface IGenerateHistoryViewModel
     {
-        //private IGenerateHistory generateHistory;
-
         #region Public Properties
 
         IGenerateHistory GenerateHistory { get; }
-        //string Name;// { get; }
+        string Name { get; }
 
         #endregion Public Properties
     }
