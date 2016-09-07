@@ -163,6 +163,10 @@ namespace ProjetNET.Data
             int a = 0;
              List<DataFeed> obj_ret = new List<DataFeed>();
             for(int i =0; i<days_to_print; i++){
+                DataFeed one_day = new DataFeed(
+
+
+
 
              foreach (var iden in list_id)
              {
@@ -182,8 +186,8 @@ namespace ProjetNET.Data
                 obj_ret.Add(one_day);
             }
             return(obj_ret);
-        
         * * */
+
         }
          
         #endregion Public Methods
