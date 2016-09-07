@@ -36,9 +36,7 @@ namespace ProjetNET.Data
             foreach (var iden in identifiants)
             {
                 table[a, 0] = iden;
-                //System.Console.WriteLine(iden);
                 table[a, 1] = getName(iden);
-                //System.Console.WriteLine(getName(iden));
                 a = a + 1;
             }
             return table;
@@ -73,13 +71,14 @@ namespace ProjetNET.Data
          * méthode qui donne les cotations pour une action donnée
          * a partir de son ID
          * et pour une durée (nombre de jours ouvrés)
+         * les valeurs les plus récentes sont en premier dans le tableau
          * */
         public double[] getCotation(String ID, int duree)
         {
             BaseDataContext baseData = new BaseDataContext();
             var cotations = from p in baseData.HistoricalShareValues
                             where p.id == ID
-                            orderby p.date
+                            orderby p.date descending
                             select p.value;
             double[] tableauCotation = new double[duree];
             int compteur = 0;
@@ -91,7 +90,7 @@ namespace ProjetNET.Data
                     return tableauCotation;
                 }
             }
-                return tableauCotation;
+            return tableauCotation;
         }
        
         /**
@@ -124,7 +123,6 @@ namespace ProjetNET.Data
             foreach (var appellation in NomsActions)
             {
                 appellations.Add(appellation);
-                //string affiche = (appellation);
                 System.Console.WriteLine(appellation);
             }
             return appellations;
