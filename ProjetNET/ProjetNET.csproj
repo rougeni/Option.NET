@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PricingLibrary">
+      <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Prism">
       <HintPath>package\Prism\Prism.dll</HintPath>
     </Reference>
@@ -64,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Base.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Data\ForwardData.cs" />
     <Compile Include="Data\DataGestion.cs" />
     <Compile Include="ViewModels\IControleViewModel.cs" />
     <Compile Include="ViewModels\InitControleViewModel.cs" />
@@ -123,7 +127,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
