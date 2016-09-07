@@ -62,6 +62,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\Action.cs" />
     <Compile Include="Models\Facade.cs" />
+    <Compile Include="Models\IGenerateHistory.cs" />
     <Compile Include="Models\IPricingViewModel.cs" />
     <Compile Include="ViewModels\IControleViewModel.cs" />
     <Compile Include="ViewModels\InitControleViewModel.cs" />
