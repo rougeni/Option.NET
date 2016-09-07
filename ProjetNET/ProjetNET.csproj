@@ -71,10 +71,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Action.cs" />
-    <Compile Include="Data\Base.designer.cs" />
-    <Compile Include="Data\DataGestion.cs" />
-    <Compile Include="Data\ForwardData.cs" />
-    <Compile Include="Models\IPricing.cs" />
     <Compile Include="Models\VanillaCallPricingModel.cs" />
     <Compile Include="Models\Facade.cs" />
     <Compile Include="Models\IGenerateHistory.cs" />
@@ -117,10 +113,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Data\Base.dbml.layout">
+      <DependentUpon>Base.dbml</DependentUpon>
+    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\Base.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Base.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -131,7 +135,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Baseclass.Contrib.Nuget.Output.2.0.0\build\net40\Baseclass.Contrib.Nuget.Output.targets" Condition="Exists('..\packages\Baseclass.Contrib.Nuget.Output.2.0.0\build\net40\Baseclass.Contrib.Nuget.Output.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
