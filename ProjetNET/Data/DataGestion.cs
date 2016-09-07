@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using PricingLibrary;
+using PricingLibrary.Utilities.MarketDataFeed;
 namespace ProjetNET.Data
 {
     public class DataGestion
@@ -130,6 +131,47 @@ namespace ProjetNET.Data
             }
             return appellations;
         }
+                /**
+        * méthode qui retourne une liste de DataFeedClass
+        * */
+        public double getDayCotation(DateTime date_debut, String iden)
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var cotation = from p in baseData.HistoricalShareValues
+                            where p.id == iden && p.date == date_debut
+                            select p.value;
+            return (double) cotation.FirstOrDefault();
+        }
+
+
+
+
+        /**
+        * méthode qui retourne une liste de DataFeedClass
+        * 
+        public List<DataFeed> getDataFeedClass(DateTime date_debut)
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            //récuperer la liste des id d'options
+            List<String> list_id = getListofID();
+            //récuperer le nombre de jours entre date_debut et date_courante
+            DateTime thisDay = DateTime.Today;
+             TimeSpan diff_time = date_debut.Subtract(thisDay);
+             int days_to_print = diff_time.Days;
+            //Pour chaque action réccupérer la liste des actions
+            double[,] pre_list = new double[list_id.Count(),days_to_print];
+            int a = 0;
+             foreach (var iden in list_id)
+             {
+                 pre_list[a,] = getCotation(iden, days_to_print);
+                 a=a+1;
+             }
+            List<DataFeed> obj_ret = new List<DataFeed>();
+            foreach (var day in pre_list[0,])
+        
+
+        }
+         * */
         #endregion Public Methods
 
 
