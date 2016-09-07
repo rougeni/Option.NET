@@ -148,7 +148,7 @@ namespace ProjetNET.Data
 
         /**
         * méthode qui retourne une liste de DataFeedClass
-        * 
+        
         public List<DataFeed> getDataFeedClass(DateTime date_debut)
         {
             BaseDataContext baseData = new BaseDataContext();
@@ -161,17 +161,35 @@ namespace ProjetNET.Data
             //Pour chaque action réccupérer la liste des actions
             double[,] pre_list = new double[list_id.Count(),days_to_print];
             int a = 0;
+             List<DataFeed> obj_ret = new List<DataFeed>();
+            for(int i =0; i<days_to_print; i++){
+                DataFeed one_day = new DataFeed(
+
+
+
+
              foreach (var iden in list_id)
              {
                  pre_list[a,] = getCotation(iden, days_to_print);
                  a=a+1;
              }
-            List<DataFeed> obj_ret = new List<DataFeed>();
-            foreach (var day in pre_list[0,])
-        
+            
+                Dictionary<string, decimal> one_action = new Dictionary<string,decimal>();
+                int b = 0;
+                foreach (var iden in list_id)
+             {
+                 getCotation(iden, days_to_print);
+                 b=b+1;
+             }
+                one_action.Add()
+                DataFeed one_day = new DataFeed(date_debut,one_action);
+                obj_ret.Add(one_day);
+            }
+            return(obj_ret);
+        * * */
 
         }
-         * */
+         
         #endregion Public Methods
 
 
