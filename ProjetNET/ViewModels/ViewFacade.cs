@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjetNET.Models;
 
 namespace ProjetNET.ViewModels
 {
@@ -10,7 +11,7 @@ namespace ProjetNET.ViewModels
     {
         #region Private Fields
 
-        private GenerateHistoryAction generateHisory;
+        private  IGenerateHistory myInterface;
 
         private Facade underlyingUniverse;
 
