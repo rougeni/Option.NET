@@ -66,7 +66,7 @@ namespace UnitTestProject1
             test.weight = weight;
 
             List<DataFeed> ret = test.generateHistory();
-            Console.WriteLine("----");
+            /*Console.WriteLine("----");
             foreach (DataFeed dataf in ret)
             {
                 List<string> keyList = new List<string> (ret.ToArray()[0].PriceList.Keys);
@@ -76,7 +76,7 @@ namespace UnitTestProject1
                     Console.WriteLine(dataf.Date);
                     Console.WriteLine(dataf.PriceList[ele]);                
                 }
-            }
+            }*/
         }
     }
 }
