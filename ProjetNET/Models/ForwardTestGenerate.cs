@@ -8,7 +8,7 @@ namespace ProjetNET.ViewModels
 {
     class ForwardTestGenerate : IGenerateHistory
     {
-        public List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> generateHistory(DateTime time)
+        public List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> generateHistory(DateTime startTime)
         {
             throw new NotImplementedException();
         }
