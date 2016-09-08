@@ -35,7 +35,7 @@ namespace ProjetNET.Models
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 || oWeights.Equals(null))
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 )
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
@@ -59,7 +59,7 @@ namespace ProjetNET.Models
 
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 || oWeights.Equals(null))
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 )
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
@@ -129,6 +129,14 @@ namespace ProjetNET.Models
             int info = 0;
             WREmodelingCorr(ref nbValues, ref nbAssets, rendements, corr, ref info);
             matriceCorr = corr;
+
+
+            // Partie weights
+            oWeights = new double[oShares.Length];
+            for (int w = 0; w < oShares.Length; w++)
+            {
+                oWeights[w] = 1 / oShares.Length;
+            }
 
         }
 
