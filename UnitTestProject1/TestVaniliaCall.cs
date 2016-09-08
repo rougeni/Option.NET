@@ -18,11 +18,12 @@ namespace UnitTestProject1
             VanillaCallPricingModel vcpm = new VanillaCallPricingModel();
             vcpm.oMaturity = new DateTime(2015, 8, 20);
             vcpm.oName = "test";
-            Share share = new Share("ACCOR SA","AC FP");
+            Share share = new Share("ACA FP    ", "ACA FP    ");
             vcpm.oShares = new Share[1];
             vcpm.oShares[0] = share;
             vcpm.oStrike = 43.4050;
-            vcpm.oSpot = 43.4050;
+            vcpm.oSpot = new double[1];
+            vcpm.oSpot[0] = 43.4050;
             DataGestion dg =new DataGestion();
             DateTime date = new DateTime(2015,8,20);
             List<DataFeed> ldf = dg.getListDataField(date);
