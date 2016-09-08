@@ -69,7 +69,7 @@ namespace ProjetNET
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
             maturity = "20/08/2015";
-            startDate = "12/01/2014";
+            startDate = "10/01/2014";
             spot = "20";
             strike = "10";
 
@@ -133,7 +133,10 @@ namespace ProjetNET
             selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
             Console.WriteLine("Shares " + actions.ToArray()[0].Id + actions.ToArray()[0].Name);
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.endTime = startDateTime;
+            selectedTesting.GenerateHistory.startDate = DateTime.ParseExact(startDate, "dd/MM/yyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            selectedTesting.GenerateHistory.endTime = DateTime.ParseExact(maturity, "dd/MM/yyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture);
 
             wholeView.GenrateHistory = selectedTesting;
             wholeView.PricingViewModel = selectedPricing;
