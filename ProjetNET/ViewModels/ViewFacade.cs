@@ -38,6 +38,8 @@ namespace ProjetNET.ViewModels
         private PlotModel ToObservableView(List<PricingResults> pricingResults, List<Portefeuille> portefeuilles)
         {
 
+            Console.WriteLine("Size " + pricingResults.Count + " " + portefeuilles.Count);
+
             PlotModel model = new PlotModel();
 
             LineSeries plotOption = new OxyPlot.Series.LineSeries();
@@ -54,8 +56,10 @@ namespace ProjetNET.ViewModels
         private void drawPortefeuille(List<Portefeuille> portefeuilles, LineSeries plotPortefeuille)
         {
             int i = 0;
+            Console.WriteLine("View Facade " + portefeuilles.Count);
             foreach (Portefeuille port in portefeuilles)
             {
+
                 plotPortefeuille.Points.Add(new DataPoint(i++, port.Valeur));
             }
         }

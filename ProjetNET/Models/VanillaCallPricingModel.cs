@@ -15,7 +15,7 @@ namespace ProjetNET.Models
 
         private Pricer vanillaPricer;
 
-        public VanillaCallPricingModel()
+        public VanillaCallPricingModel()    
         {
             vanillaPricer = new Pricer();
             oName = "Vanilla";
@@ -30,20 +30,13 @@ namespace ProjetNET.Models
             }
             List<PricingResults> listPrix = new List<PricingResults>();
             calculVolatility(listDataFeed);
-
             //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
             foreach (DataFeed df in listDataFeed)
             {
-                if (df.Date <= oMaturity)
-                {
-                    listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
-                }
-                else
-                {
-                    break;
-                }
+                double listPrice = (double)df.PriceList[oShares[0].Id];
+                oSpot[0] = listPrice;
+                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
             }
-            listPrix.Add(getPayOff(listDataFeed));
             
             return listPrix;
         }
@@ -95,17 +88,13 @@ namespace ProjetNET.Models
 
         public double oStrike { get; set; }
 
-
         public DateTime currentDate { get; set; }
 
         public double[] oSpot { get; set; }
 
-
         public double[] oVolatility { get; set; }
 
-        #endregion Getter & Setter
-
-
         public double[] oWeights { get; set; }
+        #endregion Getter & Setter
     }
 }
