@@ -48,6 +48,12 @@ namespace ProjetNET.Models
                 throw new NullReferenceException();  // TODO pls check if correct
             }
             calculVolatility(listDataFeed);
+
+            for (int myShare = 0; myShare < oShares.Length; myShare++)
+            {
+                oSpot[myShare] = (double)listDataFeed[listDataFeed.Count - 1].PriceList[oShares[myShare].Id];
+            }
+
             return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot[0], oVolatility[0]);
         }
 
