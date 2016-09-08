@@ -41,18 +41,15 @@ namespace ProjetNET.Models
             }
             List<PricingResults> listPrix = new List<PricingResults>();
 
+           
             foreach (DataFeed df in listDataFeed)
             {
-                if (df.Date <= oMaturity)
-                {
-                    listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
+                for (int myShare = 0; myShare < oShares.Length; myShare++){
+                    oSpot[myShare] = (double) df.PriceList[oShares[myShare].Id];
                 }
-                else
-                {
-                    break;
-                }
+              
+                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
             }
-            listPrix.Add(getPayOff(listDataFeed));
 
             return listPrix;
         }
