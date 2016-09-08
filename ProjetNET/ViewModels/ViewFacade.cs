@@ -38,6 +38,8 @@ namespace ProjetNET.ViewModels
         private PlotModel ToObservableView(List<PricingResults> pricingResults, List<Portefeuille> portefeuilles)
         {
 
+            Console.WriteLine("Size " + pricingResults.Count + " " + portefeuilles.Count);
+
             PlotModel model = new PlotModel();
 
             LineSeries plotOption = new OxyPlot.Series.LineSeries();
