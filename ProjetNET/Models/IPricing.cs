@@ -24,9 +24,7 @@ namespace ProjetNET.Models
         // prix a la date de depart
         double[] oSpot { get; set; }
         double[] oVolatility { get; set; }
-
         DateTime currentDate { get; set; }
-
         double[] oWeights { get; set; }
     }
 }
