@@ -168,6 +168,7 @@ namespace ProjetNET.Data
 
         public List<DataFeed> getListDataField(DateTime dateStart)
         {
+            Console.WriteLine("date : " + dateStart);
             List<DataFeed> listeData = new List<DataFeed>();
             BaseDataContext baseData = new BaseDataContext();
             var listeDate = from p in baseData.HistoricalShareValues
