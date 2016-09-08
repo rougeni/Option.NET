@@ -88,10 +88,10 @@ namespace ProjetNET
             List<IPricingViewModel> myListPricing = new List<IPricingViewModel>() { vanille, basket };
             PricingMethods = new ObservableCollection<IPricingViewModel>(myListPricing);
 
-            Share accorSA = new Share("ACCOR SA", "AC FP");
-            Share alstom = new Share("ALSTOM", "ALO FP");
-            Share edf = new Share("EDF", "EDF EP");
-            Share axaSA = new Share("AIR LIQUIDE SA", "AIR FP");
+            Share accorSA = new Share("ACCOR SA", "AC FP     ");
+            Share alstom = new Share("ALSTOM", "ALO FP    ");
+            Share edf = new Share("EDF", "EDF FP    ");
+            Share axaSA = new Share("AIR LIQUIDE SA", "AI FP     ");
 
             List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA), new ActionCheckBox(alstom),
             new ActionCheckBox(edf),new ActionCheckBox(axaSA)};
