@@ -30,10 +30,11 @@ namespace ProjetNET.Models
             }
             List<PricingResults> listPrix = new List<PricingResults>();
             calculVolatility(listDataFeed);
-
             //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
             foreach (DataFeed df in listDataFeed)
             {
+                double listPrice = (double)df.PriceList[oShares[0].Id];
+                oSpot[0] = listPrice;
                 listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
             }
             
