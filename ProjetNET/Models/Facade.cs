@@ -36,6 +36,7 @@ namespace ProjetNET.Models
             listePortefeuille = new List<Portefeuille>();
             bool debut = true;
             PricingResults ancienPR = null ;
+            double tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
             foreach (PricingResults pr in listePricingResult)
             {
                 double valeur;
@@ -46,7 +47,6 @@ namespace ProjetNET.Models
                 }
                 else
                 {
-                    double tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
                     valeur = ancienPR.Deltas[0] * pr.Price + (pricing.oStrike - ancienPR.Deltas[0] * ancienPR.Price) * Math.Exp(tauxSR);
                 }
                 Portefeuille port = new Portefeuille(pricing.currentDate, valeur);

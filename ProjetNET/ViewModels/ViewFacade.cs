@@ -56,8 +56,10 @@ namespace ProjetNET.ViewModels
         private void drawPortefeuille(List<Portefeuille> portefeuilles, LineSeries plotPortefeuille)
         {
             int i = 0;
+            Console.WriteLine("View Facade " + portefeuilles.Count);
             foreach (Portefeuille port in portefeuilles)
             {
+
                 plotPortefeuille.Points.Add(new DataPoint(i++, port.Valeur));
             }
         }

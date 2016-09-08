@@ -34,16 +34,8 @@ namespace ProjetNET.Models
             //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
             foreach (DataFeed df in listDataFeed)
             {
-                if (df.Date <= oMaturity)
-                {
-                    listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
-                }
-                else
-                {
-                    break;
-                }
+                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
             }
-            listPrix.Add(getPayOff(listDataFeed));
             
             return listPrix;
         }

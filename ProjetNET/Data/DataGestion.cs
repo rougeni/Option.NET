@@ -170,7 +170,6 @@ namespace ProjetNET.Data
         {
             List<DataFeed> listeData = new List<DataFeed>();
             BaseDataContext baseData = new BaseDataContext();
-            //Console.WriteLine("Date start : " + dateStart);
             var listeDate = from p in baseData.HistoricalShareValues
                             where p.date >= dateStart
                             orderby p.date
@@ -180,7 +179,6 @@ namespace ProjetNET.Data
             {
                 listeData.Add(getDataFeedClass(date));
             }
-            //Console.WriteLine("taille de la liste dans DataGestion.getListeDataField() : " + listeData.Count + " : " + listeDate.Count());
             return listeData;
         }
 

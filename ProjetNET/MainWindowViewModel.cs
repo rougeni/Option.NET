@@ -68,8 +68,8 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            maturity = "19/05/2015";
-            startDate = "14/08/2014";
+            maturity = "20/08/2015";
+            startDate = "12/01/2013";
             spot = "20";
             strike = "10";
 
@@ -126,7 +126,7 @@ namespace ProjetNET
             selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
             Console.WriteLine("Shares " + actions.ToArray()[0].Id + actions.ToArray()[0].Name);
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.endTime = maturityDate;
+            selectedTesting.GenerateHistory.endTime = startDateTime;
 
             wholeView.GenrateHistory = selectedTesting;
             wholeView.PricingViewModel = selectedPricing;
