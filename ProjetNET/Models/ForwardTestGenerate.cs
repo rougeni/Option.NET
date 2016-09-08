@@ -24,15 +24,15 @@ namespace ProjetNET.Models
         {
             get
             {
-                return VanillaCallName;
+                return vanillaCallName;
             }
             set
             {
-                VanillaCallName = value;
+                vanillaCallName = value;
             }
         }
 
-        public Share[] underlyingShares
+        public Share[] UnderlyingShares
         {
             get
             {
@@ -44,7 +44,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double[] weight
+        public double[] Weight
         {
             get
             {
@@ -56,7 +56,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public DateTime endTime
+        public DateTime EndTime
         {
             get
             {
@@ -68,7 +68,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double strike
+        public double Strike
         {
             get
             {
@@ -79,5 +79,15 @@ namespace ProjetNET.Models
                 strike = value;
             }
         }
+
+        public string vanillaCallName { get; set; }
+
+        public Share[] underlyingShares { get; set; }
+
+        public double[] weight { get; set; }
+
+        public DateTime endTime { get; set; }
+
+        public double strike { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace ProjetNET
         private String maturity;
         private String strike;
         private String spot;
+        private String startDate;
 
         #endregion Private Fields
 
@@ -67,7 +68,8 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            maturity = "20/08/2015";
+            maturity = "22/08/2014";
+            startDate = "15/08/2015";
             spot = "20";
             strike = "10";
 
@@ -106,24 +108,27 @@ namespace ProjetNET
                     actions.Add(action.Share);
             }
 
-            selectedPricing.Pricing.oShares = actions.ToArray();
-            selectedPricing.Pricing.oMaturity = DateTime.ParseExact(maturity, "dd/MM/yyyy",
+            DateTime startDateTime = DateTime.ParseExact(startDate, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
+
+            DateTime maturityDate = DateTime.ParseExact(maturity, "dd/MM/yyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+
+            selectedPricing.Pricing.oShares = actions.ToArray();
+            selectedPricing.Pricing.oMaturity = maturityDate;
             double[] oSpot = new double[1];
-            if (spot == null || "".Equals(spot))
-            {
-                oSpot[0] = 0;
-            }
-            else
-            {
-                oSpot[0] = Convert.ToDouble(spot);
-            }
-               
+            oSpot[0] = Convert.ToDouble(spot);
             selectedPricing.Pricing.oSpot = oSpot;
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
-            Console.WriteLine(spot + strike + maturity);
-            wholeView.ViewFacade.Test();
+
+            selectedTesting.GenerateHistory.strike = Convert.ToDouble(strike);
+            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
+            Console.WriteLine("Shares " + actions.ToArray()[0].Id + actions.ToArray()[0].Name);
+            selectedTesting.GenerateHistory.VanillaCallName = "Vanilla";
+            selectedTesting.GenerateHistory.endTime = maturityDate;
+
+            wholeView.ViewFacade.Launch();
         }
 
         #endregion Public Constructors

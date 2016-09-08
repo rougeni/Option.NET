@@ -7,6 +7,7 @@ using ProjetNET.Models;
 using Prism.Mvvm;
 using OxyPlot;
 using OxyPlot.Series;
+using PricingLibrary.Computations;
 
 namespace ProjetNET.ViewModels
 {
@@ -22,18 +23,50 @@ namespace ProjetNET.ViewModels
         public ViewFacade(Facade facade)
         {
             underlyingFacade = facade;
-            var model = new PlotModel { Title = "Example 1"  };
-            model.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
-            MyModel = model;
+            MyModel = new PlotModel { Title = "Example 1" };
             
         }
 
         #endregion Private Fields
 
-        public void Test()
+        public void Launch() {        
+            underlyingFacade.update();
+            MyModel = ToObservableView(underlyingFacade.ListePricingResult, underlyingFacade.ListePortefeuille);
+
+        }
+
+        private PlotModel ToObservableView(List<PricingResults> pricingResults, List<Portefeuille> portefeuilles)
         {
-            MyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
-            MyModel.InvalidatePlot(true);
+
+            PlotModel model = new PlotModel();
+
+            LineSeries plotOption = new OxyPlot.Series.LineSeries();
+            LineSeries plotPortefeuille = new OxyPlot.Series.LineSeries();
+
+            drawOption(pricingResults, plotOption);
+            drawPortefeuille(portefeuilles, plotPortefeuille);
+            model.Series.Add(plotOption);
+            model.Series.Add(plotPortefeuille);
+
+            return model;
+        }
+
+        private void drawPortefeuille(List<Portefeuille> portefeuilles, LineSeries plotPortefeuille)
+        {
+            int i = 0;
+            foreach (Portefeuille port in portefeuilles)
+            {
+                plotPortefeuille.Points.Add(new DataPoint(i++, port.Valeur));
+            }
+        }
+
+        private void drawOption(List<PricingResults> pricingResults, LineSeries plotOption)
+        {
+            int i = 0;
+            foreach (PricingResults option in pricingResults)
+            {
+                plotOption.Points.Add(new DataPoint(i++, option.Price));
+            }
         }
 
         public PlotModel MyModel
