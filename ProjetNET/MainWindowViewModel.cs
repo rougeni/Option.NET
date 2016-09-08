@@ -68,8 +68,8 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            maturity = "19/08/2015";
-            startDate = "14/08/2014";
+            maturity = "20/08/2015";
+            startDate = "12/01/2013";
             spot = "20";
             strike = "10";
 
@@ -115,6 +115,12 @@ namespace ProjetNET
                                        System.Globalization.CultureInfo.InvariantCulture);
 
             selectedPricing.Pricing.oShares = actions.ToArray();
+            selectedPricing.Pricing.oWeights = new double[actions.Count];
+            for (int i = 0; i < actions.Count; i++)
+            {
+                selectedPricing.Pricing.oWeights[i] = 1 / actions.Count;
+            }
+
             selectedPricing.Pricing.oMaturity = maturityDate;
             double[] oSpot = new double[1];
             oSpot[0] = Convert.ToDouble(spot);
@@ -124,9 +130,10 @@ namespace ProjetNET
 
             selectedTesting.GenerateHistory.strike = Convert.ToDouble(strike);
             selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
+            selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
             Console.WriteLine("Shares " + actions.ToArray()[0].Id + actions.ToArray()[0].Name);
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.endTime = maturityDate;
+            selectedTesting.GenerateHistory.endTime = startDateTime;
 
             wholeView.GenrateHistory = selectedTesting;
             wholeView.PricingViewModel = selectedPricing;
