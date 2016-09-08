@@ -11,7 +11,7 @@ namespace ProjetNET.Models
     public interface IGenerateHistory
     {
 
-        String VanillaCallName { get; set;}
+        String vanillaCallName { get; set;}
         Share[] underlyingShares { get; set; }
         double[] weight { get; set; }
         DateTime endTime { get; set; }

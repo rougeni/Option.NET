@@ -62,7 +62,7 @@ namespace UnitTestProject1
             test.endTime = endTime;
             test.strike = strike;
             test.underlyingShares = underlyingShares;
-            test.VanillaCallName = VanillaCallName;
+            test.vanillaCallName = VanillaCallName;
             test.weight = weight;
 
             List<DataFeed> ret = test.generateHistory();
