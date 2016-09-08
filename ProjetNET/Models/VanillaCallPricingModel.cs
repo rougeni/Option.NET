@@ -30,11 +30,17 @@ namespace ProjetNET.Models
             List<PricingResults> listPrix = new List<PricingResults>();
             calculVolatility(listDataFeed);
 
-            DateTime dateIterator = currentDate;
-            while (!dateIterator.Equals(oMaturity))
+            //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
+            foreach (DataFeed df in listDataFeed)
             {
-                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), dateIterator, 252, oSpot[0], oVolatility[0]));
-                dateIterator.AddDays(1);
+                if (df.Date <= oMaturity)
+                {
+                    listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
+                }
+                else
+                {
+                    break;
+                }
             }
             listPrix.Add(getPayOff(listDataFeed));
             
@@ -53,37 +59,28 @@ namespace ProjetNET.Models
 
         private void calculVolatility(List<DataFeed> listDataFeed)
         {
-            double[,] prix = new double[listDataFeed.Count, oShares.Length];
-            double[,] rendement = new double[listDataFeed.Count-1, oShares.Length];
+            double[] prix = new double[listDataFeed.Count];
             int i = 0;
-            int j;
 
             // Calculer les prix de toutes les actions dans l'option (ici en théorie qu'une seule..)
             foreach (DataFeed dataF in listDataFeed)
             {
-                j = 0;
                 Dictionary<string, decimal> dico = dataF.PriceList;
-                foreach (Share s in oShares)
-                {
-                    prix[i, j] = (double)dico[s.Id];
-                    j++;
-                }
+                prix[i] = (double)dico[oShares[0].Id];
                 i++;
             }
             
             
             double variance = 0;     
             double avg = 0;
-            for (int line = 0; line < listDataFeed.Count; line++)
+            for (int line = 0; line < listDataFeed.Count-1; line++)
             {
-                for (int col = 0; col < oShares.Length; col++)
-                {
-                    variance += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
-                    avg += Math.Log10(prix[line, col] / prix[line - 1, col]);
-                }
+                variance += Math.Pow(Math.Log10(prix[line+1] / prix[line]), 2);
+                avg += Math.Log10(prix[line + 1] / prix[line]);
             }
 
             variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
+            oVolatility = new double[1];
             oVolatility[0] = Math.Sqrt(variance);
         }
 
