@@ -39,6 +39,7 @@ namespace ProjetNET.Models
             double[,] rendement = new double[listDataFeed.Count-1, oShares.Length];
             int i = 0;
             int j;
+            // Calculer les prix de toutes les actions dans l'option (ici en théorie qu'une seule..)
             foreach (DataFeed dataF in listDataFeed)
             {
                 j = 0;
@@ -50,16 +51,21 @@ namespace ProjetNET.Models
                 }
                 i++;
             }
-
+            
+            
+            double variance = 0;     
+            double avg = 0;
             for (int line = 0; line < listDataFeed.Count; line++)
             {
                 for (int col = 0; col < oShares.Length; col++)
                 {
-                    rendement[line, col] = Math.Log10(prix[line, col] / prix[line - 1, col]);
+                    variance += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
+                    avg += Math.Log10(prix[line, col] / prix[line - 1, col]);
                 }
             }
-            ForwardData fd = new ForwardData();
-            double[,] cov = fd.computeCovarianceMatrix(rendement);
+
+            variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
+            oVolatility = Math.Sqrt(variance);
         }
 
 
