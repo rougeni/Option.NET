@@ -15,7 +15,7 @@ namespace ProjetNET.Models
 
         private Pricer vanillaPricer;
 
-        public VanillaCallPricingModel()
+        public VanillaCallPricingModel()    
         {
             vanillaPricer = new Pricer();
             oName = "Vanilla";
