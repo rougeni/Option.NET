@@ -125,12 +125,12 @@ namespace ProjetNET.Data
             var NomsActions = (from p in baseData.ShareNames
                                select p.name);
             List<String> appellations = new List<String>();
-            /*
+            
             foreach (var appellation in NomsActions)
             {
                 appellations.Add(appellation);
-                System.Console.WriteLine(appellation);
-            }*/
+                //System.Console.WriteLine(appellation);
+            }
             return appellations;
         }
         
