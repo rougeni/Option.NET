@@ -27,5 +27,6 @@ namespace ProjetNET.Models
 
         DateTime currentDate { get; set; }
 
+        double[] oWeights { get; set; }
     }
 }

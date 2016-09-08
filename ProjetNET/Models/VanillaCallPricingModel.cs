@@ -18,6 +18,7 @@ namespace ProjetNET.Models
         public VanillaCallPricingModel()
         {
             vanillaPricer = new Pricer();
+            oName = "Vanilla";
         }
 
 
@@ -175,5 +176,18 @@ namespace ProjetNET.Models
             }
         }
         #endregion Getter & Setter
+
+
+        public double[] oWeights
+        {
+            get
+            {
+                return oWeights;
+            }
+            set
+            {
+                oWeights = value;
+            }
+        }
     }
 }

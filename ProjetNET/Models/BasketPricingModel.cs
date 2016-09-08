@@ -17,30 +17,37 @@ namespace ProjetNET.Models
         public BasketPricingModel()
         {
             basketPricer = new Pricer();
+            oName = "Basket";
         }
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 || oWeights.Equals(null))
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
             List<PricingResults> listPrix = new List<PricingResults>();
 
+            DateTime dateIterator = currentDate;
+            while (!dateIterator.Equals(oMaturity))
+            {
+                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), dateIterator, 252, oSpot, oVolatility, null)); // TODO Cholesky
+                dateIterator.AddDays(1);
+            }
+            listPrix.Add(getPayOff(listDataFeed));
 
             return listPrix;
         }
 
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 || oWeights.Equals(null))
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
+            calculVolatility(listDataFeed);
 
-
-
-            return null;
+            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, null); //TODO Cholesky
         }
 
         private void calculVolatility(List<DataFeed> listDataFeed)
@@ -63,19 +70,29 @@ namespace ProjetNET.Models
             }
 
 
-            double variance = 0;
-            double avg = 0;
+            double[] variance = new double[oShares.Length];
+            double[] avg = new double[oShares.Length];
+            for (int col = 0; col < oShares.Length; col++)
+            {
+                variance[col] = 0;
+                avg[col] = 0;
+            }
+
             for (int line = 0; line < listDataFeed.Count; line++)
             {
                 for (int col = 0; col < oShares.Length; col++)
                 {
-                    variance += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
-                    avg += Math.Log10(prix[line, col] / prix[line - 1, col]);
+                    variance[col] += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
+                    avg[col] += Math.Log10(prix[line, col] / prix[line - 1, col]);
                 }
             }
 
-            variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
-            oVolatility[0] = Math.Sqrt(variance);
+
+            for (int col = 0; col < oShares.Length; col++)
+            {
+                variance[col] = variance[col] / listDataFeed.Count - Math.Pow(avg[col] / listDataFeed.Count, 2);
+                oVolatility[col] = Math.Sqrt(variance[col]);
+            }
         }
 
         #region Getter & Setter
@@ -163,6 +180,20 @@ namespace ProjetNET.Models
             set
             {
                 oVolatility = value;
+            }
+        }
+
+
+        public double[] oWeights
+        {
+            get
+            {
+                return oWeights;
+            }
+            set
+            {
+                oWeights = value;
+                    ;
             }
         }
         #endregion Getter & Setter
