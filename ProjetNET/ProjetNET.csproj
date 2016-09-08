@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\BackTestGenerate.cs" />
     <Compile Include="Models\BasketPricingModel.cs" />
+    <Compile Include="Models\Portefeuille.cs" />
     <Compile Include="ViewModels\BackTestGenerateHistoryVM.cs" />
     <Compile Include="Data\Action.cs" />
     <Compile Include="Data\Base.designer.cs">
