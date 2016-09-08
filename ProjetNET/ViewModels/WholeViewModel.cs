@@ -16,24 +16,23 @@ namespace ProjetNET.ViewModels
 
         private IPricingViewModel pricingViewModel;
 
-        private ViewFacade facadeView;
+        private ViewFacade viewFacade;
 
         #endregion Private Fields
 
         public WholeViewModel()
         {
-            // generateHistory = new 
             generateHistory = new BackTestGenerateHistoryVM();
             pricingViewModel = new VanillaCallPricingVM();
             Facade facade = new Facade(generateHistory.GenerateHistory, pricingViewModel.Pricing);
-            facadeView = new ViewFacade(facade);
+            viewFacade = new ViewFacade(facade);
         }
 
         #region Public Properties
 
-        public ViewFacade Facade
+        public ViewFacade ViewFacade
         {
-            get { return facadeView; }
+            get { return viewFacade; }
         }
 
         public IGenerateHistoryViewModel GenrateHistory
@@ -42,7 +41,7 @@ namespace ProjetNET.ViewModels
             set
             {
                 SetProperty(ref generateHistory, value);
-                Facade.UnderlyingFacade.GenrateHistory = generateHistory.GenerateHistory;
+                ViewFacade.UnderlyingFacade.GenrateHistory = generateHistory.GenerateHistory;
             }
         }
 
@@ -52,7 +51,7 @@ namespace ProjetNET.ViewModels
             set
             {
                 SetProperty(ref pricingViewModel, value);
-                Facade.UnderlyingFacade.Pricing = pricingViewModel.Pricing;
+                ViewFacade.UnderlyingFacade.Pricing = pricingViewModel.Pricing;
             }
         }
 
