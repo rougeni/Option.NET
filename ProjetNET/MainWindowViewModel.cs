@@ -68,7 +68,7 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            maturity = "22/08/2014";
+            maturity = "20/08/2016";
             startDate = "15/08/2015";
             spot = "20";
             strike = "10";
