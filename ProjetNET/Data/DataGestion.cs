@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PricingLibrary;
 using PricingLibrary.Utilities.MarketDataFeed;
+
 namespace ProjetNET.Data
 {
     public class DataGestion
@@ -110,7 +111,7 @@ namespace ProjetNET.Data
             {
                 appellations.Add(appellation);
                 //string affiche = (appellation);
-                System.Console.WriteLine(appellation);
+                //System.Console.WriteLine(appellation);
             }
             return appellations;
         }
@@ -124,11 +125,12 @@ namespace ProjetNET.Data
             var NomsActions = (from p in baseData.ShareNames
                                select p.name);
             List<String> appellations = new List<String>();
+            /*
             foreach (var appellation in NomsActions)
             {
                 appellations.Add(appellation);
                 System.Console.WriteLine(appellation);
-            }
+            }*/
             return appellations;
         }
         
@@ -179,7 +181,48 @@ namespace ProjetNET.Data
             }
             return listeData;
         }
-         
+
+
+        public int numberOfAssets()
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var listeAssets = from p in baseData.ShareNames
+                              orderby p.id
+                              group p by p.id into q
+                              select q;
+            int a = 0;
+            foreach (var iden in listeAssets)
+            {
+                a++;
+            }
+            return a;
+        }
+
+        public DateTime lastDay()
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var lday = from p in baseData.HistoricalShareValues
+                       orderby p.date
+                       select p.date;
+            return lday.ToArray().Last();
+        }
+
+        public double[] lastValues()
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var lvalues = from p in baseData.HistoricalShareValues
+                          where p.date == this.lastDay()
+                          select p.value;
+            double[] rv = new double[this.numberOfAssets()];
+            int a = 0;
+            foreach (var v in lvalues)
+            {
+                rv[a] = (double)v;
+                a++;
+            }
+            return rv;
+        }
+
         #endregion Public Methods
 
 

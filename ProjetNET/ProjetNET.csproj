@@ -70,8 +70,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\BackTestGenerate.cs" />
-    <Compile Include="ViewModels\BackTestGenerateHistoryVM.cs" />
     <Compile Include="Data\Action.cs" />
     <Compile Include="Data\Base.designer.cs">
       <AutoGen>True</AutoGen>
@@ -80,12 +78,14 @@
     </Compile>
     <Compile Include="Data\DataGestion.cs" />
     <Compile Include="Data\ForwardData.cs" />
-    <Compile Include="Models\IPricing.cs" />
+    <Compile Include="Models\BackTestGenerate.cs" />
     <Compile Include="Models\ForwardTestGenerate.cs" />
-    <Compile Include="ViewModels\ForwardTestGenerateHistoryVM.cs" />
+    <Compile Include="Models\IPricing.cs" />
     <Compile Include="Models\VanillaCallPricingModel.cs" />
     <Compile Include="Models\Facade.cs" />
     <Compile Include="Models\IGenerateHistory.cs" />
+    <Compile Include="ViewModels\BackTestGenerateHistoryVM.cs" />
+    <Compile Include="ViewModels\ForwardTestGenerateHistoryVM.cs" />
     <Compile Include="ViewModels\IGenerateHistoryViewModel.cs" />
     <Compile Include="ViewModels\IPricingViewModel.cs" />
     <Compile Include="ViewModels\ViewFacade.cs" />

@@ -3,14 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ProjetNET.Data;
+using PricingLibrary.FinancialProducts;
+using PricingLibrary.Utilities.MarketDataFeed;
 
-namespace ProjetNET.ViewModels
+namespace ProjetNET.Models
 {
-    class ForwardTestGenerate : IGenerateHistory
+    public class ForwardTestGenerate : IGenerateHistory
     {
-        public List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> generateHistory(DateTime startTime)
+
+        public List<DataFeed> generateHistory(String VanillaCallName,Share[] underlyingShares, DateTime endTime, double strike)
         {
-            throw new NotImplementedException();
+            ForwardData dg = new ForwardData();
+            return dg.getForwardListDataField(VanillaCallName, underlyingShares, endTime, strike);
         }
+
     }
 }

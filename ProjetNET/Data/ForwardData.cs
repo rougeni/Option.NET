@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using PricingLibrary.Utilities.MarketDataFeed;
+using PricingLibrary.FinancialProducts;
 
 namespace ProjetNET.Data
 {
@@ -40,6 +42,64 @@ namespace ProjetNET.Data
             return WREmodelingEM(ref nbValues, ref NbAssets, assetsValues, ref missValue, assetsValuesCorrected, ref info);
         }*/
 
+        /*
+        public static extern int WREsimulGeometricBrownianX(
+            ref int p,
+            ref int T,
+            ref int N,
+            double[] S,
+            double[] mu,
+            double[,] cov,
+            double[,] y,
+            int info
+            );
+        */
+
+        
+        public List<DataFeed> getForwardListDataField(String VanillaCallName, Share[] underlyingShares, DateTime endTime, double strike)
+        {
+            SimulatedDataFeedProvider simulvalues = new SimulatedDataFeedProvider();
+            
+            DataGestion dg = new DataGestion();
+            int p = dg.numberOfAssets();
+            DateTime lastTime = dg.lastDay();
+            IOption optionData = new VanillaCall(VanillaCallName, underlyingShares, endTime, strike);
+            List<DataFeed> retMarket = simulvalues.GetDataFeed(optionData,lastTime);
+            DataFeed df = retMarket.ToArray()[0];
+            for (int i = 0; i < underlyingShares.Length; i++)
+            {
+                Share s = underlyingShares[i];
+                Console.WriteLine(s.Id + "  :  " + s.Name);
+            }
+                Console.WriteLine("#######");
+            foreach (var key in df.PriceList.Keys)
+            {
+                Console.WriteLine(key);
+            }
+            Console.WriteLine("#######");
+            string[] uS = optionData.UnderlyingShareIds;
+            for (int i = 0; i < uS.Length; i++)
+            {
+                Console.WriteLine(uS[i]);
+            }
+                return retMarket;
+            /*
+            int T = endTime.Subtract(lastTime).Days;
+            int N = endTime.Subtract(lastTime).Days;
+            double[] S = dg.lastValues();
+            double[] mu = dg.getDrift(); 
+            double[,] cov = getCov();
+            double[,] y = new double[N,p];
+            int info = 0;
+            WREsimulGeometricBrownianX(ref p, ref T, ref N, S, mu, cov, y, ref info);
+            
+            return null;*/
+
+        }
+        
+        
+
+
         public int testCov()
         {
             int nbValues = 2;
@@ -49,7 +109,7 @@ namespace ProjetNET.Data
             int info = 10;
             return WREmodelingCov(ref nbValues, ref nbAssets, assetsReturns, cov, ref info);
         }
-
+        
         public double[,] computeCovarianceMatrix(double[,] returns)
         {
             int dataSize = returns.GetLength(0);
@@ -104,6 +164,7 @@ namespace ProjetNET.Data
             Console.WriteLine("\nType enter to exit");
             Console.ReadKey(true);
         }
+
 
     }
 }
