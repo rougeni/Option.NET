@@ -24,7 +24,7 @@ namespace ProjetNET.Models
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
@@ -43,7 +43,7 @@ namespace ProjetNET.Models
 
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
