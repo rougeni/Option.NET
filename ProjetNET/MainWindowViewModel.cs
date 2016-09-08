@@ -15,23 +15,79 @@ namespace ProjetNET
 
         private WholeViewModel wholeView;
 
+        private IGenerateHistoryViewModel selectedTesting;
+
+        private bool fieldCompleted;
+
+        private IPricingViewModel selectedPricing;
+
         #endregion Private Fields
 
-        public ObservableCollection<IGenerateHistoryViewModel> CounterList { get; private set; }
+        public ObservableCollection<IGenerateHistoryViewModel> TestGenerateHistory { get; private set; }
 
+        public DelegateCommand StartCommand { get; private set; }
+
+        public ObservableCollection<IPricingViewModel> PricingMethods { get; private set; }
 
         #region Public Constructors
 
         public MainWindowViewModel()
         {
+            StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
+
+            wholeView = new WholeViewModel();
             BackTestGenerateHistoryVM backTest = new BackTestGenerateHistoryVM();
             ForwardTestGenerateHistoryVM forwardTest = new ForwardTestGenerateHistoryVM();
+            selectedTesting = backTest;
 
-            List<IGenerateHistoryViewModel> myList = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
+            List<IGenerateHistoryViewModel> myListGenerator = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
+            TestGenerateHistory = new ObservableCollection<IGenerateHistoryViewModel>(myListGenerator);
+
+            VanillaCallPricingVM vanille = new VanillaCallPricingVM();
+            BasketPricingVM basket = new BasketPricingVM();
+            selectedPricing = vanille;
+
+            List<IPricingViewModel> myListPricing = new List<IPricingViewModel>() { vanille, basket };
+            PricingMethods = new ObservableCollection<IPricingViewModel>(myListPricing);
 
         }
 
+        private void StartAnalyse()
+        {
+            wholeView.Facade.Test();
+        }
+
         #endregion Public Constructors
+
+        public WholeViewModel WholeView
+        {
+            get { return wholeView; }
+        }
+
+        public IGenerateHistoryViewModel SelectedTesting
+        {
+            get { return selectedTesting; }
+            set
+            {
+                SetProperty(ref selectedTesting, value);
+                wholeView.GenrateHistory = selectedTesting;
+            }
+        }
+
+        public IPricingViewModel SelectedPricing
+        {
+            get { return selectedPricing; }
+            set
+            {
+                SetProperty(ref selectedPricing, value);
+                wholeView.PricingViewModel = selectedPricing;
+            }
+        }
+
+        private bool CanLaunch()
+        {
+            return true;
+        }
 
     }
 }

@@ -19,7 +19,7 @@ namespace ProjetNET
 
         public Models.IGenerateHistory GenerateHistory
         {
-            get { throw new NotImplementedException(); }
+            get { return forwardTest; }
         }
 
         public string Name

@@ -20,9 +20,11 @@ namespace ProjetNET.ViewModels
 
         #endregion Private Fields
 
-        public WholeViewModel(int lineNb, int columnNb)
+        public WholeViewModel()
         {
             // generateHistory = new 
+            generateHistory = new BackTestGenerateHistoryVM();
+            pricingViewModel = new VanillaCallPricingVM();
             Facade facade = new Facade(generateHistory.GenerateHistory, pricingViewModel.Pricing);
             facadeView = new ViewFacade(facade);
         }
@@ -39,7 +41,18 @@ namespace ProjetNET.ViewModels
             get { return generateHistory; }
             set
             {
-                Facade.GenrateHistory = generateHistory.GenerateHistory;
+                SetProperty(ref generateHistory, value);
+                Facade.UnderlyingFacade.GenrateHistory = generateHistory.GenerateHistory;
+            }
+        }
+
+        public IPricingViewModel PricingViewModel
+        {
+            get { return pricingViewModel; }
+            set
+            {
+                SetProperty(ref pricingViewModel, value);
+                Facade.UnderlyingFacade.Pricing = pricingViewModel.Pricing;
             }
         }
 
