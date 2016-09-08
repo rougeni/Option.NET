@@ -79,7 +79,7 @@ namespace ProjetNET.Models
 
         public List<Portefeuille> ListePortefeuille
         {
-            get { return ListePortefeuille; }
+            get { return listePortefeuille; }
         }
     }
 }
