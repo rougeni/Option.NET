@@ -61,11 +61,11 @@ namespace ProjetNET.Data
             SimulatedDataFeedProvider simulvalues = new SimulatedDataFeedProvider();
             DataGestion dg = new DataGestion();
             int p = dg.numberOfAssets();
-            //DateTime lastTime = dg.lastDay();
+            DateTime lastTime = dg.lastDay();
             /*weight = new double[1];
             weight[0] = 1;*/
             IOption optionData = new BasketOption(VanillaCallName, underlyingShares,weight, endTime, strike);
-            List<DataFeed> retMarket = simulvalues.GetDataFeed(optionData,endTime);//TODO : check this line
+            List<DataFeed> retMarket = simulvalues.GetDataFeed(optionData,lastTime);//TODO : check this line
             return retMarket;
         }
         
