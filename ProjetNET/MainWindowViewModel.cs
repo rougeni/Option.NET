@@ -128,6 +128,9 @@ namespace ProjetNET
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
             selectedTesting.GenerateHistory.endTime = maturityDate;
 
+            wholeView.GenrateHistory = selectedTesting;
+            wholeView.PricingViewModel = selectedPricing;
+
             wholeView.ViewFacade.Launch();
         }
 
