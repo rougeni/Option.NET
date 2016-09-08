@@ -8,7 +8,23 @@ namespace ProjetNET.Models
 {
     class Portefeuille
     {
-        public DateTime date;
-        public double valeur;
+        private DateTime date;
+        private double valeur;
+
+        public Portefeuille(DateTime d, double val)
+        {
+            date = d;
+            valeur = val;
+        }
+
+        public double Valeur
+        {
+            get { return valeur; }
+        }
+
+        public DateTime Date
+        {
+            get { return date; }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PricingLibrary.Computations;
+using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace ProjetNET.Models
 
         private List<PricingResults> listePricingResult;
 
-        //private List<Portefeuille> listePortefeuille;
+        private List<Portefeuille> listePortefeuille;
 
 
         public Facade(IGenerateHistory generateHistory, IPricing pricing)
@@ -30,8 +31,12 @@ namespace ProjetNET.Models
         ///     - prix du portefeuille de couverture à toutes les dates (Pi(i))
         public void update()
         {
-            generateHistory.generateHistory(new DateTime(2015,8,20));
+            List<DataFeed> ldf = generateHistory.generateHistory(new DateTime(2015,8,20));
+            listePricingResult = pricing.pricingUntilMaturity(ldf);
+            double valeur = 0;
+            listePortefeuille = new List<Portefeuille>();
 
+            Portefeuille port = new Portefeuille(pricing.currentDate, valeur);
         }
 
         public IPricing Pricing
