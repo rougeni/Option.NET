@@ -3,15 +3,47 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:ProjetNET.Views"
         xmlns:local="clr-namespace:ProjetNET"
-        Title="MainWindow" Height="815" Width="1080">
+        Title="Test de couverture d'une option" Height="676.195" Width="1080">
     <Window.Resources>
         <DataTemplate x:Key="FieldDisplayViewTemplate">
             <views:FieldDisplayView />
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <StackPanel HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="2">
-            <ContentControl Grid.Row="1" Grid.Column="1" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding UniverseVM.Facade}" />
+        <Canvas HorizontalAlignment="Left" Margin="50,50,10,10">
+            <Label Content="Selectionné le(s) sous-jacent(s) de votre option " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <ItemsControl Margin="25,25,25,25" ItemsSource="{Binding AvailableAction}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected , Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            <Label Content="Strike" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="243"/>
+            <Label Content="Spot" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="197"/>
+            <TextBox Text="{Binding Path=Strike, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="243"/>
+            <TextBox Text="{Binding Path=Spot, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="200"/>
+            <Label Content="Option" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="292"/>
+            <Label Content="Testing" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="336"/>
+            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding PricingMethods}" SelectedItem="{Binding SelectedPricing}" Canvas.Left="117" Canvas.Top="296">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding TestGenerateHistory}" SelectedItem="{Binding SelectedTesting}" Canvas.Left="117" Canvas.Top="336">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Canvas>
+        <StackPanel HorizontalAlignment="Right" Margin="0,0,50,0" Orientation="Vertical">
+            <ContentControl HorizontalAlignment="Right" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding WholeView.ViewFacade}" Height="500" />
+            <Button Content="Lancer" Command="{Binding StartCommand}" HorizontalAlignment="Right" Margin="0,0,200,0" Height="22"/>
         </StackPanel>
+
     </Grid>
 </Window>

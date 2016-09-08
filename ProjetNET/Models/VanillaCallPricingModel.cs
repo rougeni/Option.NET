@@ -10,146 +10,112 @@ using ProjetNET.Data;
 
 namespace ProjetNET.Models
 {
-    class VanillaCallPricingModel : IPricing
+    public class VanillaCallPricingModel : IPricing
     {
 
         private Pricer vanillaPricer;
-        private double[,] vanillaRendement;
 
         public VanillaCallPricingModel()
         {
             vanillaPricer = new Pricer();
+            oName = "Vanilla";
         }
 
 
-        public List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity)
+        public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            throw new NotImplementedException();
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            {
+                throw new NullReferenceException();  // TODO pls check if correct
+            }
+            List<PricingResults> listPrix = new List<PricingResults>();
+            calculVolatility(listDataFeed);
+
+            //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
+            foreach (DataFeed df in listDataFeed)
+            {
+                if (df.Date <= oMaturity)
+                {
+                    listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
+                }
+                else
+                {
+                    break;
+                }
+            }
+            listPrix.Add(getPayOff(listDataFeed));
+            
+            return listPrix;
         }
 
-        public PricingResults getPayOff(List<DataFeed> dataFeed)
+        public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            calculVolatility(dataFeed);
-            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility);
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            {
+                throw new NullReferenceException();  // TODO pls check if correct
+            }
+            calculVolatility(listDataFeed);
+            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot[0], oVolatility[0]);
         }
 
         private void calculVolatility(List<DataFeed> listDataFeed)
         {
-            double[,] prix = new double[listDataFeed.Count, oShares.Length];
-            double[,] rendement = new double[listDataFeed.Count-1, oShares.Length];
+            double[] prix = new double[listDataFeed.Count];
             int i = 0;
-            int j;
+
+            // Calculer les prix de toutes les actions dans l'option (ici en théorie qu'une seule..)
             foreach (DataFeed dataF in listDataFeed)
             {
-                j = 0;
                 Dictionary<string, decimal> dico = dataF.PriceList;
-                foreach (Share s in oShares)
-                {
-                    prix[i, j] = (double)dico[s.Id];
-                    j++;
-                }
+                prix[i] = (double)dico[oShares[0].Id];
                 i++;
             }
-
-            for (int line = 0; line < listDataFeed.Count; line++)
+            
+            
+            double variance = 0;     
+            double avg = 0;
+            for (int line = 0; line < listDataFeed.Count-1; line++)
             {
-                for (int col = 0; col < oShares.Length; col++)
-                {
-                    rendement[line, col] = Math.Log10(prix[line, col] / prix[line - 1, col]);
-                }
+                variance += Math.Pow(Math.Log10(prix[line+1] / prix[line]), 2);
+                avg += Math.Log10(prix[line + 1] / prix[line]);
             }
-            ForwardData fd = new ForwardData();
-            double[,] cov = fd.computeCovarianceMatrix(rendement);
+
+            variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
+            oVolatility = new double[1];
+            oVolatility[0] = Math.Sqrt(variance);
         }
 
 
         #region Getter & Setter
-        public string oName
-        {
-            get
-            {
-                return oName;
-            }
-            set
-            {
-                oName = value;
-            }
-        }
+        public string oName { get; set; }
 
-        public Share[] oShares
-        {
-            get
-            {
-                return oShares;
-            }
-            set
-            {
-                oShares = value;
-            }
-        }
+        public Share[] oShares { get; set; }
 
-        public DateTime oMaturity
-        {
-            get
-            {
-                return oMaturity;
-            }
-            set
-            {
-                oMaturity = value;
-            }
-        }
+        public DateTime oMaturity { get; set; }
 
-        public double oStrike
-        {
-            get
-            {
-                return oStrike;
-            }
-            set
-            {
-                oStrike = value;
-            }
-        }
-        
+        public double oStrike { get; set; }
 
 
-        public DateTime currentDate
-        {
-            get
-            {
-                return currentDate;
-            }
-            set
-            {
-                currentDate = value;
-            }
-        }
+        public DateTime currentDate { get; set; }
 
-        public double oSpot
-        {
-            get
-            {
-                return oSpot;
-            }
-            set
-            {
-                oSpot = value;
-            }
-        }
+        public double[] oSpot { get; set; }
 
 
-        public double oVolatility
-        {
-            get
-            {
-                return oVolatility;
-            }
-            set
-            {
-                oVolatility = value;
-            }
-        }
+        public double[] oVolatility { get; set; }
+
         #endregion Getter & Setter
+
+
+        public double[] oWeights
+        {
+            get
+            {
+                return oWeights;
+            }
+            set
+            {
+                oWeights = value;
+            }
+        }
     }
 }

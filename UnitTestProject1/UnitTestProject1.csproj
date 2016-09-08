@@ -56,6 +56,8 @@
     <Compile Include="TestBaseDD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestForwardData.cs" />
+    <Compile Include="TestVaniliaCall.cs" />
+    <Compile Include="TestBasketPricing.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjetNET\ProjetNET.csproj">

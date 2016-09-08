@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:oxy="http://oxyplot.org/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <DataTemplate x:Key="CellTemplate">
-            <Border x:Name="cellBorder" BorderThickness="1" CornerRadius="3" Margin=".25,.25,.25,.25"
+        <DataTemplate x:Key="Graphe">
+            <Border x:Name="BorderGraphe" BorderThickness="1" CornerRadius="3" Margin=".25,.25,.25,.25"
                     Background="{Binding Color}">
                 <Border.BorderBrush>
                     <SolidColorBrush Color="Black" Opacity="0" />
@@ -16,12 +17,6 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <ItemsControl ItemsSource="{Binding Path=ObservableField}" ItemTemplate="{StaticResource CellTemplate}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding UnderlyingUniverse.ColNb}" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <oxy:PlotView Height="500" Width="450" Model="{Binding MyModel}" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

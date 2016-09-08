@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PricingLibrary.Computations;
+using PricingLibrary.Utilities.MarketDataFeed;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +14,45 @@ namespace ProjetNET.Models
 
         private IGenerateHistory generateHistory;
 
+        private List<PricingResults> listePricingResult;
+
+        private List<Portefeuille> listePortefeuille;
+
 
         public Facade(IGenerateHistory generateHistory, IPricing pricing)
         {
             this.generateHistory = generateHistory;
             this.pricing = pricing;
+        }
+
+        ///  3 éléments
+        ///     - liste datafield generateHitory
+        ///     - result pricing par pricing(datafield)
+        ///     - prix du portefeuille de couverture à toutes les dates (Pi(i))
+        public void update()
+        {
+            List<DataFeed> ldf = generateHistory.generateHistory(new DateTime(2015,8,20));
+            listePricingResult = pricing.pricingUntilMaturity(ldf);
+            listePortefeuille = new List<Portefeuille>();
+            bool debut = true;
+            PricingResults ancienPR = null ;
+            foreach (PricingResults pr in listePricingResult)
+            {
+                double valeur;
+                if (debut)
+                {
+                    valeur = pricing.oStrike;
+                    debut = false;
+                }
+                else
+                {
+                    double tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
+                    valeur = ancienPR.Deltas[0] * pr.Price + (pricing.oStrike - ancienPR.Deltas[0] * ancienPR.Price) * Math.Exp(tauxSR);
+                }
+                Portefeuille port = new Portefeuille(pricing.currentDate, valeur);
+                ancienPR = pr;
+            }
+            
         }
 
         public IPricing Pricing
@@ -34,6 +70,16 @@ namespace ProjetNET.Models
         public void CalculValuePortfolio()
         {
             
+        }
+
+        public List<PricingResults> ListePricingResult
+        {
+            get { return listePricingResult; }
+        }
+
+        public List<Portefeuille> ListePortefeuille
+        {
+            get { return ListePortefeuille; }
         }
     }
 }

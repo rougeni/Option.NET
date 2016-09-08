@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetNET", "ProjetNET\ProjetNET.csproj", "{478C5BF3-4736-4F28-88BC-19BA797D9AF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{C09826FB-DC10-44EC-988C-EC47877A2F1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestOxy", "TestOxy\TestOxy.csproj", "{18B2B01F-9621-48C4-BD93-C5DC68CEB845}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C09826FB-DC10-44EC-988C-EC47877A2F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C09826FB-DC10-44EC-988C-EC47877A2F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C09826FB-DC10-44EC-988C-EC47877A2F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B2B01F-9621-48C4-BD93-C5DC68CEB845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B2B01F-9621-48C4-BD93-C5DC68CEB845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B2B01F-9621-48C4-BD93-C5DC68CEB845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B2B01F-9621-48C4-BD93-C5DC68CEB845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

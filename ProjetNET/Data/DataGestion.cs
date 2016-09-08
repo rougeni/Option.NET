@@ -223,6 +223,15 @@ namespace ProjetNET.Data
             return rv;
         }
 
+        public double getCotation(string id, DateTime date)
+        {
+            BaseDataContext baseData = new BaseDataContext();
+            var cote = (from p in baseData.HistoricalShareValues
+                        where p.id == id && p.date == date
+                        select p.value).FirstOrDefault();
+            return (double)cote;
+        }
+
         #endregion Public Methods
 
 

@@ -11,7 +11,7 @@ namespace ProjetNET.Models
 {
     interface IPricing
     {
-        List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity);
+        List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed);
 
         PricingResults getPayOff(List<DataFeed> listDataFeed);
 
@@ -22,10 +22,9 @@ namespace ProjetNET.Models
         DateTime oMaturity { get; set; }
         double oStrike { get; set; }
         // prix a la date de depart
-        double oSpot { get; set; }
-        double oVolatility { get; set; }
-
+        double[] oSpot { get; set; }
+        double[] oVolatility { get; set; }
         DateTime currentDate { get; set; }
-
+        double[] oWeights { get; set; }
     }
 }

@@ -67,10 +67,6 @@ namespace TestUnitaires
             List<String> liste = dataConn.getListofID();
             if (liste.Count != 14)
             {
-                /*foreach (var o in liste)
-                {
-                    Console.WriteLine(o);
-                }*/
                 throw new ArgumentOutOfRangeException("La liste d'ID contiens " + liste.Count + " éléments au lieu de 14");
             }
         }
@@ -126,33 +122,12 @@ namespace TestUnitaires
         }
 
         [TestMethod]
-        public void testLastday()
+        public void testGetCotation()
         {
-            DataGestion dataConn = new DataGestion();
-            DateTime endDate= new DateTime(2015, 08, 20);
-            DateTime testDate = dataConn.lastDay();
-            Debug.Assert(endDate == testDate);
+            DataGestion dg = new DataGestion();
+            DateTime date = new DateTime(2010, 1, 1);
+            double d = dg.getCotation("AC FP", date);
+            Console.WriteLine(d);
         }
-        
-
-            [TestMethod]
-        public void testNumberAssets()
-        {
-            DataGestion dataConn = new DataGestion();
-            Debug.Assert(dataConn.numberOfAssets() == 14);   
-        }
-
-
-            [TestMethod]
-            public void testLastValues()
-            {
-                DataGestion dataConn = new DataGestion();
-                double[] values = dataConn.lastValues();
-                Debug.Assert(values.Length == 14);
-                Debug.Assert(values[0] == 43.405);
-                Debug.Assert(values[1] == 12.25);
-                Debug.Assert(values[11] == 45.475);
-
-            }
     }
 }
