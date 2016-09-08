@@ -42,12 +42,12 @@ namespace ProjetNET.Models
                 double valeur;
                 if (debut)
                 {
-                    valeur = pricing.oStrike;
+                    valeur = pr.Price;
                     debut = false;
                 }
                 else
                 {
-                    valeur = ancienPR.Deltas[0] * pr.Price + (pricing.oStrike - ancienPR.Deltas[0] * ancienPR.Price) * Math.Exp(tauxSR);
+                    valeur = ancienPR.Deltas[0] * pr.Price + (pr.Price - ancienPR.Deltas[0] * ancienPR.Price) * Math.Exp(tauxSR);
                 }
                 Portefeuille port = new Portefeuille(pricing.currentDate, valeur);
                 listePortefeuille.Add(port);
