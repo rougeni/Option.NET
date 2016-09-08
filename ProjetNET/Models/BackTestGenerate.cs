@@ -17,12 +17,12 @@ namespace ProjetNET.Models
         public double[] weight { get; set; }
         public DateTime endTime { get; set; }
         public double strike { get; set; }
-
+        public DateTime startDate { get; set; }
 
         public List<DataFeed> generateHistory()
         {
             DataGestion dg = new DataGestion();
-            return dg.getListDataField(endTime);
+            return dg.getListDataField(startDate, endTime);
         }
 
     }

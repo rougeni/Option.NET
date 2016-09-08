@@ -25,8 +25,8 @@ namespace UnitTestProject1
             bpm.oSpot = new double[1];
             bpm.oSpot[0] = 48;
             DataGestion dg = new DataGestion();
-            DateTime date = new DateTime(2013, 8, 20);
-            List<DataFeed> ldf = dg.getListDataField(date);
+            DateTime date = new DateTime(2013, 8, 21);
+            List<DataFeed> ldf = dg.getListDataField(bpm.oMaturity, date); 
             PricingResults pR = bpm.getPayOff(ldf);
             Console.WriteLine(pR.Price);
         }

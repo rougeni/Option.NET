@@ -24,7 +24,7 @@ namespace ProjetNET.Models
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
@@ -43,11 +43,17 @@ namespace ProjetNET.Models
 
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
             calculVolatility(listDataFeed);
+
+            for (int myShare = 0; myShare < oShares.Length; myShare++)
+            {
+                oSpot[myShare] = (double)listDataFeed[listDataFeed.Count - 1].PriceList[oShares[myShare].Id];
+            }
+
             return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot[0], oVolatility[0]);
         }
 

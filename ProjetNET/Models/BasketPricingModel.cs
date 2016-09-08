@@ -35,35 +35,37 @@ namespace ProjetNET.Models
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 )
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0 )
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
             List<PricingResults> listPrix = new List<PricingResults>();
+            calculVolatility(listDataFeed);
 
             foreach (DataFeed df in listDataFeed)
             {
-                if (df.Date <= oMaturity)
-                {
-                    listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
+                for (int myShare = 0; myShare < oShares.Length; myShare++){
+                    oSpot[myShare] = (double) df.PriceList[oShares[myShare].Id];
                 }
-                else
-                {
-                    break;
-                }
+              
+                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
             }
-            listPrix.Add(getPayOff(listDataFeed));
 
             return listPrix;
         }
 
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0 )
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0 )
             {
                 throw new NullReferenceException();  // TODO pls check if correct
             }
             calculVolatility(listDataFeed);
+
+            for (int myShare = 0; myShare < oShares.Length; myShare++)
+            {
+                oSpot[myShare] = (double) listDataFeed[listDataFeed.Count-1].PriceList[oShares[myShare].Id];
+            }
 
             return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, matriceCorr);
         }
@@ -141,7 +143,7 @@ namespace ProjetNET.Models
         }
 
         #region Getter & Setter
-        public string oName
+        public string OName
         {
             get
             {
@@ -153,7 +155,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public Share[] oShares
+        public Share[] OShares
         {
             get
             {
@@ -165,7 +167,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public DateTime oMaturity
+        public DateTime OMaturity
         {
             get
             {
@@ -177,7 +179,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double oStrike
+        public double OStrike
         {
             get
             {
@@ -191,7 +193,7 @@ namespace ProjetNET.Models
 
 
 
-        public DateTime currentDate
+        public DateTime CurrentDate
         {
             get
             {
@@ -203,7 +205,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double[] oSpot
+        public double[] OSpot
         {
             get
             {
@@ -216,7 +218,7 @@ namespace ProjetNET.Models
         }
 
 
-        public double[] oVolatility
+        public double[] OVolatility
         {
             get
             {
@@ -229,7 +231,7 @@ namespace ProjetNET.Models
         }
 
 
-        public double[] oWeights
+        public double[] OWeights
         {
             get
             {
@@ -242,5 +244,21 @@ namespace ProjetNET.Models
             }
         }
         #endregion Getter & Setter
+
+        public double[] oWeights { get; set; }
+
+        public double[] oVolatility { get; set; }
+
+        public double[] oSpot { get; set; }
+
+        public DateTime currentDate { get; set; }
+
+        public double oStrike { get; set; }
+
+        public DateTime oMaturity { get; set; }
+
+        public Share[] oShares { get; set; }
+
+        public string oName { get; set; }
     }
 }
