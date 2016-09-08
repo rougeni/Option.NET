@@ -16,7 +16,7 @@ namespace ProjetNET.Models
         double[] weight { get; set; }
         DateTime endTime { get; set; }
         double strike { get; set; }
-
+        DateTime startDate { get; set; }
 
         List<DataFeed> generateHistory();
     }

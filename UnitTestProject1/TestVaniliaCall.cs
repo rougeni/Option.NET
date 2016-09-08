@@ -26,7 +26,7 @@ namespace UnitTestProject1
             vcpm.oSpot[0] = 48;
             DataGestion dg =new DataGestion();
             DateTime date = new DateTime(2013,8,20);
-            List<DataFeed> ldf = dg.getListDataField(date);
+            List<DataFeed> ldf = dg.getListDataField(date, vcpm.oMaturity);
             PricingResults pR = vcpm.getPayOff(ldf);
             Console.WriteLine(pR.Price);
         }
@@ -45,7 +45,7 @@ namespace UnitTestProject1
             vcpm.oSpot = new double[1];
             DateTime date = new DateTime(2015, 1, 12);
             vcpm.oSpot[0] = dg.getCotation("AC FP", date);
-            List<DataFeed> ldf = dg.getListDataField(date);
+            List<DataFeed> ldf = dg.getListDataField(date, vcpm.oMaturity);
             List<PricingResults> LpR = vcpm.pricingUntilMaturity(ldf);
             foreach (PricingResults pr in LpR)
             {

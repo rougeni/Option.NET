@@ -141,7 +141,7 @@ namespace ProjetNET.Models
         }
 
         #region Getter & Setter
-        public string oName
+        public string OName
         {
             get
             {
@@ -153,7 +153,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public Share[] oShares
+        public Share[] OShares
         {
             get
             {
@@ -165,7 +165,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public DateTime oMaturity
+        public DateTime OMaturity
         {
             get
             {
@@ -177,7 +177,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double oStrike
+        public double OStrike
         {
             get
             {
@@ -191,7 +191,7 @@ namespace ProjetNET.Models
 
 
 
-        public DateTime currentDate
+        public DateTime CurrentDate
         {
             get
             {
@@ -203,7 +203,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double[] oSpot
+        public double[] OSpot
         {
             get
             {
@@ -216,7 +216,7 @@ namespace ProjetNET.Models
         }
 
 
-        public double[] oVolatility
+        public double[] OVolatility
         {
             get
             {
@@ -229,7 +229,7 @@ namespace ProjetNET.Models
         }
 
 
-        public double[] oWeights
+        public double[] OWeights
         {
             get
             {
@@ -242,5 +242,21 @@ namespace ProjetNET.Models
             }
         }
         #endregion Getter & Setter
+
+        public double[] oWeights { get; set; }
+
+        public double[] oVolatility { get; set; }
+
+        public double[] oSpot { get; set; }
+
+        public DateTime currentDate { get; set; }
+
+        public double oStrike { get; set; }
+
+        public DateTime oMaturity { get; set; }
+
+        public Share[] oShares { get; set; }
+
+        public string oName { get; set; }
     }
 }

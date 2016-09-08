@@ -50,6 +50,7 @@ namespace UnitTestProject1
                           */
 
             DateTime endTime = new DateTime(2016,1,1);
+            DateTime startDate = new DateTime(2015, 10, 10);
             double strike = 100.0;
             double[] weight = new double[dataConn.numberOfAssets()];
             for (int i = 0; i < dataConn.numberOfAssets(); i++)
@@ -64,7 +65,7 @@ namespace UnitTestProject1
             test.underlyingShares = underlyingShares;
             test.vanillaCallName = VanillaCallName;
             test.weight = weight;
-
+            test.startDate = startDate;
             List<DataFeed> ret = test.generateHistory();
             Console.WriteLine("----");
             foreach (DataFeed dataf in ret)

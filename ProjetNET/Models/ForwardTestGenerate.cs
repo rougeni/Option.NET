@@ -16,7 +16,7 @@ namespace ProjetNET.Models
         public List<DataFeed> generateHistory()
         {
             ForwardData dg = new ForwardData();
-            return dg.getForwardListDataField(VanillaCallName, underlyingShares, weight, endTime, strike);
+            return dg.getForwardListDataField(vanillaCallName, underlyingShares, weight, startDate, endTime, strike);
         }
 
 
@@ -67,7 +67,17 @@ namespace ProjetNET.Models
                 endTime = value;
             }
         }
-
+        public DateTime StartDate
+        {
+            get
+            {
+                return startDate;
+            }
+            set
+            {
+                startDate = value;
+            }
+        }
         public double Strike
         {
             get
@@ -87,6 +97,8 @@ namespace ProjetNET.Models
         public double[] weight { get; set; }
 
         public DateTime endTime { get; set; }
+
+        public DateTime startDate { get; set; }
 
         public double strike { get; set; }
     }

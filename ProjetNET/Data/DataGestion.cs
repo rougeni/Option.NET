@@ -166,14 +166,14 @@ namespace ProjetNET.Data
             return dataF;
         }
 
-        public List<DataFeed> getListDataField(DateTime dateStart)
+        public List<DataFeed> getListDataField(DateTime startDate, DateTime endTime)
         {
             List<DataFeed> listeData = new List<DataFeed>();
             BaseDataContext baseData = new BaseDataContext();
             //Console.WriteLine("Date start : " + dateStart);
             var listeDate = from p in baseData.HistoricalShareValues
-                            where p.date >= dateStart
-                            orderby p.date
+                            where p.date >= startDate && p.date <= endTime
+                            orderby p.date descending
                             group p by p.date into q
                             select q.Key;
             foreach (var date in listeDate)
