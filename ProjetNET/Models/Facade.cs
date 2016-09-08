@@ -31,7 +31,7 @@ namespace ProjetNET.Models
         ///     - prix du portefeuille de couverture à toutes les dates (Pi(i))
         public void update()
         {
-            List<DataFeed> ldf = generateHistory.generateHistory(new DateTime(2015,8,20));
+            List<DataFeed> ldf = generateHistory.generateHistory();
             listePricingResult = pricing.pricingUntilMaturity(ldf);
             listePortefeuille = new List<Portefeuille>();
             bool debut = true;
