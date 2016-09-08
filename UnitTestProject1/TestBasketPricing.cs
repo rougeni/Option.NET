@@ -22,11 +22,9 @@ namespace UnitTestProject1
             bpm.oShares = new Share[1];
             bpm.oShares[0] = share;
             bpm.oStrike = 45.5;
-            bpm.oSpot = new double[1];
-            bpm.oSpot[0] = 48;
             DataGestion dg = new DataGestion();
             DateTime date = new DateTime(2013, 8, 21);
-            List<DataFeed> ldf = dg.getListDataField(bpm.oMaturity, date); 
+            List<DataFeed> ldf = dg.getListDataField(date, bpm.oMaturity); 
             PricingResults pR = bpm.getPayOff(ldf);
             Console.WriteLine(pR.Price);
         }

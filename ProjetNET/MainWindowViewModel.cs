@@ -113,8 +113,15 @@ namespace ProjetNET
 
             DateTime maturityDate = DateTime.ParseExact(maturity, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
-
+            /* TENATIVE DE DEBUG GUILLAUME (to be deleted)
+             * for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine(actions.ToArray()[i].Id);
+            }
+            selectedPricing.Pricing.oShares = new Share[actions.Count];
+             * */
             selectedPricing.Pricing.oShares = actions.ToArray();
+            Console.WriteLine(selectedPricing.Pricing.oShares[0].Id);
             selectedPricing.Pricing.oWeights = new double[actions.Count];
             for (int i = 0; i < actions.Count; i++)
             {
