@@ -16,13 +16,7 @@
             </Border>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>    
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="test"/>
-        <oxy:PlotView Grid.Row="1" Model="{Binding MyModel}">
-        </oxy:PlotView>
+    <Grid>
+        <oxy:PlotView Height="500" Width="450" Model="{Binding MyModel}" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>
