@@ -82,12 +82,14 @@
     <Compile Include="Data\ForwardData.cs" />
     <Compile Include="Models\IPricing.cs" />
     <Compile Include="Models\ForwardTestGenerate.cs" />
+    <Compile Include="ViewModels\BasketPricingVM.cs" />
     <Compile Include="ViewModels\ForwardTestGenerateHistoryVM.cs" />
     <Compile Include="Models\VanillaCallPricingModel.cs" />
     <Compile Include="Models\Facade.cs" />
     <Compile Include="Models\IGenerateHistory.cs" />
     <Compile Include="ViewModels\IGenerateHistoryViewModel.cs" />
     <Compile Include="ViewModels\IPricingViewModel.cs" />
+    <Compile Include="ViewModels\VanillaCallPricingVM.cs" />
     <Compile Include="ViewModels\ViewFacade.cs" />
     <Compile Include="ViewModels\WholeViewModel.cs" />
     <Compile Include="Views\FieldDisplayView.xaml.cs">
