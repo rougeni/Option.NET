@@ -22,14 +22,33 @@ namespace ProjetNET.Models
         }
 
 
-        public List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity)
+        public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            throw new NotImplementedException();
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            {
+                throw new NullReferenceException();  // TODO pls check if correct
+            }
+            List<PricingResults> listPrix = new List<PricingResults>();
+            calculVolatility(listDataFeed);
+
+            DateTime dateIterator = currentDate;
+            while (!dateIterator.Equals(oMaturity))
+            {
+                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), dateIterator, 252, oSpot, oVolatility));
+                dateIterator.AddDays(1);
+            }
+            listPrix.Add(getPayOff(listDataFeed));
+            
+            return listPrix;
         }
 
-        public PricingResults getPayOff(List<DataFeed> dataFeed)
+        public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            calculVolatility(dataFeed);
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            {
+                throw new NullReferenceException();  // TODO pls check if correct
+            }
+            calculVolatility(listDataFeed);
             return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility);
         }
 
