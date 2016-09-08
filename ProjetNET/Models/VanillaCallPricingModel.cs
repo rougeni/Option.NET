@@ -10,7 +10,7 @@ using ProjetNET.Data;
 
 namespace ProjetNET.Models
 {
-    class VanillaCallPricingModel : IPricing
+    public class VanillaCallPricingModel : IPricing
     {
 
         private Pricer vanillaPricer;
@@ -57,6 +57,7 @@ namespace ProjetNET.Models
             double[,] rendement = new double[listDataFeed.Count-1, oShares.Length];
             int i = 0;
             int j;
+
             // Calculer les prix de toutes les actions dans l'option (ici en théorie qu'une seule..)
             foreach (DataFeed dataF in listDataFeed)
             {
@@ -88,92 +89,22 @@ namespace ProjetNET.Models
 
 
         #region Getter & Setter
-        public string oName
-        {
-            get
-            {
-                return oName;
-            }
-            set
-            {
-                oName = value;
-            }
-        }
+        public string oName { get; set; }
 
-        public Share[] oShares
-        {
-            get
-            {
-                return oShares;
-            }
-            set
-            {
-                oShares = value;
-            }
-        }
+        public Share[] oShares { get; set; }
 
-        public DateTime oMaturity
-        {
-            get
-            {
-                return oMaturity;
-            }
-            set
-            {
-                oMaturity = value;
-            }
-        }
+        public DateTime oMaturity { get; set; }
 
-        public double oStrike
-        {
-            get
-            {
-                return oStrike;
-            }
-            set
-            {
-                oStrike = value;
-            }
-        }
-        
+        public double oStrike { get; set; }
 
 
-        public DateTime currentDate
-        {
-            get
-            {
-                return currentDate;
-            }
-            set
-            {
-                currentDate = value;
-            }
-        }
+        public DateTime currentDate { get; set; }
 
-        public double[] oSpot
-        {
-            get
-            {
-                return oSpot;
-            }
-            set
-            {
-                oSpot = value;
-            }
-        }
+        public double[] oSpot { get; set; }
 
 
-        public double[] oVolatility
-        {
-            get
-            {
-                return oVolatility;
-            }
-            set
-            {
-                oVolatility = value;
-            }
-        }
+        public double[] oVolatility { get; set; }
+
         #endregion Getter & Setter
     }
 }
