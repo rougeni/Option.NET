@@ -113,7 +113,9 @@ namespace TestUnitaires
         {
             DataGestion dataConn = new DataGestion();
             DateTime dateStart = new DateTime(2015, 08, 17);
-            List<DataFeed> liste = dataConn.getListDataField(dateStart);
+            DateTime endTime = new DateTime(2015, 08, 20);
+
+            List<DataFeed> liste = dataConn.getListDataField(dateStart, endTime);
 
             if (liste.ToArray().Length != 4)
             {
