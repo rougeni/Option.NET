@@ -87,17 +87,13 @@ namespace ProjetNET.Models
 
         public double oStrike { get; set; }
 
-
         public DateTime currentDate { get; set; }
 
         public double[] oSpot { get; set; }
 
-
         public double[] oVolatility { get; set; }
 
-        #endregion Getter & Setter
-
-
         public double[] oWeights { get; set; }
+        #endregion Getter & Setter
     }
 }
