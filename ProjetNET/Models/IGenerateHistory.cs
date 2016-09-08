@@ -10,6 +10,14 @@ namespace ProjetNET.Models
 {
     public interface IGenerateHistory
     {
-        List<DataFeed> generateHistory(String VanillaCallName, Share[] underlyingShares, DateTime endTime, double strike);
+
+        String VanillaCallName { get; set;}
+        Share[] underlyingShares { get; set; }
+        double[] weight { get; set; }
+        DateTime endTime { get; set; }
+        double strike { get; set; }
+
+
+        List<DataFeed> generateHistory();
     }
 }

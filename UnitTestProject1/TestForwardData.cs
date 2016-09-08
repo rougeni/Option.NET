@@ -51,20 +51,26 @@ namespace UnitTestProject1
 
             DateTime endTime = new DateTime(2016,1,1);
             double strike = 100.0;
+            double[] weight = new double[dataConn.numberOfAssets()];
+            for (int i = 0; i < dataConn.numberOfAssets(); i++)
+            {
+                weight[i] = 1 / dataConn.numberOfAssets();
+            }
+
 
             IGenerateHistory test = new ForwardTestGenerate();
-            List<DataFeed> ret = test.generateHistory(VanillaCallName, underlyingShares, endTime, strike);
+            List<DataFeed> ret = test.generateHistory();
             Console.WriteLine("----");
-            //foreach (DataFeed dataf in ret)
-            //{
+            foreach (DataFeed dataf in ret)
+            {
                 List<string> keyList = new List<string> (ret.ToArray()[0].PriceList.Keys);
-                //decimal decim = dataf.PriceList[liste.ToArray()[0]];
-                Console.WriteLine(ret.ToArray()[0].PriceList.Count);
+                
                 foreach (var ele in keyList)
                 {
-                    Console.WriteLine(ele);
+                    Console.WriteLine(dataf.Date);
+                    Console.WriteLine(dataf.PriceList[ele]);                
                 }
-            //}
+            }
         }
     }
 }

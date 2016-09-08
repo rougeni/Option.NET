@@ -10,10 +10,71 @@ namespace ProjetNET.Models
 {
     class BackTestGenerate : IGenerateHistory
     {
-        public List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> generateHistory(String VanillaCallName, Share[] underlyingShares, DateTime refTime, double strike)
+        public List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> generateHistory()
         {
             DataGestion dg = new DataGestion();
-            return dg.getListDataField(refTime);
+            return dg.getListDataField(endTime);
         }
+
+        public string VanillaCallName
+        {
+            get
+            {
+                return VanillaCallName;
+            }
+            set
+            {
+                VanillaCallName = value;
+            }
+        }
+
+        public Share[] underlyingShares
+        {
+            get
+            {
+                return underlyingShares;
+            }
+            set
+            {
+                underlyingShares = value;
+            }
+        }
+
+        public double[] weight
+        {
+            get
+            {
+                return weight;
+            }
+            set
+            {
+                weight = value;
+            }
+        }
+
+        public DateTime endTime
+        {
+            get
+            {
+                return endTime;
+            }
+            set
+            {
+                endTime = value;
+            }
+        }
+
+        public double strike
+        {
+            get
+            {
+                return strike;
+            }
+            set
+            {
+                strike = value;
+            }
+        }
+
     }
 }

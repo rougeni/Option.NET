@@ -56,10 +56,9 @@ namespace ProjetNET.Data
         */
 
         
-        public List<DataFeed> getForwardListDataField(String VanillaCallName, Share[] underlyingShares, DateTime endTime, double strike)
+        public List<DataFeed> getForwardListDataField(String VanillaCallName, Share[] underlyingShares, double[] weight,  DateTime endTime, double strike)
         {
             SimulatedDataFeedProvider simulvalues = new SimulatedDataFeedProvider();
-            double[] weight = new double[14];
             DataGestion dg = new DataGestion();
             int p = dg.numberOfAssets();
             DateTime lastTime = dg.lastDay();
