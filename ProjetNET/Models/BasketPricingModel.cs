@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
-    class BasketPricingModel : IPricing
+    public class BasketPricingModel : IPricing
     {
 
         private Pricer basketPricer;
@@ -28,11 +28,16 @@ namespace ProjetNET.Models
             }
             List<PricingResults> listPrix = new List<PricingResults>();
 
-            DateTime dateIterator = currentDate;
-            while (!dateIterator.Equals(oMaturity))
+            foreach (DataFeed df in listDataFeed)
             {
-                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), dateIterator, 252, oSpot, oVolatility, null)); // TODO Cholesky
-                dateIterator.AddDays(1);
+                if (df.Date <= oMaturity)
+                {
+                    listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, null));
+                }
+                else
+                {
+                    break;
+                }
             }
             listPrix.Add(getPayOff(listDataFeed));
 
