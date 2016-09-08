@@ -69,7 +69,7 @@ namespace ProjetNET
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
             maturity = "20/08/2015";
-            startDate = "12/01/2013";
+            startDate = "12/01/2014";
             spot = "20";
             strike = "10";
 
