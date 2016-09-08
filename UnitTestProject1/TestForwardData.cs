@@ -59,6 +59,12 @@ namespace UnitTestProject1
 
 
             IGenerateHistory test = new ForwardTestGenerate();
+            test.endTime = endTime;
+            test.strike = strike;
+            test.underlyingShares = underlyingShares;
+            test.VanillaCallName = VanillaCallName;
+            test.weight = weight;
+
             List<DataFeed> ret = test.generateHistory();
             Console.WriteLine("----");
             foreach (DataFeed dataf in ret)
