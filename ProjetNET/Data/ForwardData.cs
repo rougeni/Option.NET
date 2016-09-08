@@ -59,42 +59,13 @@ namespace ProjetNET.Data
         public List<DataFeed> getForwardListDataField(String VanillaCallName, Share[] underlyingShares, DateTime endTime, double strike)
         {
             SimulatedDataFeedProvider simulvalues = new SimulatedDataFeedProvider();
-            
+            double[] weight = new double[14];
             DataGestion dg = new DataGestion();
             int p = dg.numberOfAssets();
             DateTime lastTime = dg.lastDay();
-            IOption optionData = new VanillaCall(VanillaCallName, underlyingShares, endTime, strike);
+            IOption optionData = new BasketOption(VanillaCallName, underlyingShares,weight, endTime, strike);
             List<DataFeed> retMarket = simulvalues.GetDataFeed(optionData,lastTime);
-            DataFeed df = retMarket.ToArray()[0];
-            for (int i = 0; i < underlyingShares.Length; i++)
-            {
-                Share s = underlyingShares[i];
-                Console.WriteLine(s.Id + "  :  " + s.Name);
-            }
-                Console.WriteLine("#######");
-            foreach (var key in df.PriceList.Keys)
-            {
-                Console.WriteLine(key);
-            }
-            Console.WriteLine("#######");
-            string[] uS = optionData.UnderlyingShareIds;
-            for (int i = 0; i < uS.Length; i++)
-            {
-                Console.WriteLine(uS[i]);
-            }
-                return retMarket;
-            /*
-            int T = endTime.Subtract(lastTime).Days;
-            int N = endTime.Subtract(lastTime).Days;
-            double[] S = dg.lastValues();
-            double[] mu = dg.getDrift(); 
-            double[,] cov = getCov();
-            double[,] y = new double[N,p];
-            int info = 0;
-            WREsimulGeometricBrownianX(ref p, ref T, ref N, S, mu, cov, y, ref info);
-            
-            return null;*/
-
+            return retMarket;
         }
         
         
