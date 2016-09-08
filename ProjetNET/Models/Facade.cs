@@ -50,6 +50,7 @@ namespace ProjetNET.Models
                     valeur = ancienPR.Deltas[0] * pr.Price + (pricing.oStrike - ancienPR.Deltas[0] * ancienPR.Price) * Math.Exp(tauxSR);
                 }
                 Portefeuille port = new Portefeuille(pricing.currentDate, valeur);
+                listePortefeuille.Add(port);
                 ancienPR = pr;
             }
             
