@@ -4,6 +4,7 @@ using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,8 +12,20 @@ namespace ProjetNET.Models
 {
     public class BasketPricingModel : IPricing
     {
+        // import WRE dlls
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+
+        // declaration
+        public static extern int WREmodelingCorr(
+            ref int nbValues,
+            ref int nbAssets,
+            double[,] assetReturns,
+            double[,] corr,
+            ref int info
+        );
 
         private Pricer basketPricer;
+        private double[,] matriceCorr;
 
         public BasketPricingModel()
         {
@@ -32,7 +45,7 @@ namespace ProjetNET.Models
             {
                 if (df.Date <= oMaturity)
                 {
-                    listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, null));
+                    listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
                 }
                 else
                 {
@@ -52,7 +65,7 @@ namespace ProjetNET.Models
             }
             calculVolatility(listDataFeed);
 
-            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, null); //TODO Cholesky
+            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, matriceCorr);
         }
 
         private void calculVolatility(List<DataFeed> listDataFeed)
@@ -88,7 +101,7 @@ namespace ProjetNET.Models
                 for (int col = 0; col < oShares.Length; col++)
                 {
                     variance[col] += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
-                    avg[col] += Math.Log10(prix[line, col] / prix[line - 1, col]);
+                    avg[col] += Math.Log10(prix[line+1, col] / prix[line, col]);
                 }
             }
 
@@ -98,6 +111,25 @@ namespace ProjetNET.Models
                 variance[col] = variance[col] / listDataFeed.Count - Math.Pow(avg[col] / listDataFeed.Count, 2);
                 oVolatility[col] = Math.Sqrt(variance[col]);
             }
+
+
+            // Partie de calcul des rendements pour la matrice de correlation
+            double[,] rendements = new double[listDataFeed.Count - 1, oShares.Length];
+            for (int date = 0; date < listDataFeed.Count - 1; date++)
+            {
+                for (int share = 0; share < oShares.Length; share++)
+                {
+                    rendements[date, share] = Math.Log10(prix[date + 1, share] / prix[date, share]);
+                }
+            }
+
+            int  nbValues = listDataFeed.Count-1;
+            int nbAssets = oShares.Length;
+            double[,] corr = new double[nbAssets, nbAssets];
+            int info = 0;
+            WREmodelingCorr(ref nbValues, ref nbAssets, rendements, corr, ref info);
+            matriceCorr = corr;
+
         }
 
         #region Getter & Setter
