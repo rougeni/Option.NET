@@ -14,7 +14,6 @@ namespace ProjetNET.Models
     {
 
         private Pricer vanillaPricer;
-        private double[,] vanillaRendement;
 
         public VanillaCallPricingModel()
         {
@@ -22,15 +21,34 @@ namespace ProjetNET.Models
         }
 
 
-        public List<PricingResults> pricingUntilMaturity(List<DataFeed> dataFeed, DateTime maturity)
+        public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
-            throw new NotImplementedException();
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            {
+                throw new NullReferenceException();  // TODO pls check if correct
+            }
+            List<PricingResults> listPrix = new List<PricingResults>();
+            calculVolatility(listDataFeed);
+
+            DateTime dateIterator = currentDate;
+            while (!dateIterator.Equals(oMaturity))
+            {
+                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), dateIterator, 252, oSpot[0], oVolatility[0]));
+                dateIterator.AddDays(1);
+            }
+            listPrix.Add(getPayOff(listDataFeed));
+            
+            return listPrix;
         }
 
-        public PricingResults getPayOff(List<DataFeed> dataFeed)
+        public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
-            calculVolatility(dataFeed);
-            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility);
+            if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || oSpot.Equals(null) || listDataFeed.Count == 0)
+            {
+                throw new NullReferenceException();  // TODO pls check if correct
+            }
+            calculVolatility(listDataFeed);
+            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot[0], oVolatility[0]);
         }
 
         private void calculVolatility(List<DataFeed> listDataFeed)
@@ -65,7 +83,7 @@ namespace ProjetNET.Models
             }
 
             variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
-            oVolatility = Math.Sqrt(variance);
+            oVolatility[0] = Math.Sqrt(variance);
         }
 
 
@@ -132,7 +150,7 @@ namespace ProjetNET.Models
             }
         }
 
-        public double oSpot
+        public double[] oSpot
         {
             get
             {
@@ -145,7 +163,7 @@ namespace ProjetNET.Models
         }
 
 
-        public double oVolatility
+        public double[] oVolatility
         {
             get
             {
