@@ -120,5 +120,14 @@ namespace TestUnitaires
                 throw new ArgumentOutOfRangeException("La liste ne contiens pas 4 éléments : " + liste.Count);
             }
         }
+
+        [TestMethod]
+        public void testGetCotation()
+        {
+            DataGestion dg = new DataGestion();
+            DateTime date = new DateTime(2010, 1, 1);
+            double d = dg.getCotation("AC FP", date);
+            Console.WriteLine(d);
+        }
     }
 }
