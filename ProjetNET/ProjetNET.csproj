@@ -44,8 +44,9 @@
     <Reference Include="OxyPlot.Xps">
       <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable2100\lib\net45\OxyPlot.Xps.dll</HintPath>
     </Reference>
-    <Reference Include="PricingLibrary">
-      <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
+    <Reference Include="PricingLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PricingLibrary.1.0.0.2\lib\net45\PricingLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Prism">
       <HintPath>package\Prism\Prism.dll</HintPath>
