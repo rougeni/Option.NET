@@ -17,21 +17,27 @@ namespace ProjetNET
         private WholeViewModel wholeView;
 
         private IGenerateHistoryViewModel selectedTesting;
+        private IPricingViewModel selectedPricing;
+        private AbstractOptionCombobox selectedOption;
 
         private bool fieldCompleted;
 
-        private IPricingViewModel selectedPricing;
         private String strike;
         private String dateDebut;
         private String dateFin;
 
         #endregion Private Fields
 
+        public DelegateCommand StartCommand { get; private set; }        
+
         public ObservableCollection<IGenerateHistoryViewModel> TestGenerateHistory { get; private set; }
 
         public ObservableCollection<IPricingViewModel> PricingMethods { get; private set; }
 
         public ObservableCollection<ActionCheckBox> AvailableAction { get; private set; }
+
+        public ObservableCollection<AbstractOptionCombobox> AvailableOptions { get; private set; }
+
 
         public String Strike
         {
@@ -60,7 +66,48 @@ namespace ProjetNET
             }
         }
 
-        public DelegateCommand StartCommand { get; private set; }        
+        public WholeViewModel WholeView
+        {
+            get { return wholeView; }
+        }
+
+        public IGenerateHistoryViewModel SelectedTesting
+        {
+            get { return selectedTesting; }
+            set
+            {
+                SetProperty(ref selectedTesting, value);
+                wholeView.GenrateHistory = selectedTesting;
+            }
+        }
+
+        public IPricingViewModel SelectedPricing
+        {
+            get { return selectedPricing; }
+            set
+            {
+                SetProperty(ref selectedPricing, value);
+                wholeView.PricingViewModel = selectedPricing;
+            }
+        }
+
+        public AbstractOptionCombobox SelectedOption
+        {
+            get { return selectedOption; }
+            set
+            {
+                SetProperty(ref selectedOption, value);
+                selectedPricing.Pricing.currentDate = selectedOption.currentDate;
+                selectedPricing.Pricing.oMaturity = selectedOption.oMaturity;
+                selectedPricing.Pricing.oName = selectedOption.oName;
+                selectedPricing.Pricing.oShares = selectedOption.oShares;
+                selectedPricing.Pricing.oStrike = selectedOption.oStrike;
+                selectedPricing.Pricing.oWeights = selectedOption.oWeights;
+
+                wholeView.PricingViewModel = selectedOption.myPricer;
+            }
+        }
+
 
         #region Public Constructors
 
@@ -94,6 +141,8 @@ namespace ProjetNET
             List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA, true), new ActionCheckBox(alstom),
             new ActionCheckBox(edf),new ActionCheckBox(axaSA)};
             AvailableAction = new ObservableCollection<ActionCheckBox>(myListAction);
+
+
 
         }
 
@@ -137,31 +186,6 @@ namespace ProjetNET
         }
 
         #endregion Public Constructors
-
-        public WholeViewModel WholeView
-        {
-            get { return wholeView; }
-        }
-
-        public IGenerateHistoryViewModel SelectedTesting
-        {
-            get { return selectedTesting; }
-            set
-            {
-                SetProperty(ref selectedTesting, value);
-                wholeView.GenrateHistory = selectedTesting;
-            }
-        }
-        
-        public IPricingViewModel SelectedPricing
-        {
-            get { return selectedPricing; }
-            set
-            {
-                SetProperty(ref selectedPricing, value);
-                wholeView.PricingViewModel = selectedPricing;
-            }
-        }
 
         private bool CanLaunch()
         {

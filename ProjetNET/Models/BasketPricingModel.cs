@@ -172,7 +172,7 @@ namespace ProjetNET.Models
             int resultat = WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
             if (resultat != 0)
             {
-                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
+                //throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
             }
             //Console.WriteLine(assetsReturns.Length);
             for (int i = 0; i < (30); i++)
@@ -280,114 +280,11 @@ namespace ProjetNET.Models
 
     
 
-        #region Getter & Setter
-        public string OName
-        {
-            get
-            {
-                return oName;
-        }
-            set
-            {
-                oName = value;
-            }
-        }
-
-        public Share[] OShares
-        {
-            get
-            {
-                return oShares;
-            }
-            set
-            {
-                oShares = value;
-            }
-        }
-
-        public DateTime OMaturity
-        {
-            get
-            {
-                return oMaturity;
-            }
-            set
-            {
-                oMaturity = value;
-            }
-        }
-
-        public double OStrike
-        {
-            get
-            {
-                return oStrike;
-            }
-            set
-            {
-                oStrike = value;
-            }
-        }
-
-
-
-        public DateTime CurrentDate
-        {
-            get
-            {
-                return currentDate;
-            }
-            set
-            {
-                currentDate = value;
-            }
-        }
-
-        public double[] OSpot
-        {
-            get
-            {
-                return oSpot;
-            }
-            set
-            {
-                oSpot = value;
-            }
-        }
-
-
-        public double[] OVolatility
-        {
-            get
-            {
-                return oVolatility;
-            }
-            set
-            {
-                oVolatility = value;
-            }
-        }
-
-
-        public double[] OWeights
-        {
-            get
-                {
-                return oWeights;
-                }
-            set
-            {
-                oWeights = value;
-                    ;
-            }
-        }
-        #endregion Getter & Setter
-
         public double[] oWeights { get; set; }
 
-        public double[] oVolatility { get; set; }
+        private double[] oVolatility { get; set; }
 
-        public double[] oSpot { get; set; }
+        private double[] oSpot { get; set; }
 
         public DateTime currentDate { get; set; }
 
