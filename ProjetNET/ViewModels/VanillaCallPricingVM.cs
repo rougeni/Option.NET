@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    internal class VanillaCallPricingVM : IPricingViewModel
+    public class VanillaCallPricingVM : IPricingViewModel
     {
 
         private IPricing vanillaCall;

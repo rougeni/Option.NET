@@ -34,21 +34,6 @@ namespace UnitTestProject1
             {
                 underlyingShares[i] = new Share( dataConn.getName(listeID.ToArray()[i]),listeID.ToArray()[i]);
             }
-                //underlyingShares[0] = new Share(liste.ToArray()[0], dataConn.getName(liste.ToArray()[0]));
-    /*        Console.WriteLine(liste.ToArray()[0]);
-            Console.WriteLine(liste.ToArray()[1]);
-            Console.WriteLine(liste.ToArray()[2]);
-            underlyingShares[1] = new Share(liste.ToArray()[1], dataConn.getName(liste.ToArray()[1]));
-            underlyingShares[2] = new Share(liste.ToArray()[2], dataConn.getName(liste.ToArray()[2]));
-            Console.WriteLine("----");
-            Console.WriteLine(underlyingShares[0].Id);
-            Console.WriteLine(underlyingShares[0].Name);
-            Console.WriteLine(underlyingShares[1].Id);
-            Console.WriteLine(underlyingShares[1].Name);
-                          Console.WriteLine(underlyingShares[2].Id);
-                          Console.WriteLine(underlyingShares[2].Name);
-                          */
-
             DateTime endTime = new DateTime(2016,1,1);
             DateTime startDate = new DateTime(2015, 10, 10);
             double strike = 100.0;
@@ -60,12 +45,12 @@ namespace UnitTestProject1
 
 
             IGenerateHistory test = new ForwardTestGenerate();
-            test.endTime = endTime;
-            test.strike = strike;
-            test.underlyingShares = underlyingShares;
-            test.vanillaCallName = VanillaCallName;
-            test.weight = weight;
-            test.startDate = startDate;
+            test.endTime = endTime; //
+            test.strike = strike; //
+            test.underlyingShares = underlyingShares;//
+            test.vanillaCallName = VanillaCallName;//
+            test.weight = weight;//
+            test.startDate = startDate; //
             List<DataFeed> ret = test.generateHistory();
             Console.WriteLine("----");
             foreach (DataFeed dataf in ret)
@@ -78,6 +63,21 @@ namespace UnitTestProject1
                     Console.WriteLine(dataf.PriceList[ele]);                
                 }
             }
+            //underlyingShares[0] = new Share(liste.ToArray()[0], dataConn.getName(liste.ToArray()[0]));
+            /*        Console.WriteLine(liste.ToArray()[0]);
+                    Console.WriteLine(liste.ToArray()[1]);
+                    Console.WriteLine(liste.ToArray()[2]);
+                    underlyingShares[1] = new Share(liste.ToArray()[1], dataConn.getName(liste.ToArray()[1]));
+                    underlyingShares[2] = new Share(liste.ToArray()[2], dataConn.getName(liste.ToArray()[2]));
+                    Console.WriteLine("----");
+                    Console.WriteLine(underlyingShares[0].Id);
+                    Console.WriteLine(underlyingShares[0].Name);
+                    Console.WriteLine(underlyingShares[1].Id);
+                    Console.WriteLine(underlyingShares[1].Name);
+                                  Console.WriteLine(underlyingShares[2].Id);
+                                  Console.WriteLine(underlyingShares[2].Name);
+                                  */
+
         }
     }
 }

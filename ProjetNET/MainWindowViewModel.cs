@@ -10,7 +10,7 @@ using PricingLibrary.FinancialProducts;
 
 namespace ProjetNET
 {
-    internal class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase
     {
         #region Private Fields
 
@@ -21,10 +21,9 @@ namespace ProjetNET
         private bool fieldCompleted;
 
         private IPricingViewModel selectedPricing;
-        private String maturity;
         private String strike;
-        private String spot;
-        private String startDate;
+        private String dateDebut;
+        private String dateFin;
 
         #endregion Private Fields
 
@@ -33,15 +32,6 @@ namespace ProjetNET
         public ObservableCollection<IPricingViewModel> PricingMethods { get; private set; }
 
         public ObservableCollection<ActionCheckBox> AvailableAction { get; private set; }
-
-        public String Maturity
-        {
-            get { return maturity; }
-            set
-            {
-                SetProperty(ref maturity, value);
-            }
-        }
 
         public String Strike
         {
@@ -52,12 +42,21 @@ namespace ProjetNET
             }
         }
 
-        public String Spot
+        public String DateDebut
         {
-            get { return spot; }
+            get { return dateDebut; }
             set
             {
-                SetProperty(ref spot, value);
+                SetProperty(ref dateDebut, value);
+            }
+        }
+
+        public String DateFin
+        {
+            get { return dateFin; }
+            set
+            {
+                SetProperty(ref dateFin, value);
             }
         }
 
@@ -68,9 +67,8 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            maturity = "20/08/2015";
-            startDate = "10/01/2014";
-            spot = "20";
+            dateFin = "20/08/2015";
+            dateDebut = "10/01/2014";
             strike = "10";
 
             wholeView = new WholeViewModel();
@@ -93,7 +91,7 @@ namespace ProjetNET
             Share edf = new Share("EDF", "EDF FP    ");
             Share axaSA = new Share("AIR LIQUIDE SA", "AI FP     ");
 
-            List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA), new ActionCheckBox(alstom),
+            List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA, true), new ActionCheckBox(alstom),
             new ActionCheckBox(edf),new ActionCheckBox(axaSA)};
             AvailableAction = new ObservableCollection<ActionCheckBox>(myListAction);
 
@@ -108,20 +106,12 @@ namespace ProjetNET
                     actions.Add(action.Share);
             }
 
-            DateTime startDateTime = DateTime.ParseExact(startDate, "dd/MM/yyyy",
+            DateTime startDateTime = DateTime.ParseExact(dateDebut, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
 
-            DateTime maturityDate = DateTime.ParseExact(maturity, "dd/MM/yyyy",
+            DateTime maturityDate = DateTime.ParseExact(DateFin, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
-            /* TENATIVE DE DEBUG GUILLAUME (to be deleted)
-             * for (int i = 0; i < 3; i++)
-            {
-                Console.WriteLine(actions.ToArray()[i].Id);
-            }
-            selectedPricing.Pricing.oShares = new Share[actions.Count];
-             * */
             selectedPricing.Pricing.oShares = actions.ToArray();
-            Console.WriteLine(selectedPricing.Pricing.oShares[0].Id);
             selectedPricing.Pricing.oWeights = new double[actions.Count];
             for (int i = 0; i < actions.Count; i++)
             {
@@ -130,21 +120,22 @@ namespace ProjetNET
 
             selectedPricing.Pricing.oMaturity = maturityDate;
             double[] oSpot = new double[1];
-            oSpot[0] = Convert.ToDouble(spot);
-            selectedPricing.Pricing.oSpot = oSpot;
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
 
-            selectedTesting.GenerateHistory.strike = Convert.ToDouble(strike);
             selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
             selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
-            Console.WriteLine("Shares " + actions.ToArray()[0].Id + actions.ToArray()[0].Name);
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.startDate = DateTime.ParseExact(startDate, "dd/MM/yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-            selectedTesting.GenerateHistory.endTime = DateTime.ParseExact(maturity, "dd/MM/yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture);
+            selectedTesting.GenerateHistory.startDate = startDateTime.AddDays(-30);
+            selectedTesting.GenerateHistory.endTime = maturityDate;
 
+            double[] weight = new double[4];
+            weight[0] = 0.25; weight[1] = 0.25; weight[2] = 0.25; weight[3] = 0.25;
+            selectedTesting.GenerateHistory.weight = weight;
+            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
+            selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
+            selectedTesting.GenerateHistory.startDate = startDateTime;
+            selectedTesting.GenerateHistory.endTime = maturityDate;
             wholeView.GenrateHistory = selectedTesting;
             wholeView.PricingViewModel = selectedPricing;
 
