@@ -183,14 +183,6 @@ namespace ProjetNET.Models
             WREmodelingCorr(ref nbValues, ref nbAssets, rendements, corr, ref info);
             matriceCorr = corr;
 
-
-            // Partie weights
-            oWeights = new double[oShares.Length];
-            for (int w = 0; w < oShares.Length; w++)
-            {
-                oWeights[w] = 1 / oShares.Length;
-            }
-
         }
 
 
@@ -215,6 +207,11 @@ namespace ProjetNET.Models
                 shares = value;
                 oSpot = new double[shares.Length];
                 oVolatility = new double[shares.Length];
+                oWeights = new double[shares.Length];
+                for (int i = 0; i < shares.Length; i++)
+                {
+                    oWeights[i] = ((double)1 / (double)shares.Length);
+                }
             }
         }
 
