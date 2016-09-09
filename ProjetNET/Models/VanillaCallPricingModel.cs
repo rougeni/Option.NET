@@ -35,7 +35,7 @@ namespace ProjetNET.Models
             {
                 double listPrice = (double)df.PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
-                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
+                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 365, oSpot[0], oVolatility[0]));
             }
             
             return listPrix;

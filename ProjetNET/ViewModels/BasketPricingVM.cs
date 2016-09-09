@@ -11,6 +11,11 @@ namespace ProjetNET.ViewModels
     {
         private IPricing basket;
 
+        public BasketPricingVM()
+        {
+            basket = new BasketPricingModel();
+        }
+
         public IPricing Pricing
         {
             get { return basket; }
