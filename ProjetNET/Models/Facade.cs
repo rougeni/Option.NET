@@ -75,7 +75,7 @@ namespace ProjetNET.Models
                 else
                 {
                     // calcul de PIn
-                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR);
+                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/365);
                 }
                 ancienPR = pr;
                 ancienDF = df;
