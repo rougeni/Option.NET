@@ -103,7 +103,7 @@ namespace ProjetNET.Models
                 avg[col] = 0;
             }
 
-            for (int line = 0; line < listDataFeed.Count; line++)
+            for (int line = 0; line < listDataFeed.Count -1; line++)
             {
                 for (int col = 0; col < oShares.Length; col++)
                 {
@@ -168,6 +168,7 @@ namespace ProjetNET.Models
             {
                 shares = value;
                 oSpot = new double[shares.Length];
+                oVolatility = new double[shares.Length];
             }
         }
 
