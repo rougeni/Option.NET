@@ -95,6 +95,9 @@
     <Compile Include="Models\IGenerateHistory.cs" />
     <Compile Include="ViewModels\IGenerateHistoryViewModel.cs" />
     <Compile Include="ViewModels\IPricingViewModel.cs" />
+    <Compile Include="ViewModels\AbstractOptionCombobox.cs" />
+    <Compile Include="ViewModels\OptionBasket.cs" />
+    <Compile Include="ViewModels\OptionVanilla.cs" />
     <Compile Include="ViewModels\VanillaCallPricingVM.cs" />
     <Compile Include="ViewModels\ViewFacade.cs" />
     <Compile Include="ViewModels\WholeViewModel.cs" />

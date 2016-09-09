@@ -11,14 +11,14 @@
     </Window.Resources>
     <Grid>
         <Canvas HorizontalAlignment="Left" Margin="50,50,10,10">
-            <Label Content="Selectionné le(s) sous-jacent(s) de votre option " HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <ItemsControl Margin="25,25,25,25" ItemsSource="{Binding AvailableAction}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+            <Label Content="Selectionner le(s) sous-jacent(s) de votre option " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ItemsControl Margin="25,25,25,25" ItemsSource="{Binding AvailableAction}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
                         <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected , Mode=TwoWay}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <Label Content="Strike" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="243"/>
             <Label Content="Date de fin" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="197"/>
             <Label Content="Option" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="292"/>
@@ -46,6 +46,14 @@
             <ContentControl HorizontalAlignment="Right" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding WholeView.ViewFacade}" Height="500" />
             <Button Content="Lancer" Command="{Binding StartCommand}" HorizontalAlignment="Right" Margin="0,0,200,0" Height="22"/>
         </StackPanel>
+        <TextBox Text="{Binding OptionInformation, Mode=TwoWay}" HorizontalAlignment="Left" Height="134" Margin="180,501,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" IsReadOnly="True"/>
+        <ComboBox ItemsSource="{Binding AvailableOptions}" SelectedItem="{Binding SelectedOption}" HorizontalAlignment="Left" Margin="55,502,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding oName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
     </Grid>
 </Window>
