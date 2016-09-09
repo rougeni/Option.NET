@@ -113,7 +113,6 @@ namespace ProjetNET
 
             DateTime maturityDate = DateTime.ParseExact(maturity, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
-            Console.WriteLine("Nb actions " + actions.Count);
             selectedPricing.Pricing.oShares = actions.ToArray();
             selectedPricing.Pricing.oWeights = new double[actions.Count];
             for (int i = 0; i < actions.Count; i++)
@@ -127,36 +126,22 @@ namespace ProjetNET
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
 
-             Convert.ToDouble(strike);
             selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
             selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
-            Console.WriteLine("Shares " + actions.ToArray()[0].Id + actions.ToArray()[0].Name);
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
             selectedTesting.GenerateHistory.startDate = DateTime.ParseExact(startDate, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
             
             selectedTesting.GenerateHistory.endTime = DateTime.ParseExact(maturity, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
-            //SECTION DE DEBUG GUILLAUME
-            selectedTesting.GenerateHistory.startDate = new DateTime(2015, 10, 10);
-            selectedTesting.GenerateHistory.endTime = new DateTime(2016, 1, 1);
-            selectedTesting.GenerateHistory.strike = 100.0;
 
-            Share[] underlyingShares = new Share[4];
-            Share accorSA = new Share("ACCOR SA", "AC FP     ");
-            Share alstom = new Share("ALSTOM", "ALO FP    ");
-            Share edf = new Share("EDF", "EDF FP    ");
-            Share axaSA = new Share("AIR LIQUIDE SA", "AI FP     ");
-            underlyingShares[0] =  accorSA;
-                underlyingShares[1] = alstom;
-                underlyingShares[2] =edf;
-                underlyingShares[3] = axaSA;
             double[] weight = new double[4];
             weight[0] = 0.25; weight[1] = 0.25; weight[2] = 0.25; weight[3] = 0.25;
             selectedTesting.GenerateHistory.weight = weight;
-            selectedTesting.GenerateHistory.underlyingShares = underlyingShares;
+            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-
+            selectedTesting.GenerateHistory.startDate = startDateTime;
+            selectedTesting.GenerateHistory.endTime = maturityDate;
             wholeView.GenrateHistory = selectedTesting;
             wholeView.PricingViewModel = selectedPricing;
 
