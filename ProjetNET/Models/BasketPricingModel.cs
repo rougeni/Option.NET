@@ -58,7 +58,6 @@ namespace ProjetNET.Models
         private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
         private double[,] matriceCorr;
         private double tauxSR;
-        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
 
         public BasketPricingModel()
         {
