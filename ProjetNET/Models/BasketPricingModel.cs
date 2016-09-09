@@ -85,7 +85,7 @@ namespace ProjetNET.Models
                 else
                 {
                     // calcul de PIn
-                    valeur = produitScalaire(ancienPR.Deltas, df.PriceList) + (ancienneValeur - produitScalaire(ancienPR.Deltas, ancienDF.PriceList)) * Math.Exp(tauxSR / 365);
+                    valeur = produitScalaire(ancienPR.Deltas, df.PriceList) + (ancienneValeur - produitScalaire(ancienPR.Deltas, ancienDF.PriceList)) * Math.Exp(tauxSR / businessDays);
                 }
                 ancienPR = pr;
                 ancienDF = df;

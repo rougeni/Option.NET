@@ -48,7 +48,7 @@ namespace ProjetNET.ViewModels
             drawOption(pricingResults, plotOption);
             drawPortefeuille(portefeuilles, plotPortefeuille);
             model.Series.Add(plotOption);
-            //model.Series.Add(plotPortefeuille);
+            model.Series.Add(plotPortefeuille);
 
             return model;
         }
