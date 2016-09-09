@@ -11,16 +11,18 @@ using PricingLibrary.Utilities;
 
 namespace ProjetNET.Models
 {
-    public class VanillaCallPricingModel : IPricing
+    internal class VanillaCallPricingModel : IPricing
     {
 
         private Pricer vanillaPricer;
         private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
+        private double tauxSR;
 
         public VanillaCallPricingModel()    
         {
             vanillaPricer = new Pricer();
             oName = "Vanilla";
+            tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
             oSpot = new double[1];
         }
 
@@ -89,6 +91,40 @@ namespace ProjetNET.Models
             oVolatility[0] = Math.Sqrt(variance);
         }
 
+        public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
+        {
+            List<Portefeuille> listePortefeuille = new List<Portefeuille>();
+            IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
+            IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
+            bool estDebut = true;
+            double valeur = 0;
+            double ancienneValeur = 0;
+            PricingResults ancienPR = null;
+            DataFeed ancienDF = null;
+            string sousJacent = oShares[0].Id;
+            while(enumPR.MoveNext() && enumLDF.MoveNext())
+            {
+                PricingResults pr = (PricingResults)enumPR.Current;
+                DataFeed df = (DataFeed)enumLDF.Current;
+                if (estDebut)
+                {
+                    //calcul de PI0
+                    valeur = (double)pr.Price;
+                    estDebut = false;
+                }
+                else
+                {
+                    // calcul de PIn
+                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/365);
+                }
+                ancienPR = pr;
+                ancienDF = df;
+                ancienneValeur = valeur;
+                Portefeuille port = new Portefeuille(df.Date, valeur);
+                listePortefeuille.Add(port);
+            }
+            return listePortefeuille;
+        }
 
         #region Getter & Setter
         public string oName { get; set; }

@@ -11,7 +11,7 @@ using PricingLibrary.Utilities;
 
 namespace ProjetNET.Models
 {
-    public class BasketPricingModel : IPricing
+    internal class BasketPricingModel : IPricing
     {
         // import WRE dlls
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
@@ -28,7 +28,8 @@ namespace ProjetNET.Models
         private Pricer basketPricer;
         private double[,] matriceCorr;
         private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
-        
+        private double tauxSR;
+
         
        
 
@@ -36,6 +37,7 @@ namespace ProjetNET.Models
         {
             basketPricer = new Pricer();
             oName = "Basket";
+            tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
         }
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
@@ -57,6 +59,50 @@ namespace ProjetNET.Models
             }
 
             return listPrix;
+        }
+
+        public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
+        {
+            List<Portefeuille> listePortefeuille = new List<Portefeuille>();
+            IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
+            IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
+            bool estDebut = true;
+            double valeur = 0;
+            double ancienneValeur = 0;
+            PricingResults ancienPR = null;
+            DataFeed ancienDF = null;
+            string sousJacent = oShares[0].Id;
+            while (enumPR.MoveNext() && enumLDF.MoveNext())
+            {
+                PricingResults pr = (PricingResults)enumPR.Current;
+                DataFeed df = (DataFeed)enumLDF.Current;
+                if (estDebut)
+                {
+                    //calcul de PI0
+                    valeur = (double)pr.Price;
+                    estDebut = false;
+                }
+                else
+                {
+                    // calcul de PIn
+                    valeur = produitScalaire(ancienPR.Deltas, df.PriceList) + (ancienneValeur - produitScalaire(ancienPR.Deltas, ancienDF.PriceList)) * Math.Exp(tauxSR / 365);
+                }
+                ancienPR = pr;
+                ancienDF = df;
+                ancienneValeur = valeur;
+                Portefeuille port = new Portefeuille(df.Date, valeur);
+                listePortefeuille.Add(port);
+            }
+            return listePortefeuille;
+        }
+        private double produitScalaire(double[] p,Dictionary<string,decimal> dictionary)
+        {
+            double val = 0;
+            for (int i = 0; i < p.Length; i++)
+            {
+                val += p[i] * (double)dictionary[oShares[i].Id];
+            }
+            return val;
         }
 
         public PricingResults getPayOff(List<DataFeed> listDataFeed)

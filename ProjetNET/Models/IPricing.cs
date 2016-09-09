@@ -11,9 +11,12 @@ namespace ProjetNET.Models
 {
     interface IPricing
     {
-        List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed);
 
         PricingResults getPayOff(List<DataFeed> listDataFeed);
+
+        List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed);
+
+        List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult);
 
         // nom de l option
         String oName { get; set; }

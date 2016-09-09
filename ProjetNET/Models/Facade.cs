@@ -34,59 +34,7 @@ namespace ProjetNET.Models
         {
             List<DataFeed> ldf = generateHistory.generateHistory();
             listePricingResult = pricing.pricingUntilMaturity(ldf);
-            listePortefeuille = new List<Portefeuille>();
-            double tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
-            
-            /*foreach (PricingResults pr in listePricingResult)
-            {
-                double valeur;
-                if (debut)
-                {
-                    valeur = pricing.oStrike;
-                    debut = false;
-                }
-                else
-                {
-                    //valeur = ancienPR.Deltas[0] * pr.Price + (pricing.oStrike - ancienPR.Deltas[0] * ancienPR.Price) * Math.Exp(tauxSR);
-                }
-                Portefeuille port = new Portefeuille(pricing.currentDate, valeur);
-                listePortefeuille.Add(port);
-                ancienPR = pr;
-            }*/
-
-            IEnumerator enumPR = ListePricingResult.GetEnumerator();
-            IEnumerator enumLDF = ldf.GetEnumerator();
-            bool estDebut = true;
-            double valeur = 0;
-            double ancienneValeur = 0;
-            PricingResults ancienPR = null;
-            DataFeed ancienDF = null;
-            string sousJacent = Pricing.oShares[0].Id;
-            while(enumPR.MoveNext() && enumLDF.MoveNext())
-            {
-                PricingResults pr = (PricingResults)enumPR.Current;
-                DataFeed df = (DataFeed)enumLDF.Current;
-                if (estDebut)
-                {
-                    //calcul de PI0
-                    valeur = (double)pr.Price;
-                    estDebut = false;
-                }
-                else
-                {
-                    // calcul de PIn
-                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/365);
-                }
-                ancienPR = pr;
-                ancienDF = df;
-                ancienneValeur = valeur;
-                Portefeuille port = new Portefeuille(pricing.currentDate, valeur);
-                listePortefeuille.Add(port);
-            }
-
-
-
-            
+            listePortefeuille = pricing.getPortefeuillesCouverture(ldf, listePricingResult);
         }
 
         public IPricing Pricing
