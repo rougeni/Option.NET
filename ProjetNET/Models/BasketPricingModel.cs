@@ -1,5 +1,6 @@
 ﻿using PricingLibrary.Computations;
 using PricingLibrary.FinancialProducts;
+using PricingLibrary.Utilities;
 using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,7 @@ namespace ProjetNET.Models
         private Pricer basketPricer;
         private double[,] matriceCorr;
         private double tauxSR;
+        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
 
         public BasketPricingModel()
         {
@@ -167,7 +169,7 @@ namespace ProjetNET.Models
             int resultat = WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
             if (resultat != 0)
             {
-                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
+                //throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
             }
             //calcul de la covariance
             double[,] cov = new double[nbAssets,nbAssets];
