@@ -74,13 +74,44 @@ namespace ProjetNET.Models
             List<PricingResults> listPrix = new List<PricingResults>();
             calculVolatility(listDataFeed);
 
+            //This line wad added.
+            oSpot = new double[oShares.Length];
+            BasketOption bask_o = new BasketOption(oName, oShares, oWeights, oMaturity, oStrike);
             foreach (DataFeed df in listDataFeed)
             {
+                Console.WriteLine("pass here A " + DateTime.Now);
+
                 for (int myShare = 0; myShare < oShares.Length; myShare++){
                     oSpot[myShare] = (double) df.PriceList[oShares[myShare].Id];
                 }
+                Console.WriteLine("pass here B " + DateTime.Now);
 
-                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
+                Console.WriteLine(bask_o.Maturity+ " " + bask_o.Name + " " + bask_o.Name + "  " + bask_o.Strike );
+                for (int i = 0; i < bask_o.Weights.Length; i++)
+                {
+                    Console.WriteLine("!!!! EREUR D ICI ''' " + bask_o.UnderlyingShareIds.Length);
+                }
+                for (int i = 0; i < bask_o.Weights.Length; i++)
+                {
+                    Console.WriteLine(bask_o.Weights[i]);
+                }
+                Console.WriteLine(df.Date);
+                for (int i = 0; i < 2; i++)
+                {
+                    Console.WriteLine(oSpot[i] = 0.5);
+                }
+                for (int i = 0; i < 1; i++)
+                {
+                    calculVolatility(listDataFeed);
+                    Console.WriteLine(oVolatility[i]);
+                }
+                Console.WriteLine(" !!! -> " + matriceCorr.Length); 
+                //Console.WriteLine();
+                PricingResults pr = basketPricer.PriceBasket(bask_o, df.Date, 252, oSpot, oVolatility, matriceCorr);
+                Console.WriteLine("pass here C" + DateTime.Now);
+                listPrix.Add(pr);
+                Console.WriteLine("pass here D" + DateTime.Now);
+
             }
 
             return listPrix;
@@ -164,10 +195,11 @@ namespace ProjetNET.Models
                 foreach (var iden in oShares)
                 {
                     assetsValues[i,b] = (double)listDataFeed.ToArray()[i].PriceList[iden.Id];
-                    //Console.WriteLine(assetsValues[i,b]);
+                    Console.WriteLine(assetsValues[i,b]);
                     b++;
                 }
             }
+            Console.WriteLine("--------");
             //Console.WriteLine("-----");
             int resultat = WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
             if (resultat != 0)
@@ -189,17 +221,41 @@ namespace ProjetNET.Models
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingCov, erreur numero : " + resultat);
             }
+            matriceCorr = new double[nbAssets, nbAssets];
+            for (int i = 0; i < (30); i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    //Console.WriteLine(assetsReturns[i, j]);
+                }
+            }
+            double[,] corr = new double[nbAssets, nbAssets];
+
+            resultat = WREmodelingCorr(ref nbValues, ref nbAssets, assetsReturns, corr, ref info);
+
+            if (resultat != 0) 
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingCov, erreur numero : " + resultat);
+            }
+
+
+            this.matriceCorr = corr;
             //for (int i = 0 ; i < 4 ; i++ ){
             //   Console.WriteLine(cov[i, 0] + " " +cov[i, 1]  + " "+ cov[i, 2] + " " +cov[i, 3] );
             //}
             //double[] exante = new double[nbAssets];
             //Calcul de la volatilité
             this.oVolatility = new double[1];
-
-            resultat = WREanalysisExanteVolatility(ref nbAssets, cov, oWeights, this.oVolatility, ref info);
+            //TODO !!! remove weight set here :
+            oWeights = new double[nbAssets];
+            for (int i = 0; i < nbAssets; i++)
+            {
+                oWeights[i] = (double) 1 / ( double) nbAssets;
+            }
+                resultat = WREanalysisExanteVolatility(ref nbAssets, cov, oWeights, this.oVolatility, ref info);
             if (resultat != 0)
         {
-                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREanlysisExanteVolatility, erreur numero : " + resultat);
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREanalysisExanteVolatility, erreur numero : " + resultat);
             }/*
             for (int i = 0; i < 4; i++)
             {
@@ -282,9 +338,9 @@ namespace ProjetNET.Models
 
         public double[] oWeights { get; set; }
 
-        private double[] oVolatility { get; set; }
+        public double[] oVolatility { get; set; }
 
-        private double[] oSpot { get; set; }
+        public double[] oSpot { get; set; }
 
         public DateTime currentDate { get; set; }
 

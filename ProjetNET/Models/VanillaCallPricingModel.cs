@@ -208,9 +208,9 @@ namespace ProjetNET.Models
 
         public DateTime currentDate { get; set; }
 
-        private double[] oSpot { get; set; }
+        public double[] oSpot { get; set; }
 
-        private double[] oVolatility { get; set; }
+        public double[] oVolatility { get; set; }
 
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
