@@ -103,7 +103,7 @@ namespace ProjetNET.Models
                 for (int i = 0; i < 1; i++)
                 {
                     calculVolatility(listDataFeed);
-                    Console.WriteLine(oVolatility[i]);
+                    Console.WriteLine(" ??? " + oVolatility[i]);
                 }
                 Console.WriteLine(" !!! -> " + matriceCorr.Length); 
                 //Console.WriteLine();
