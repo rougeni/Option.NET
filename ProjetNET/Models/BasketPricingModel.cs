@@ -12,6 +12,38 @@ namespace ProjetNET.Models
 {
     public class BasketPricingModel : IPricing
     {
+
+
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanlysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
+
+        public static extern int WREanlysisExanteVolatility(
+            ref int nbAssets,
+            double[,] cav,
+            double[] weight,
+            double[] exanteVolatility,
+            ref int info);
+
+
+                [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
+
+        public static extern int WREmodelingCov(
+                    ref int nbValues,
+                    ref int nbAssets,
+                    double[,] assetsReturns,
+                    double[,] cov,
+                    ref int info);
+
+                        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
+
+        public static extern int WREmodelingLogReturns(
+                    ref int nbValues,
+                    ref int nbAssets,
+                    double[,] assetsValues,
+                    ref int horizon,
+                    double[,] assetsReturns,
+                    ref int info);
+
+
         // import WRE dlls
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
 
@@ -72,7 +104,38 @@ namespace ProjetNET.Models
 
         private void calculVolatility(List<DataFeed> listDataFeed)
         {
-            double[,] prix = new double[listDataFeed.Count, oShares.Length];
+        //Calcul des log rendements
+            int nbAssets = listDataFeed.ToArray()[0].PriceList.Count;
+            int nbValues = 30; // listDataFeed.Count();
+            double[,] assetsValues = new double[nbValues,nbAssets];
+            int horizon = 0;
+            double[,] assetsReturns = new double[nbValues,nbAssets];
+            int info = 0;
+            int a =0;
+            for (int i = 0; i < nbAssets; i++ )
+            {
+                int b = 0;
+                foreach (var iden in oShares)
+                {
+                    assetsValues[a, b] = (double)listDataFeed.ToArray()[i].PriceList[iden.Id];
+
+                }
+                b++;
+                a++;
+            }
+            WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
+
+            //calcul de la covariance
+            double[,] cov = new double[nbAssets,nbAssets];
+            WREmodelingCov(ref nbValues,ref nbAssets, assetsReturns, cov, ref info);
+            double[] exante = new double[nbAssets];
+            //Calcul de la volatilité
+            WREanlysisExanteVolatility(ref nbAssets, cov, oWeights, exante, ref info);
+
+        }
+
+
+/*            double[,] prix = new double[listDataFeed.Count, oShares.Length];
             //double[,] rendement = new double[listDataFeed.Count - 1, oShares.Length];
             int i = 0;
             int j;
@@ -139,9 +202,8 @@ namespace ProjetNET.Models
             {
                 oWeights[w] = 1 / oShares.Length;
             }
-
-        }
-
+*/
+        
         #region Getter & Setter
         public string OName
         {
