@@ -7,7 +7,7 @@ using ProjetNET.Models;
 
 namespace ProjetNET.ViewModels
 {
-    internal interface IGenerateHistoryViewModel
+    public interface IGenerateHistoryViewModel
     {
         #region Public Properties
 

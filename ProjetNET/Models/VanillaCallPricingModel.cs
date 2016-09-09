@@ -7,18 +7,51 @@ using PricingLibrary.Computations;
 using PricingLibrary.FinancialProducts;
 using PricingLibrary.Utilities.MarketDataFeed;
 using ProjetNET.Data;
+using PricingLibrary.Utilities;
+using System.Runtime.InteropServices;
 
 namespace ProjetNET.Models
 {
     public class VanillaCallPricingModel : IPricing
     {
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
+
+        public static extern int WREmodelingLogReturns(
+            ref int nbValues,
+            ref int nbAssets,
+            double[,] assetsValues,
+            ref int horizon,
+            double[,] assetsReturns,
+            ref int info
+            );
+
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREanalysisExanteVolatility(
+            ref int nbAssets,
+            double[,] cov,
+            double[] weight,
+            double[] exanteVolatility,
+            ref int info);
+
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREmodelingCov(
+            ref int nbValues,
+            ref int nbAssets,
+            double[,] assetsReturns,
+            double[,] cov,
+            ref int info
+            );
 
         private Pricer vanillaPricer;
+        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
+        private double tauxSR;
 
         public VanillaCallPricingModel()    
         {
             vanillaPricer = new Pricer();
             oName = "Vanilla";
+            tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
+            oSpot = new double[1];
         }
 
 
@@ -30,12 +63,14 @@ namespace ProjetNET.Models
             }
             List<PricingResults> listPrix = new List<PricingResults>();
             calculVolatility(listDataFeed);
-            //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
+
+            VanillaCall vanny = new VanillaCall(oName, oShares, oMaturity, oStrike);
+
             foreach (DataFeed df in listDataFeed)
             {
                 double listPrice = (double)df.PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
-                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
+                listPrix.Add(vanillaPricer.PriceCall(vanny, df.Date, businessDays, oSpot[0], oVolatility[0]));
             }
             
             return listPrix;
@@ -54,36 +89,113 @@ namespace ProjetNET.Models
                 oSpot[myShare] = (double)listDataFeed[listDataFeed.Count - 1].PriceList[oShares[myShare].Id];
             }
 
-            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot[0], oVolatility[0]);
+            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, businessDays, oSpot[0], oVolatility[0]);
         }
 
-        private void calculVolatility(List<DataFeed> listDataFeed)
+        public void calculVolatility(List<DataFeed> listDataFeed)
         {
-            double[] prix = new double[listDataFeed.Count];
-            int i = 0;
+            /*public static extern int WREmodelingLogReturns(
+                ref int nbValues,
+                ref int nbAssets,
+                double[,] assetsValues,
+                ref int horizon,
+                double[,] assetsReturns,
+                int[] info
+            );*/
 
-            // Calculer les prix de toutes les actions dans l'option (ici en théorie qu'une seule..)
-            foreach (DataFeed dataF in listDataFeed)
+            //calcul de la volatilité sur les 30 jours qui précèdent le début de la période
+            int nbValues = listDataFeed.Count;
+            int nbAssets = 1;
+            double[,] assetsValues = new double[nbValues, nbAssets];
+            int horizon = nbValues - 30;
+            double[,] assetsReturns = new double[nbValues - horizon, nbAssets];
+            int info = 10;
+
+            int i = 0;
+            foreach (DataFeed df in listDataFeed)
             {
-                Dictionary<string, decimal> dico = dataF.PriceList;
-                prix[i] = (double)dico[oShares[0].Id];
+                assetsValues[i, 0] = (double)df.PriceList[oShares[0].Id];
                 i++;
             }
-            
-            
-            double variance = 0;     
-            double avg = 0;
-            for (int line = 0; line < listDataFeed.Count-1; line++)
+            int resultat = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetsValues, ref horizon, assetsReturns, ref info);
+            if (resultat != 0)
             {
-                variance += Math.Pow(Math.Log10(prix[line+1] / prix[line]), 2);
-                avg += Math.Log10(prix[line + 1] / prix[line]);
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREmodelingLogReturns, erreur numero : " + resultat);
             }
 
-            variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
+            /* 
+            public static extern int WREmodelingCov(
+                ref int nbValues,
+                ref int nbAssets,
+                double[,] assetsReturns,
+                double[,] cov,
+                ref int info
+            );
+             */
+            double[,] cov = new double[1, 1];
+            resultat = WREmodelingCov(ref nbValues, ref nbAssets, assetsReturns, cov, ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREmodelingCov erreur numero : " + resultat);
+            }
+
+
+            /*public static extern int WREanlysisExanteVolatility(
+                ref int nbAssets,
+                double[,] cov,
+                double[] weight,
+                double[] exanteVolatility,
+                int info
+             );*/
+
+            double[] weight = new double[1];
+            weight[0] = 1;
+            double[] exanteVolatility = new double[1];
+
+            resultat = WREanalysisExanteVolatility(ref nbAssets, cov, weight, exanteVolatility, ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREanalysisExanteVolatility erreur numero : " + resultat);
+            }
+
             oVolatility = new double[1];
-            oVolatility[0] = Math.Sqrt(variance);
+            oVolatility[0] = exanteVolatility[0];
         }
 
+        public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
+        {
+            List<Portefeuille> listePortefeuille = new List<Portefeuille>();
+            IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
+            IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
+            bool estDebut = true;
+            double valeur = 0;
+            double ancienneValeur = 0;
+            PricingResults ancienPR = null;
+            DataFeed ancienDF = null;
+            string sousJacent = oShares[0].Id;
+            while(enumPR.MoveNext() && enumLDF.MoveNext())
+            {
+                PricingResults pr = (PricingResults)enumPR.Current;
+                DataFeed df = (DataFeed)enumLDF.Current;
+                if (estDebut)
+                {
+                    //calcul de PI0
+                    valeur = (double)pr.Price;
+                    estDebut = false;
+                }
+                else
+                {
+                    // calcul de PIn
+                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/365);
+                }
+                ancienPR = pr;
+                ancienDF = df;
+                ancienneValeur = valeur;
+                Portefeuille port = new Portefeuille(df.Date, valeur);
+                listePortefeuille.Add(port);
+            }
+            return listePortefeuille;
+        }
 
         #region Getter & Setter
         public string oName { get; set; }
@@ -102,5 +214,6 @@ namespace ProjetNET.Models
 
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
+
     }
 }

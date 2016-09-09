@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    class ActionCheckBox
+    public class ActionCheckBox
     {
         private Share action;
 
@@ -17,6 +17,13 @@ namespace ProjetNET.ViewModels
         {
             this.action = action;
             isSelected = false;
+        }
+
+        public ActionCheckBox(Share accorSA, bool p)
+        {
+            // TODO: Complete member initialization
+            this.action = accorSA;
+            this.isSelected = p;
         }
         public string Name { get { return action.Name; } }
         public bool IsSelected

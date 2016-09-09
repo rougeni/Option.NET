@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    internal interface IPricingViewModel
+    public interface IPricingViewModel
     {
         #region Public Properties
 

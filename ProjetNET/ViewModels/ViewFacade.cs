@@ -11,7 +11,7 @@ using PricingLibrary.Computations;
 
 namespace ProjetNET.ViewModels
 {
-    internal class ViewFacade : BindableBase
+    public class ViewFacade : BindableBase
     {
         #region Private Fields
 
@@ -48,7 +48,7 @@ namespace ProjetNET.ViewModels
             drawOption(pricingResults, plotOption);
             drawPortefeuille(portefeuilles, plotPortefeuille);
             model.Series.Add(plotOption);
-            model.Series.Add(plotPortefeuille);
+            //model.Series.Add(plotPortefeuille);
 
             return model;
         }
