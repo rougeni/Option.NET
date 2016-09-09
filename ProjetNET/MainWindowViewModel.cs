@@ -124,7 +124,6 @@ namespace ProjetNET
             selectedPricing.Pricing.oMaturity = maturityDate;
             double[] oSpot = new double[1];
             oSpot[0] = Convert.ToDouble(spot);
-            selectedPricing.Pricing.oSpot = oSpot;
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
 

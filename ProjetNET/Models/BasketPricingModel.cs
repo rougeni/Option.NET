@@ -152,7 +152,7 @@ namespace ProjetNET.Models
 
         public double[] oVolatility { get; set; }
 
-        public double[] oSpot { get; }
+        public double[] oSpot { get; set; }
 
         public DateTime currentDate { get; set; }
 
