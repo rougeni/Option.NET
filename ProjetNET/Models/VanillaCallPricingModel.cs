@@ -7,6 +7,7 @@ using PricingLibrary.Computations;
 using PricingLibrary.FinancialProducts;
 using PricingLibrary.Utilities.MarketDataFeed;
 using ProjetNET.Data;
+using PricingLibrary.Utilities;
 
 namespace ProjetNET.Models
 {
@@ -14,6 +15,7 @@ namespace ProjetNET.Models
     {
 
         private Pricer vanillaPricer;
+        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
 
         public VanillaCallPricingModel()    
         {
@@ -30,12 +32,14 @@ namespace ProjetNET.Models
             }
             List<PricingResults> listPrix = new List<PricingResults>();
             calculVolatility(listDataFeed);
-            //DateTime startDate = new DateTime(2015, 8, 1);//currentDate;
+
+            VanillaCall vanny = new VanillaCall(oName, oShares, oMaturity, oStrike);
+
             foreach (DataFeed df in listDataFeed)
             {
                 double listPrice = (double)df.PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
-                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 252, oSpot[0], oVolatility[0]));
+                listPrix.Add(vanillaPricer.PriceCall(vanny, df.Date, businessDays, oSpot[0], oVolatility[0]));
             }
             
             return listPrix;
@@ -54,7 +58,7 @@ namespace ProjetNET.Models
                 oSpot[myShare] = (double)listDataFeed[listDataFeed.Count - 1].PriceList[oShares[myShare].Id];
             }
 
-            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, 252, oSpot[0], oVolatility[0]);
+            return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, businessDays, oSpot[0], oVolatility[0]);
         }
 
         private void calculVolatility(List<DataFeed> listDataFeed)
@@ -80,7 +84,7 @@ namespace ProjetNET.Models
             }
 
             variance = variance / listDataFeed.Count - Math.Pow(avg / listDataFeed.Count, 2);
-            oVolatility = new double[1];
+            oVolatility = new double[oShares.Length];
             oVolatility[0] = Math.Sqrt(variance);
         }
 
@@ -96,11 +100,12 @@ namespace ProjetNET.Models
 
         public DateTime currentDate { get; set; }
 
-        public double[] oSpot { get; set; }
+        public double[] oSpot { get; }
 
         public double[] oVolatility { get; set; }
 
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
+
     }
 }
