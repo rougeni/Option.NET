@@ -119,6 +119,7 @@ namespace ProjetNET
                 selectedTesting.GenerateHistory.strike = selectedOption.oStrike;
                 selectedTesting.GenerateHistory.underlyingShares = selectedOption.oShares;
                 selectedTesting.GenerateHistory.weight = selectedOption.oWeights;
+                selectedTesting.GenerateHistory.vanillaCallName = selectedOption.oName;
 
                 wholeView.PricingViewModel = selectedOption.myPricer;
 
