@@ -21,11 +21,9 @@ namespace ProjetNET
         private bool fieldCompleted;
 
         private IPricingViewModel selectedPricing;
-        private String maturity;
         private String strike;
         private String dateDebut;
         private String dateFin;
-        private String startDate;
 
         #endregion Private Fields
 
@@ -34,15 +32,6 @@ namespace ProjetNET
         public ObservableCollection<IPricingViewModel> PricingMethods { get; private set; }
 
         public ObservableCollection<ActionCheckBox> AvailableAction { get; private set; }
-
-        public String Maturity
-        {
-            get { return maturity; }
-            set
-            {
-                SetProperty(ref maturity, value);
-            }
-        }
 
         public String Strike
         {
@@ -78,8 +67,8 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            maturity = "20/08/2015";
-            startDate = "10/01/2014";
+            dateFin = "20/08/2015";
+            dateDebut = "10/01/2014";
             strike = "10";
 
             wholeView = new WholeViewModel();
@@ -117,10 +106,10 @@ namespace ProjetNET
                     actions.Add(action.Share);
             }
 
-            DateTime startDateTime = DateTime.ParseExact(startDate, "dd/MM/yyyy",
+            DateTime startDateTime = DateTime.ParseExact(dateDebut, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
 
-            DateTime maturityDate = DateTime.ParseExact(maturity, "dd/MM/yyyy",
+            DateTime maturityDate = DateTime.ParseExact(DateFin, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
             selectedPricing.Pricing.oShares = actions.ToArray();
             selectedPricing.Pricing.oWeights = new double[actions.Count];
@@ -137,11 +126,8 @@ namespace ProjetNET
             selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
             selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
             selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.startDate = DateTime.ParseExact(startDate, "dd/MM/yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-            
-            selectedTesting.GenerateHistory.endTime = DateTime.ParseExact(maturity, "dd/MM/yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture);
+            selectedTesting.GenerateHistory.startDate = startDateTime.AddDays(-30);
+            selectedTesting.GenerateHistory.endTime = maturityDate;
 
             double[] weight = new double[4];
             weight[0] = 0.25; weight[1] = 0.25; weight[2] = 0.25; weight[3] = 0.25;
