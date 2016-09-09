@@ -11,7 +11,7 @@ using PricingLibrary.Computations;
 
 namespace ProjetNET.ViewModels
 {
-    internal class ViewFacade : BindableBase
+    public class ViewFacade : BindableBase
     {
         #region Private Fields
 

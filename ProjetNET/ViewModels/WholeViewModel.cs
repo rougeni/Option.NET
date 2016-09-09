@@ -8,7 +8,7 @@ using Prism.Mvvm;
 
 namespace ProjetNET.ViewModels
 {
-    internal class WholeViewModel : BindableBase
+    public class WholeViewModel : BindableBase
     {
         #region Private Fields
 

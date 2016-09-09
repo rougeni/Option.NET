@@ -7,12 +7,40 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using PricingLibrary.Utilities;
 
 namespace ProjetNET.Models
 {
-    internal class BasketPricingModel : IPricing
+    public class BasketPricingModel : IPricing
     {
+
+
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanlysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREanlysisExanteVolatility(
+            ref int nbAssets,
+            double[,] cav,
+            double[] weight,
+            double[] exanteVolatility,
+            ref int info);
+
+
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREmodelingCov(
+                    ref int nbValues,
+                    ref int nbAssets,
+                    double[,] assetsReturns,
+                    double[,] cov,
+                    ref int info);
+
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREmodelingLogReturns(
+                    ref int nbValues,
+                    ref int nbAssets,
+                    double[,] assetsValues,
+                    ref int horizon,
+                    double[,] assetsReturns,
+                    ref int info);
+
+
         // import WRE dlls
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
 
@@ -27,17 +55,12 @@ namespace ProjetNET.Models
 
         private Pricer basketPricer;
         private double[,] matriceCorr;
-        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
         private double tauxSR;
-
-        
-       
 
         public BasketPricingModel()
         {
             basketPricer = new Pricer();
             oName = "Basket";
-            tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
         }
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
@@ -55,7 +78,7 @@ namespace ProjetNET.Models
                     oSpot[myShare] = (double) df.PriceList[oShares[myShare].Id];
                 }
 
-                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, businessDays, oSpot, oVolatility, matriceCorr));
+                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
             }
 
             return listPrix;
@@ -95,7 +118,7 @@ namespace ProjetNET.Models
             }
             return listePortefeuille;
         }
-        private double produitScalaire(double[] p,Dictionary<string,decimal> dictionary)
+        private double produitScalaire(double[] p, Dictionary<string, decimal> dictionary)
         {
             double val = 0;
             for (int i = 0; i < p.Length; i++)
@@ -118,12 +141,53 @@ namespace ProjetNET.Models
                 oSpot[myShare] = (double) listDataFeed[listDataFeed.Count-1].PriceList[oShares[myShare].Id];
             }
 
-            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, businessDays, oSpot, oVolatility, matriceCorr);
+            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, matriceCorr);
         }
 
-        private void calculVolatility(List<DataFeed> listDataFeed)
+        public void calculVolatility(List<DataFeed> listDataFeed)
         {
-            double[,] prix = new double[listDataFeed.Count, oShares.Length];
+        //Calcul des log rendements
+            int nbAssets = listDataFeed.ToArray()[0].PriceList.Count;
+            int nbValues = 30; // listDataFeed.Count();
+            double[,] assetsValues = new double[nbValues,nbAssets];
+            int horizon = 0;
+            double[,] assetsReturns = new double[nbValues,nbAssets];
+            int info = 0;
+            int a =0;
+            for (int i = 0; i < nbAssets; i++ )
+            {
+                int b = 0;
+                foreach (var iden in oShares)
+                {
+                    assetsValues[a, b] = (double)listDataFeed.ToArray()[i].PriceList[iden.Id];
+                }
+                b++;
+                a++;
+            }
+            int resultat = WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
+            }
+            //calcul de la covariance
+            double[,] cov = new double[nbAssets,nbAssets];
+            resultat = WREmodelingCov(ref nbValues,ref nbAssets, assetsReturns, cov, ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingCov, erreur numero : " + resultat);
+            }
+            double[] exante = new double[nbAssets];
+            //Calcul de la volatilité
+            resultat = WREanlysisExanteVolatility(ref nbAssets, cov, oWeights, exante, ref info);
+            if (resultat != 0)
+        {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREanlysisExanteVolatility, erreur numero : " + resultat);
+            }
+
+        }
+
+
+/*            double[,] prix = new double[listDataFeed.Count, oShares.Length];
             //double[,] rendement = new double[listDataFeed.Count - 1, oShares.Length];
             int i = 0;
             int j;
@@ -149,11 +213,11 @@ namespace ProjetNET.Models
                 avg[col] = 0;
             }
 
-            for (int line = 0; line < listDataFeed.Count -1; line++)
+            for (int line = 0; line < listDataFeed.Count; line++)
             {
                 for (int col = 0; col < oShares.Length; col++)
                 {
-                    variance[col] += Math.Pow(Math.Log10(prix[line+1, col] / prix[line, col]), 2);
+                    variance[col] += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
                     avg[col] += Math.Log10(prix[line+1, col] / prix[line, col]);
                 }
             }
@@ -183,8 +247,119 @@ namespace ProjetNET.Models
             WREmodelingCorr(ref nbValues, ref nbAssets, rendements, corr, ref info);
             matriceCorr = corr;
 
+
+            // Partie weights
+            oWeights = new double[oShares.Length];
+            for (int w = 0; w < oShares.Length; w++)
+            {
+                oWeights[w] = 1 / oShares.Length;
+            }
+*/
+
+    
+
+        #region Getter & Setter
+        public string OName
+        {
+            get
+            {
+                return oName;
+        }
+            set
+            {
+                oName = value;
+            }
         }
 
+        public Share[] OShares
+        {
+            get
+            {
+                return oShares;
+            }
+            set
+            {
+                oShares = value;
+            }
+        }
+
+        public DateTime OMaturity
+        {
+            get
+            {
+                return oMaturity;
+            }
+            set
+            {
+                oMaturity = value;
+            }
+        }
+
+        public double OStrike
+        {
+            get
+            {
+                return oStrike;
+            }
+            set
+            {
+                oStrike = value;
+            }
+        }
+
+
+
+        public DateTime CurrentDate
+        {
+            get
+            {
+                return currentDate;
+            }
+            set
+            {
+                currentDate = value;
+            }
+        }
+
+        public double[] OSpot
+        {
+            get
+            {
+                return oSpot;
+            }
+            set
+            {
+                oSpot = value;
+            }
+        }
+
+
+        public double[] OVolatility
+        {
+            get
+            {
+                return oVolatility;
+            }
+            set
+            {
+                oVolatility = value;
+            }
+        }
+
+
+        public double[] OWeights
+        {
+            get
+                {
+                return oWeights;
+                }
+            set
+            {
+                oWeights = value;
+                    ;
+            }
+        }
+        #endregion Getter & Setter
 
         public double[] oWeights { get; set; }
 
@@ -198,22 +373,7 @@ namespace ProjetNET.Models
 
         public DateTime oMaturity { get; set; }
 
-        private Share[] shares; 
-
-        public Share[] oShares {
-            get { return shares; }
-            set
-            {
-                shares = value;
-                oSpot = new double[shares.Length];
-                oVolatility = new double[shares.Length];
-                oWeights = new double[shares.Length];
-                for (int i = 0; i < shares.Length; i++)
-                {
-                    oWeights[i] = ((double)1 / (double)shares.Length);
-                }
-            }
-        }
+        public Share[] oShares { get; set; }
 
         public string oName { get; set; }
     }

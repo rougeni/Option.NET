@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    internal class BasketPricingVM : IPricingViewModel
+    public class BasketPricingVM : IPricingViewModel
     {
         private IPricing basket;
 

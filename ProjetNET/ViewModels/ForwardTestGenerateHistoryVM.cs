@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ProjetNET
 {
-    internal class ForwardTestGenerateHistoryVM : IGenerateHistoryViewModel
+    public class ForwardTestGenerateHistoryVM : IGenerateHistoryViewModel
     {
 
         private IGenerateHistory forwardTest;

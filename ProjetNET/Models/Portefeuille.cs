@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
-    internal class Portefeuille
+    public class Portefeuille
     {
         private DateTime date;
         private double valeur;

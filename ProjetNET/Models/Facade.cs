@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
-    internal class Facade
+    public class Facade
     {
         private IPricing pricing;
 

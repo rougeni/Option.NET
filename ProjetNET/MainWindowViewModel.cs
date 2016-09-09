@@ -10,7 +10,7 @@ using PricingLibrary.FinancialProducts;
 
 namespace ProjetNET
 {
-    internal class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase
     {
         #region Private Fields
 

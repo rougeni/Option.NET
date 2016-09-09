@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
-    class ActionCheckBox
+    public class ActionCheckBox
     {
         private Share action;
 

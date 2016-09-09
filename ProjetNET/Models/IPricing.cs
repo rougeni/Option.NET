@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
-    interface IPricing
+    public interface IPricing
     {
 
         PricingResults getPayOff(List<DataFeed> listDataFeed);
