@@ -15,7 +15,6 @@ namespace ProjetNET.Models
 
 
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanlysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
-
         public static extern int WREanlysisExanteVolatility(
             ref int nbAssets,
             double[,] cav,
@@ -24,8 +23,7 @@ namespace ProjetNET.Models
             ref int info);
 
 
-                [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
-
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCov(
                     ref int nbValues,
                     ref int nbAssets,
@@ -33,8 +31,7 @@ namespace ProjetNET.Models
                     double[,] cov,
                     ref int info);
 
-                        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
-
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingLogReturns(
                     ref int nbValues,
                     ref int nbAssets,
@@ -58,6 +55,7 @@ namespace ProjetNET.Models
 
         private Pricer basketPricer;
         private double[,] matriceCorr;
+        private double tauxSR;
 
         public BasketPricingModel()
         {
@@ -86,6 +84,50 @@ namespace ProjetNET.Models
             return listPrix;
         }
 
+        public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
+        {
+            List<Portefeuille> listePortefeuille = new List<Portefeuille>();
+            IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
+            IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
+            bool estDebut = true;
+            double valeur = 0;
+            double ancienneValeur = 0;
+            PricingResults ancienPR = null;
+            DataFeed ancienDF = null;
+            string sousJacent = oShares[0].Id;
+            while (enumPR.MoveNext() && enumLDF.MoveNext())
+            {
+                PricingResults pr = (PricingResults)enumPR.Current;
+                DataFeed df = (DataFeed)enumLDF.Current;
+                if (estDebut)
+                {
+                    //calcul de PI0
+                    valeur = (double)pr.Price;
+                    estDebut = false;
+                }
+                else
+                {
+                    // calcul de PIn
+                    valeur = produitScalaire(ancienPR.Deltas, df.PriceList) + (ancienneValeur - produitScalaire(ancienPR.Deltas, ancienDF.PriceList)) * Math.Exp(tauxSR / 365);
+                }
+                ancienPR = pr;
+                ancienDF = df;
+                ancienneValeur = valeur;
+                Portefeuille port = new Portefeuille(df.Date, valeur);
+                listePortefeuille.Add(port);
+            }
+            return listePortefeuille;
+        }
+        private double produitScalaire(double[] p, Dictionary<string, decimal> dictionary)
+        {
+            double val = 0;
+            for (int i = 0; i < p.Length; i++)
+            {
+                val += p[i] * (double)dictionary[oShares[i].Id];
+            }
+            return val;
+        }
+
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
             if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0 )
@@ -102,7 +144,7 @@ namespace ProjetNET.Models
             return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, matriceCorr);
         }
 
-        private void calculVolatility(List<DataFeed> listDataFeed)
+        public void calculVolatility(List<DataFeed> listDataFeed)
         {
         //Calcul des log rendements
             int nbAssets = listDataFeed.ToArray()[0].PriceList.Count;
@@ -118,19 +160,29 @@ namespace ProjetNET.Models
                 foreach (var iden in oShares)
                 {
                     assetsValues[a, b] = (double)listDataFeed.ToArray()[i].PriceList[iden.Id];
-
                 }
                 b++;
                 a++;
             }
-            WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
-
+            int resultat = WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
+            }
             //calcul de la covariance
             double[,] cov = new double[nbAssets,nbAssets];
-            WREmodelingCov(ref nbValues,ref nbAssets, assetsReturns, cov, ref info);
+            resultat = WREmodelingCov(ref nbValues,ref nbAssets, assetsReturns, cov, ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingCov, erreur numero : " + resultat);
+            }
             double[] exante = new double[nbAssets];
             //Calcul de la volatilité
-            WREanlysisExanteVolatility(ref nbAssets, cov, oWeights, exante, ref info);
+            resultat = WREanlysisExanteVolatility(ref nbAssets, cov, oWeights, exante, ref info);
+            if (resultat != 0)
+            {
+                throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREanlysisExanteVolatility, erreur numero : " + resultat);
+            }
 
         }
 
@@ -203,7 +255,9 @@ namespace ProjetNET.Models
                 oWeights[w] = 1 / oShares.Length;
             }
 */
-        
+
+    
+
         #region Getter & Setter
         public string OName
         {
