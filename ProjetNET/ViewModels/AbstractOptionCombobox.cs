@@ -27,11 +27,6 @@ namespace ProjetNET.ViewModels
         // basket
         public double[] oWeights { get; set; }
 
-        public AbstractOptionCombobox(IPricingViewModel pricer)
-        {
-            myPricer = pricer;
-        }
-
         abstract public String toTextBox();
     }
 }

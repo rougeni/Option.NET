@@ -182,9 +182,10 @@ namespace ProjetNET.Models
             //Calcul de la volatilité
             resultat = WREanlysisExanteVolatility(ref nbAssets, cov, oWeights, exante, ref info);
             if (resultat != 0)
-        {
+            {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREanlysisExanteVolatility, erreur numero : " + resultat);
             }
+
 
         }
 
@@ -232,22 +233,7 @@ namespace ProjetNET.Models
             }
 
 
-            // Partie de calcul des rendements pour la matrice de correlation
-            double[,] rendements = new double[listDataFeed.Count - 1, oShares.Length];
-            for (int date = 0; date < listDataFeed.Count - 1; date++)
-            {
-                for (int share = 0; share < oShares.Length; share++)
-                {
-                    rendements[date, share] = Math.Log10(prix[date + 1, share] / prix[date, share]);
-                }
-            }
-
-            int  nbValues = listDataFeed.Count-1;
-            int nbAssets = oShares.Length;
-            double[,] corr = new double[nbAssets, nbAssets];
-            int info = 0;
-            WREmodelingCorr(ref nbValues, ref nbAssets, rendements, corr, ref info);
-            matriceCorr = corr;
+            
 
 
             // Partie weights
@@ -260,11 +246,114 @@ namespace ProjetNET.Models
 
     
 
+        #region Getter & Setter
+        public string OName
+        {
+            get
+            {
+                return oName;
+        }
+            set
+            {
+                oName = value;
+            }
+        }
+
+        public Share[] OShares
+        {
+            get
+            {
+                return oShares;
+            }
+            set
+            {
+                oShares = value;
+            }
+        }
+
+        public DateTime OMaturity
+        {
+            get
+            {
+                return oMaturity;
+            }
+            set
+            {
+                oMaturity = value;
+            }
+        }
+
+        public double OStrike
+        {
+            get
+            {
+                return oStrike;
+            }
+            set
+            {
+                oStrike = value;
+            }
+        }
+
+
+
+        public DateTime CurrentDate
+        {
+            get
+            {
+                return currentDate;
+            }
+            set
+            {
+                currentDate = value;
+            }
+        }
+
+        public double[] OSpot
+        {
+            get
+            {
+                return oSpot;
+            }
+            set
+            {
+                oSpot = value;
+            }
+        }
+
+
+        public double[] OVolatility
+        {
+            get
+            {
+                return oVolatility;
+            }
+            set
+            {
+                oVolatility = value;
+            }
+        }
+
+
+        public double[] OWeights
+        {
+            get
+                {
+                return oWeights;
+                }
+            set
+            {
+                oWeights = value;
+                    ;
+            }
+        }
+        #endregion Getter & Setter
+
         public double[] oWeights { get; set; }
 
-        private double[] oVolatility { get; set; }
+        public double[] oVolatility { get; set; }
 
-        private double[] oSpot { get; set; }
+        public double[] oSpot { get; set; }
 
         public DateTime currentDate { get; set; }
 

@@ -25,6 +25,7 @@ namespace ProjetNET
         private String strike;
         private String dateDebut;
         private String dateFin;
+        private String optionInformation;
 
         #endregion Private Fields
 
@@ -63,6 +64,15 @@ namespace ProjetNET
             set
             {
                 SetProperty(ref dateFin, value);
+            }
+        }
+
+        public String OptionInformation
+        {
+            get { return optionInformation; }
+            set
+            {
+                SetProperty(ref optionInformation, value);
             }
         }
 
@@ -105,6 +115,8 @@ namespace ProjetNET
                 selectedPricing.Pricing.oWeights = selectedOption.oWeights;
 
                 wholeView.PricingViewModel = selectedOption.myPricer;
+
+                OptionInformation = selectedOption.toTextBox();
             }
         }
 
@@ -142,9 +154,20 @@ namespace ProjetNET
             new ActionCheckBox(edf),new ActionCheckBox(axaSA)};
             AvailableAction = new ObservableCollection<ActionCheckBox>(myListAction);
 
+            // Generation of options 
+            
+            // First Vanilla Call
+            OptionVanilla optVanilla1 = new OptionVanilla(vanille, "First Vanilla Call", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[1] { edf }, 12);
+            OptionVanilla optVanilla2 = new OptionVanilla(vanille, "Second Vanilla Call", new DateTime(2014, 01, 17), new DateTime(2014, 01, 24), new Share[1] { axaSA }, 7);
+            OptionBasket optBasket1 = new OptionBasket(basket, "First Basket Option", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[4] { accorSA, alstom, edf, axaSA }, 11, new double[4] { 0.2, 0.2, 0.2, 0.4 });
+            OptionBasket optBasket2 = new OptionBasket(basket, "Second Basket Option", new DateTime(2014, 01, 17), new DateTime(2015, 08, 13), new Share[2] { alstom, edf }, 11, new double[2] { 0.8, 0.2 });
 
-
+            List<AbstractOptionCombobox> myListOption = new List<AbstractOptionCombobox>() { optVanilla1, optVanilla2, optBasket1, optBasket2};
+            AvailableOptions = new ObservableCollection<AbstractOptionCombobox>(myListOption);
+        
         }
+
+        #endregion Public Constructors
 
         private void StartAnalyse()
         {
@@ -184,8 +207,6 @@ namespace ProjetNET
 
             wholeView.ViewFacade.Launch();
         }
-
-        #endregion Public Constructors
 
         private bool CanLaunch()
         {
