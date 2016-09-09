@@ -15,8 +15,8 @@ namespace ProjetNET.Models
     {
 
 
-        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanlysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int WREanlysisExanteVolatility(
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREanalysisExanteVolatility(
             ref int nbAssets,
             double[,] cav,
             double[] weight,
@@ -148,28 +148,39 @@ namespace ProjetNET.Models
 
         public void calculVolatility(List<DataFeed> listDataFeed)
         {
+            //Console.WriteLine(listDataFeed.Count);
         //Calcul des log rendements
             int nbAssets = listDataFeed.ToArray()[0].PriceList.Count;
-            int nbValues = 30; // listDataFeed.Count();
+            int nbValues = listDataFeed.Count();
             double[,] assetsValues = new double[nbValues,nbAssets];
-            int horizon = 0;
-            double[,] assetsReturns = new double[nbValues,nbAssets];
-            int info = 0;
-            int a =0;
-            for (int i = 0; i < nbAssets; i++ )
+            int horizon = listDataFeed.Count - 30 ;
+            double[,] assetsReturns = new double[(nbValues - horizon), nbAssets];
+            int info = 10;
+            //Console.WriteLine(nbAssets + " " +nbValues);
+            //Console.WriteLine("-----");
+            for (int i = 0; i < nbValues; i++ )
             {
                 int b = 0;
                 foreach (var iden in oShares)
                 {
-                    assetsValues[a, b] = (double)listDataFeed.ToArray()[i].PriceList[iden.Id];
+                    assetsValues[i,b] = (double)listDataFeed.ToArray()[i].PriceList[iden.Id];
+                    //Console.WriteLine(assetsValues[i,b]);
+                    b++;
                 }
-                b++;
-                a++;
             }
+            //Console.WriteLine("-----");
             int resultat = WREmodelingLogReturns(ref nbValues,ref nbAssets, assetsValues, ref horizon, assetsReturns,ref info);
             if (resultat != 0)
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingLogReturns, erreur numero : " + resultat);
+            }
+            //Console.WriteLine(assetsReturns.Length);
+            for (int i = 0; i < (30); i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    //Console.WriteLine(assetsReturns[i, j]);
+                }
             }
             //calcul de la covariance
             double[,] cov = new double[nbAssets,nbAssets];
@@ -178,13 +189,22 @@ namespace ProjetNET.Models
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingCov, erreur numero : " + resultat);
             }
-            double[] exante = new double[nbAssets];
+            //for (int i = 0 ; i < 4 ; i++ ){
+            //   Console.WriteLine(cov[i, 0] + " " +cov[i, 1]  + " "+ cov[i, 2] + " " +cov[i, 3] );
+            //}
+            //double[] exante = new double[nbAssets];
             //Calcul de la volatilité
-            resultat = WREanlysisExanteVolatility(ref nbAssets, cov, oWeights, exante, ref info);
+            this.oVolatility = new double[1];
+
+            resultat = WREanalysisExanteVolatility(ref nbAssets, cov, oWeights, this.oVolatility, ref info);
             if (resultat != 0)
         {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREanlysisExanteVolatility, erreur numero : " + resultat);
-            }
+            }/*
+            for (int i = 0; i < 4; i++)
+            {
+                Console.WriteLine(this.oVolatility[i]);
+            }*/
 
         }
 
