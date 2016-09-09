@@ -152,7 +152,7 @@ namespace ProjetNET.Models
 
         public double[] oVolatility { get; set; }
 
-        public double[] oSpot { get; }
+        public double[] oSpot { get; set; }
 
         public DateTime currentDate { get; set; }
 
@@ -160,7 +160,16 @@ namespace ProjetNET.Models
 
         public DateTime oMaturity { get; set; }
 
-        public Share[] oShares { get; set; }
+        private Share[] shares; 
+
+        public Share[] oShares {
+            get { return shares; }
+            set
+            {
+                shares = value;
+                oSpot = new double[shares.Length];
+            }
+        }
 
         public string oName { get; set; }
     }

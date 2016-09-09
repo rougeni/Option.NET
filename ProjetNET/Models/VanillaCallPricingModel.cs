@@ -21,6 +21,7 @@ namespace ProjetNET.Models
         {
             vanillaPricer = new Pricer();
             oName = "Vanilla";
+            oSpot = new double[1];
         }
 
 
@@ -100,7 +101,7 @@ namespace ProjetNET.Models
 
         public DateTime currentDate { get; set; }
 
-        public double[] oSpot { get; }
+        public double[] oSpot { get; set; }
 
         public double[] oVolatility { get; set; }
 
