@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 using PricingLibrary;
 using PricingLibrary.Utilities.MarketDataFeed;
+using PricingLibrary.FinancialProducts;
 
 namespace ProjetNET.Data
 {
@@ -147,39 +149,24 @@ namespace ProjetNET.Data
         }
 
         /**
-        * méthode qui retourne une liste de DataFeedClass
+        * méthode qui retourne une liste de DataFeed
         */
-        public DataFeed getDataFeedClass(DateTime date)
+        public List<DataFeed> getListDataField(DateTime startDate, DateTime endTime, Share[] underlyingShares)
         {
-            BaseDataContext baseData = new BaseDataContext();
-            var liste = from p in baseData.HistoricalShareValues
-                        where p.date == date
-                        orderby p.id
-                        select p;
-
-            Dictionary<string,decimal> dico = new Dictionary<string,decimal>();
-            foreach (var elt in liste)
+            string[] ids = new string[underlyingShares.Length];
+            for (int i = 0; i < ids.Length; i++)
             {
-                dico.Add(elt.id,elt.value);   
+                ids[i] = underlyingShares[i].Id;
             }
-            DataFeed dataF = new DataFeed(date, dico);
-            return dataF;
-        }
-
-        public List<DataFeed> getListDataField(DateTime startDate, DateTime endTime)
-        {
-            List<DataFeed> listeData = new List<DataFeed>();
-            BaseDataContext baseData = new BaseDataContext();
-            var listeDate = from p in baseData.HistoricalShareValues
-                            where p.date >= startDate && p.date <= endTime
-                            orderby p.date descending
-                            group p by p.date into q
-                            select q.Key;
-            foreach (var date in listeDate)
+            //List<DataFeed> listDF = null;
+            using (var dc = new BaseDataContext())
             {
-                listeData.Add(getDataFeedClass(date));
+                var tmp = dc.HistoricalShareValues.Where(el => ids.Contains(el.id.Trim())).Select(el => new ShareValue(el.id, el.date, el.value)).ToList();
+                var listDF = tmp.GroupBy(d => d.DateOfPrice,
+                                     t => new { Symb = t.Id, Val = t.Value },
+                                     (key, g) => new DataFeed(key, g.ToDictionary(e => e.Symb, e => e.Val)));
+                return listDF.ToList();
             }
-            return listeData;
         }
 
 
@@ -237,4 +224,6 @@ namespace ProjetNET.Data
 
     }
 }
+
+
 

@@ -22,7 +22,7 @@ namespace ProjetNET.Models
         public List<DataFeed> generateHistory()
         {
             DataGestion dg = new DataGestion();
-            return dg.getListDataField(startDate, endTime);
+            return dg.getListDataField(startDate, endTime,underlyingShares);
         }
 
     }

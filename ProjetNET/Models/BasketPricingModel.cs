@@ -334,7 +334,109 @@ namespace ProjetNET.Models
             }
 */
 
-    
+
+        #region Getter & Setter
+        public string OName
+        {
+            get
+            {
+                return oName;
+            }
+            set
+            {
+                oName = value;
+            }
+        }
+
+        public Share[] OShares
+        {
+            get
+            {
+                return oShares;
+            }
+            set
+            {
+                oShares = value;
+            }
+        }
+
+        public DateTime OMaturity
+        {
+            get
+            {
+                return oMaturity;
+            }
+            set
+            {
+                oMaturity = value;
+            }
+        }
+
+        public double OStrike
+        {
+            get
+            {
+                return oStrike;
+            }
+            set
+            {
+                oStrike = value;
+            }
+        }
+
+
+
+        public DateTime CurrentDate
+        {
+            get
+            {
+                return currentDate;
+            }
+            set
+            {
+                currentDate = value;
+            }
+        }
+
+        public double[] OSpot
+        {
+            get
+            {
+                return oSpot;
+            }
+            set
+            {
+                oSpot = value;
+            }
+        }
+
+
+        public double[] OVolatility
+        {
+            get
+            {
+                return oVolatility;
+            }
+            set
+            {
+                oVolatility = value;
+            }
+        }
+
+
+        public double[] OWeights
+        {
+            get
+            {
+                return oWeights;
+            }
+            set
+            {
+                oWeights = value;
+                ;
+            }
+        }
+        #endregion Getter & Setter
 
         public double[] oWeights { get; set; }
 
