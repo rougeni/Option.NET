@@ -69,7 +69,7 @@ namespace ProjetNET.Models
                 if (estDebut)
                 {
                     //calcul de PI0
-                    valeur = (double)df.PriceList[sousJacent];
+                    valeur = (double)pr.Price;
                     estDebut = false;
                 }
                 else
