@@ -107,7 +107,7 @@ namespace ProjetNET.Models
             {
                 for (int col = 0; col < oShares.Length; col++)
                 {
-                    variance[col] += Math.Pow(Math.Log10(prix[line, col] / prix[line - 1, col]), 2);
+                    variance[col] += Math.Pow(Math.Log10(prix[line+1, col] / prix[line, col]), 2);
                     avg[col] += Math.Log10(prix[line+1, col] / prix[line, col]);
                 }
             }
