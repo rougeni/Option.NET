@@ -21,10 +21,11 @@
                 </ItemsControl>
             <Label Content="Strike" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="243"/>
             <Label Content="Date de fin" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="197"/>
-            <TextBox Text="{Binding Path=Strike, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="243"/>
-            <TextBox Text="{Binding Path=Spot, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="200"/>
             <Label Content="Option" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="292"/>
             <Label Content="Testing" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="336"/>
+            <TextBox Text="{Binding Path=Strike, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="243"/>
+            <TextBox Text="{Binding Path=DateFin, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="200"/>
+            <TextBox Text="{Binding Path=DateDebut, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="154"/>
             <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding PricingMethods}" SelectedItem="{Binding SelectedPricing}" Canvas.Left="117" Canvas.Top="296">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -39,13 +40,12 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Content="Date de fin" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="166"/>
+            <Label Content="Date de début" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="151"/>
         </Canvas>
         <StackPanel HorizontalAlignment="Right" Margin="0,0,50,0" Orientation="Vertical">
             <ContentControl HorizontalAlignment="Right" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding WholeView.ViewFacade}" Height="500" />
             <Button Content="Lancer" Command="{Binding StartCommand}" HorizontalAlignment="Right" Margin="0,0,200,0" Height="22"/>
         </StackPanel>
-        <TextBox Text="{Binding Spot, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="169,212,0,0"/>
 
     </Grid>
 </Window>

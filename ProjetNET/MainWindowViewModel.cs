@@ -23,7 +23,8 @@ namespace ProjetNET
         private IPricingViewModel selectedPricing;
         private String maturity;
         private String strike;
-        private String spot;
+        private String dateDebut;
+        private String dateFin;
         private String startDate;
 
         #endregion Private Fields
@@ -52,12 +53,21 @@ namespace ProjetNET
             }
         }
 
-        public String Spot
+        public String DateDebut
         {
-            get { return spot; }
+            get { return dateDebut; }
             set
             {
-                SetProperty(ref spot, value);
+                SetProperty(ref dateDebut, value);
+            }
+        }
+
+        public String DateFin
+        {
+            get { return dateFin; }
+            set
+            {
+                SetProperty(ref dateFin, value);
             }
         }
 
@@ -70,7 +80,6 @@ namespace ProjetNET
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
             maturity = "20/08/2015";
             startDate = "10/01/2014";
-            spot = "20";
             strike = "10";
 
             wholeView = new WholeViewModel();
@@ -93,7 +102,7 @@ namespace ProjetNET
             Share edf = new Share("EDF", "EDF FP    ");
             Share axaSA = new Share("AIR LIQUIDE SA", "AI FP     ");
 
-            List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA), new ActionCheckBox(alstom),
+            List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA, true), new ActionCheckBox(alstom),
             new ActionCheckBox(edf),new ActionCheckBox(axaSA)};
             AvailableAction = new ObservableCollection<ActionCheckBox>(myListAction);
 
@@ -122,7 +131,6 @@ namespace ProjetNET
 
             selectedPricing.Pricing.oMaturity = maturityDate;
             double[] oSpot = new double[1];
-            oSpot[0] = Convert.ToDouble(spot);
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
 
