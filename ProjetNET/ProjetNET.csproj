@@ -71,7 +71,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Data\Dynamic.cs" />
     <Compile Include="Models\BackTestGenerate.cs" />
     <Compile Include="Models\BasketPricingModel.cs" />
     <Compile Include="Models\iterator.cs" />
