@@ -1,5 +1,6 @@
 ﻿using PricingLibrary.Computations;
 using PricingLibrary.FinancialProducts;
+using PricingLibrary.Utilities;
 using PricingLibrary.Utilities.MarketDataFeed;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,7 @@ namespace ProjetNET.Models
         );
 
         private Pricer basketPricer;
+        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
         private double[,] matriceCorr;
         private double tauxSR;
 
