@@ -39,11 +39,7 @@ namespace ProjetNET.Models
             {
                 double listPrice = (double)df.PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
-<<<<<<< HEAD
-                listPrix.Add(vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), df.Date, 365, oSpot[0], oVolatility[0]));
-=======
                 listPrix.Add(vanillaPricer.PriceCall(vanny, df.Date, businessDays, oSpot[0], oVolatility[0]));
->>>>>>> cfa0f5308b2f3a53f9fb45e0fd0716eef95f1d9f
             }
             
             return listPrix;
