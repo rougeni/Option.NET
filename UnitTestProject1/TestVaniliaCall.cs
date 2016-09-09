@@ -52,5 +52,17 @@ namespace UnitTestProject1
                 Console.WriteLine(pr.Price);
             }
         }
+
+        [TestMethod]
+        public void testVolatility()
+        {
+            DataGestion dg = new DataGestion();
+            List<DataFeed> ldf = dg.getListDataField(new DateTime(2013, 10, 10), new DateTime(2014, 10, 10));
+            VanillaCallPricingModel vcpm = new VanillaCallPricingModel();
+            Share share = new Share("ACCOR SA", "AC FP     ");
+            vcpm.oShares = new Share[1];
+            vcpm.oShares[0] = share;
+            vcpm.calculVolatility(ldf);
+        }
     }
 }
