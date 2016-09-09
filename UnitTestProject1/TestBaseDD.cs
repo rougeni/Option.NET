@@ -109,21 +109,6 @@ namespace TestUnitaires
         }
 
         [TestMethod]
-        public void testDataFeed()
-        {
-            DataGestion dataConn = new DataGestion();
-            DateTime dateStart = new DateTime(2015, 08, 17);
-            DateTime endTime = new DateTime(2015, 08, 20);
-
-            List<DataFeed> liste = dataConn.getListDataField(dateStart, endTime);
-
-            if (liste.ToArray().Length != 4)
-            {
-                throw new ArgumentOutOfRangeException("La liste ne contiens pas 4 éléments : " + liste.Count);
-            }
-        }
-
-        [TestMethod]
         public void testGetCotation()
         {
             DataGestion dg = new DataGestion();
