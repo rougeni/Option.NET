@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using PricingLibrary.Utilities;
 
 namespace ProjetNET.Models
 {
@@ -26,6 +27,10 @@ namespace ProjetNET.Models
 
         private Pricer basketPricer;
         private double[,] matriceCorr;
+        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
+        
+        
+       
 
         public BasketPricingModel()
         {
@@ -47,8 +52,8 @@ namespace ProjetNET.Models
                 for (int myShare = 0; myShare < oShares.Length; myShare++){
                     oSpot[myShare] = (double) df.PriceList[oShares[myShare].Id];
                 }
-              
-                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, 252, oSpot, oVolatility, matriceCorr));
+
+                listPrix.Add(basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), df.Date, businessDays, oSpot, oVolatility, matriceCorr));
             }
 
             return listPrix;
@@ -67,7 +72,7 @@ namespace ProjetNET.Models
                 oSpot[myShare] = (double) listDataFeed[listDataFeed.Count-1].PriceList[oShares[myShare].Id];
             }
 
-            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, 252, oSpot, oVolatility, matriceCorr);
+            return basketPricer.PriceBasket(new BasketOption(oName, oShares, oWeights, oMaturity, oStrike), oMaturity, businessDays, oSpot, oVolatility, matriceCorr);
         }
 
         private void calculVolatility(List<DataFeed> listDataFeed)
@@ -142,114 +147,12 @@ namespace ProjetNET.Models
 
         }
 
-        #region Getter & Setter
-        public string OName
-        {
-            get
-            {
-                return oName;
-            }
-            set
-            {
-                oName = value;
-            }
-        }
-
-        public Share[] OShares
-        {
-            get
-            {
-                return oShares;
-            }
-            set
-            {
-                oShares = value;
-            }
-        }
-
-        public DateTime OMaturity
-        {
-            get
-            {
-                return oMaturity;
-            }
-            set
-            {
-                oMaturity = value;
-            }
-        }
-
-        public double OStrike
-        {
-            get
-            {
-                return oStrike;
-            }
-            set
-            {
-                oStrike = value;
-            }
-        }
-
-
-
-        public DateTime CurrentDate
-        {
-            get
-            {
-                return currentDate;
-            }
-            set
-            {
-                currentDate = value;
-            }
-        }
-
-        public double[] OSpot
-        {
-            get
-            {
-                return oSpot;
-            }
-            set
-            {
-                oSpot = value;
-            }
-        }
-
-
-        public double[] OVolatility
-        {
-            get
-            {
-                return oVolatility;
-            }
-            set
-            {
-                oVolatility = value;
-            }
-        }
-
-
-        public double[] OWeights
-        {
-            get
-            {
-                return oWeights;
-            }
-            set
-            {
-                oWeights = value;
-                    ;
-            }
-        }
-        #endregion Getter & Setter
 
         public double[] oWeights { get; set; }
 
         public double[] oVolatility { get; set; }
 
-        public double[] oSpot { get; set; }
+        public double[] oSpot { get; }
 
         public DateTime currentDate { get; set; }
 
