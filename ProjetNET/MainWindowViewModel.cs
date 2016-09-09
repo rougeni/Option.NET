@@ -112,12 +112,6 @@ namespace ProjetNET
             DateTime maturityDate = DateTime.ParseExact(DateFin, "dd/MM/yyyy",
                                        System.Globalization.CultureInfo.InvariantCulture);
             selectedPricing.Pricing.oShares = actions.ToArray();
-            selectedPricing.Pricing.oWeights = new double[actions.Count];
-            for (int i = 0; i < actions.Count; i++)
-            {
-                selectedPricing.Pricing.oWeights[i] = 1 / actions.Count;
-            }
-
             selectedPricing.Pricing.oMaturity = maturityDate;
             double[] oSpot = new double[1];
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
