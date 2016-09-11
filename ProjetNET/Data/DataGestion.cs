@@ -160,7 +160,7 @@ namespace ProjetNET.Data
             //List<DataFeed> listDF = null;
             using (var dc = new BaseDataContext())
             {
-                var tmp = dc.HistoricalShareValues.Where(el => ids.Contains(el.id.Trim())).Select(el => new ShareValue(el.id, el.date, el.value)).ToList();
+                var tmp = dc.HistoricalShareValues.Where(el => ids.Contains(el.id.Trim()) && el.date >= startDate && el.date <= endTime ).Select(el => new ShareValue(el.id, el.date, el.value)).ToList();
                 var listDF = tmp.GroupBy(d => d.DateOfPrice,
                                      t => new { Symb = t.Id, Val = t.Value },
                                      (key, g) => new DataFeed(key, g.ToDictionary(e => e.Symb, e => e.Val)));
