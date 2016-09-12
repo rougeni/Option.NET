@@ -122,6 +122,12 @@ namespace ProjetNET
             OptionVanilla optVanilla2 = new OptionVanilla(vanille, "Second Vanilla Call", new DateTime(2014, 01, 17), new DateTime(2014, 01, 24), new Share[1] { axaSA }, 7);
             OptionBasket optBasket1 = new OptionBasket(basket, "First Basket Option", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[4] { accorSA, alstom, edf, axaSA }, 30, new double[4] { 0.2, 0.2, 0.2, 0.4 });
             OptionBasket optBasket2 = new OptionBasket(basket, "Second Basket Option", new DateTime(2014, 01, 17), new DateTime(2015, 08, 13), new Share[2] { alstom, edf }, 14, new double[2] { 0.8, 0.2 });
+
+            OptionBasket optBasket3 = new OptionBasket(basket, "Forward Basket Option 1", new DateTime(2014, 01, 17), new DateTime(2015, 08, 13), new Share[3] { alstom, edf, axaSA }, 5, new double[3] { 0.3, 0.5, 0.2 });
+            OptionBasket optBasket4 = new OptionBasket(basket, "Forward Basket Option 2", new DateTime(2014, 08, 17), new DateTime(2015, 08, 13), new Share[2] { alstom, axaSA }, 9, new double[2] { 0.7, 0.3 });
+
+            OptionVanilla optVanilla3 = new OptionVanilla(vanille, "Forward Vanilla Call 1", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[1] { alstom }, 7);
+            OptionVanilla optVanilla4 = new OptionVanilla(vanille, "Forward Vanilla Call 2", new DateTime(2014, 08, 10), new DateTime(2015, 08, 20), new Share[1] { axaSA }, 9);
             SelectedOption = optVanilla1;
             DateDebut = selectedOption.currentDate.ToShortDateString();
 
@@ -129,7 +135,7 @@ namespace ProjetNET
             DateDebut = selectedOption.currentDate.ToShortDateString();
             optionInformation = optVanilla1.toTextBox();
 
-            List<AbstractOptionCombobox> myListOption = new List<AbstractOptionCombobox>() { optVanilla1, optVanilla2, optBasket1, optBasket2 };
+            List<AbstractOptionCombobox> myListOption = new List<AbstractOptionCombobox>() { optVanilla1, optVanilla2, optBasket1, optBasket2, optVanilla3, optVanilla4, optBasket3, optBasket4 };
             AvailableOptions = new ObservableCollection<AbstractOptionCombobox>(myListOption);
         
             BackTestGenerateHistoryVM backTest = new BackTestGenerateHistoryVM();
