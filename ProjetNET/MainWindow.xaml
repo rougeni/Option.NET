@@ -10,50 +10,28 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
-        <Canvas HorizontalAlignment="Left" Margin="50,50,10,10">
-            <Label Content="Selectionner le(s) sous-jacent(s) de votre option " HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ItemsControl Margin="25,25,25,25" ItemsSource="{Binding AvailableAction}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected , Mode=TwoWay}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Label Content="Strike" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="243"/>
-            <Label Content="Date de fin" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="197"/>
-            <Label Content="Option" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="292"/>
-            <Label Content="Testing" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="336"/>
-            <TextBox Text="{Binding Path=Strike, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="243"/>
-            <TextBox Text="{Binding Path=DateFin, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="200"/>
-            <TextBox Text="{Binding Path=DateDebut, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Canvas.Left="117" Canvas.Top="154"/>
-            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding PricingMethods}" SelectedItem="{Binding SelectedPricing}" Canvas.Left="117" Canvas.Top="296">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding TestGenerateHistory}" SelectedItem="{Binding SelectedTesting}" Canvas.Left="117" Canvas.Top="336">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Label Content="Date de début" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Canvas.Top="151"/>
-        </Canvas>
-        <StackPanel HorizontalAlignment="Right" Margin="0,0,50,0" Orientation="Vertical">
-            <ContentControl HorizontalAlignment="Right" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding WholeView.ViewFacade}" Height="500" />
-            <Button Content="Lancer" Command="{Binding StartCommand}" HorizontalAlignment="Right" Margin="0,0,200,0" Height="22"/>
-        </StackPanel>
-        <TextBox Text="{Binding OptionInformation, Mode=TwoWay}" HorizontalAlignment="Left" Height="134" Margin="180,501,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="387" IsReadOnly="True"/>
-        <ComboBox ItemsSource="{Binding AvailableOptions}" SelectedItem="{Binding SelectedOption}" HorizontalAlignment="Left" Margin="55,502,0,0" VerticalAlignment="Top" Width="120">
+        <Label Content="Option" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Margin="50,129,0,0"/>
+        <ComboBox ItemsSource="{Binding AvailableOptions}" SelectedItem="{Binding SelectedOption}" HorizontalAlignment="Left" Margin="167,133,0,0" VerticalAlignment="Top" Width="120">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding oName}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-
+        <TextBox Text="{Binding OptionInformation, Mode=TwoWay}" HorizontalAlignment="Left" Height="134" Margin="50,177,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="237" IsReadOnly="True"/>
+        <Label Content="Rebalancement" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.852,-0.171" Margin="50,341,0,0"/>
+        <TextBox Text="{Binding Rebalancement, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="167,344,0,0"/>
+        <Label Content="Testing" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,386,0,0"/>
+        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding TestGenerateHistory}" SelectedItem="{Binding SelectedTesting}" Margin="167,386,0,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <StackPanel HorizontalAlignment="Right" Margin="0,0,50,0" Orientation="Vertical">
+            <ContentControl HorizontalAlignment="Right" ContentTemplate="{StaticResource FieldDisplayViewTemplate}" Content="{Binding WholeView.ViewFacade}" Height="500" />
+            <Button Content="Lancer" Command="{Binding StartCommand}" HorizontalAlignment="Right" Margin="0,0,200,0" Height="22" RenderTransformOrigin="-0.18,0.446"/>
+        </StackPanel>
     </Grid>
 </Window>

@@ -467,5 +467,8 @@ namespace ProjetNET.Models
         public Share[] oShares { get; set; }
 
         public string oName { get; set; }
+
+        public int oRebalancement { get; set; }
+
     }
 }
