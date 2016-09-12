@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
+    /**
+    * 
+     * Interface permettant de lie la vue et 
+     * les differents model de pricing (Vanilla Call et Basket)
+     * 
+     * */
     public interface IPricingViewModel
     {
         #region Public Properties
