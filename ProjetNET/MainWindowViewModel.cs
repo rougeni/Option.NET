@@ -159,7 +159,8 @@ namespace ProjetNET
             try
             {
                 wholeView.ViewFacade.Launch();
-            } catch (NullReferenceException nullRef) {
+            } 
+            catch (NullReferenceException nullRef) {
                 MessageBox.Show("La période considérée ne correspond à aucune donnée.");
             }
             catch (ApplicationException appli)
