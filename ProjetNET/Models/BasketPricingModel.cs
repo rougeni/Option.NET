@@ -252,6 +252,8 @@ namespace ProjetNET.Models
 
             double[] rend = new double[distTime];
 
+            oVolatility = new double[nbAssets];
+
             for (int j = 0; j < nbAssets; j++)
             {
                 for (int k = 0; k < distTime; k++)
