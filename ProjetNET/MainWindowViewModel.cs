@@ -20,7 +20,7 @@ namespace ProjetNET
         private IPricingViewModel selectedPricing;
         private AbstractOptionCombobox selectedOption;
 
-        private bool fieldCompleted;
+        //private bool fieldCompleted;
 
         private String strike;
         private String dateDebut;

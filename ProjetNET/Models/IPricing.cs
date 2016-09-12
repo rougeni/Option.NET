@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
+    /* 
+     * Interface to provide a structure for the different pricing models - Vanilla and Basket options.
+     * */
     public interface IPricing
     {
 

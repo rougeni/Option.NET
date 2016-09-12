@@ -146,13 +146,13 @@ namespace ProjetNET.Models
             }
             return listePortefeuille;
         }
-        #endregion public methods
+        
 
-        #region private methods
+      
         /*
          * Method to calculate the volatility and ovariance matrix.
          * */
-        private void calculVolatility(List<DataFeed> listDataFeed)
+        public void calculVolatility(List<DataFeed> listDataFeed)
         {
             /*public static extern int WREmodelingLogReturns(
                 ref int nbValues,
@@ -222,7 +222,7 @@ namespace ProjetNET.Models
             oVolatility[0] = exanteVolatility[0];
         }
 
-        #endregion private methods
+        #endregion public methods
 
         #region Getter & Setter
         public string oName { get; set; }
