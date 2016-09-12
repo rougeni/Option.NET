@@ -27,7 +27,7 @@ namespace UnitTestProject1
             vcpm.oSpot[0] = 48;
             DataGestion dg =new DataGestion();
             DateTime date = new DateTime(2013,8,20);
-            List<DataFeed> ldf = dg.getListDataField(date, vcpm.oMaturity);
+            List<DataFeed> ldf = dg.getListDataField(date, vcpm.oMaturity,vcpm.oShares);
             PricingResults pR = vcpm.getPayOff(ldf);
             Console.WriteLine(pR.Price);
         }
@@ -46,7 +46,7 @@ namespace UnitTestProject1
             vcpm.oSpot = new double[1];
             DateTime date = new DateTime(2015, 1, 12);
             vcpm.oSpot[0] = dg.getCotation("AC FP", date);
-            List<DataFeed> ldf = dg.getListDataField(date, vcpm.oMaturity);
+            List<DataFeed> ldf = dg.getListDataField(date, vcpm.oMaturity, vcpm.oShares);
             List<PricingResults> LpR = vcpm.pricingUntilMaturity(ldf);
             foreach (PricingResults pr in LpR)
             {
@@ -58,11 +58,11 @@ namespace UnitTestProject1
         public void testVolatility()
         {
             DataGestion dg = new DataGestion();
-            List<DataFeed> ldf = dg.getListDataField(new DateTime(2013, 10, 10), new DateTime(2014, 10, 10));
             VanillaCallPricingModel vcpm = new VanillaCallPricingModel();
             Share share = new Share("ACCOR SA", "AC FP     ");
             vcpm.oShares = new Share[1];
             vcpm.oShares[0] = share;
+            List<DataFeed> ldf = dg.getListDataField(new DateTime(2013, 10, 10), new DateTime(2014, 10, 10),vcpm.oShares);
             vcpm.calculVolatility(ldf);
         }
 

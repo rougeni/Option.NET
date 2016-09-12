@@ -24,7 +24,7 @@ namespace UnitTestProject1
             bpm.oStrike = 45.5;
             DataGestion dg = new DataGestion();
             DateTime date = new DateTime(2013, 8, 21);
-            List<DataFeed> ldf = dg.getListDataField(date, bpm.oMaturity); 
+            List<DataFeed> ldf = dg.getListDataField(date, bpm.oMaturity,bpm.oShares); 
             PricingResults pR = bpm.getPayOff(ldf);
             Console.WriteLine(pR.Price);
         }

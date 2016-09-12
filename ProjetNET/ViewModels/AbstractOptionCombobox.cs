@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
+    /**
+     * Abstract class to provide a structure for hard-coded options.
+     * */
     public abstract class AbstractOptionCombobox
     {
 
@@ -26,11 +29,6 @@ namespace ProjetNET.ViewModels
         
         // basket
         public double[] oWeights { get; set; }
-
-        public AbstractOptionCombobox(IPricingViewModel pricer)
-        {
-            myPricer = pricer;
-        }
 
         abstract public String toTextBox();
     }

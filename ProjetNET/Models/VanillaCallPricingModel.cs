@@ -14,6 +14,7 @@ namespace ProjetNET.Models
 {
     public class VanillaCallPricingModel : IPricing
     {
+        #region WRE imports
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
 
         public static extern int WREmodelingLogReturns(
@@ -41,11 +42,21 @@ namespace ProjetNET.Models
             double[,] cov,
             ref int info
             );
+        #endregion WRE imports
 
+
+        #region private fields
         private Pricer vanillaPricer;
-        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));
+        private int businessDays = DayCount.CountBusinessDays(new DateTime(2014, 1, 1), new DateTime(2014, 12, 31));  // Convention of businessdays a year
         private double tauxSR;
+        #endregion private fields
 
+        #region public methods
+
+        /**
+         * Constrctor for a VanillaPricingModel.
+         * 
+         * */
         public VanillaCallPricingModel()    
         {
             vanillaPricer = new Pricer();
@@ -54,7 +65,10 @@ namespace ProjetNET.Models
             oSpot = new double[1];
         }
 
-
+        /*
+         * Method to calculate all the pricings in between a certain date and the maturity.
+         * 
+         * */
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
         {
             if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
@@ -76,6 +90,9 @@ namespace ProjetNET.Models
             return listPrix;
         }
 
+        /*
+         * Method to return the Payoff at maturity.
+         * */
         public PricingResults getPayOff(List<DataFeed> listDataFeed)
         {
             if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
@@ -92,6 +109,49 @@ namespace ProjetNET.Models
             return vanillaPricer.PriceCall(new VanillaCall(oName, oShares, oMaturity, oStrike), oMaturity, businessDays, oSpot[0], oVolatility[0]);
         }
 
+        /*
+         * Calculates the portefeuille de couverture.
+         * */
+        public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
+        {
+            List<Portefeuille> listePortefeuille = new List<Portefeuille>();
+            IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
+            IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
+            bool estDebut = true;
+            double valeur = 0;
+            double ancienneValeur = 0;
+            PricingResults ancienPR = null;
+            DataFeed ancienDF = null;
+            string sousJacent = oShares[0].Id;
+            while(enumPR.MoveNext() && enumLDF.MoveNext())
+            {
+                PricingResults pr = (PricingResults)enumPR.Current;
+                DataFeed df = (DataFeed)enumLDF.Current;
+                if (estDebut)
+                {
+                    //calcul de PI0
+                    valeur = (double)pr.Price;
+                    estDebut = false;
+                }
+                else
+                {
+                    // calcul de PIn
+                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/businessDays);
+                }
+                ancienPR = pr;
+                ancienDF = df;
+                ancienneValeur = valeur;
+                Portefeuille port = new Portefeuille(df.Date, valeur);
+                listePortefeuille.Add(port);
+            }
+            return listePortefeuille;
+        }
+        
+
+      
+        /*
+         * Method to calculate the volatility and ovariance matrix.
+         * */
         public void calculVolatility(List<DataFeed> listDataFeed)
         {
             /*public static extern int WREmodelingLogReturns(
@@ -162,40 +222,7 @@ namespace ProjetNET.Models
             oVolatility[0] = exanteVolatility[0];
         }
 
-        public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
-        {
-            List<Portefeuille> listePortefeuille = new List<Portefeuille>();
-            IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
-            IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
-            bool estDebut = true;
-            double valeur = 0;
-            double ancienneValeur = 0;
-            PricingResults ancienPR = null;
-            DataFeed ancienDF = null;
-            string sousJacent = oShares[0].Id;
-            while(enumPR.MoveNext() && enumLDF.MoveNext())
-            {
-                PricingResults pr = (PricingResults)enumPR.Current;
-                DataFeed df = (DataFeed)enumLDF.Current;
-                if (estDebut)
-                {
-                    //calcul de PI0
-                    valeur = (double)pr.Price;
-                    estDebut = false;
-                }
-                else
-                {
-                    // calcul de PIn
-                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/businessDays);
-                }
-                ancienPR = pr;
-                ancienDF = df;
-                ancienneValeur = valeur;
-                Portefeuille port = new Portefeuille(df.Date, valeur);
-                listePortefeuille.Add(port);
-            }
-            return listePortefeuille;
-        }
+        #endregion public methods
 
         #region Getter & Setter
         public string oName { get; set; }
@@ -208,9 +235,9 @@ namespace ProjetNET.Models
 
         public DateTime currentDate { get; set; }
 
-        private double[] oSpot { get; set; }
+        public double[] oSpot { get; set; }
 
-        private double[] oVolatility { get; set; }
+        public double[] oVolatility { get; set; }
 
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
