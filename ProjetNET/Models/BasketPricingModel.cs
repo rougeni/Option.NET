@@ -147,8 +147,6 @@ namespace ProjetNET.Models
                         valeur = produitScalaire(currentDelta, df.PriceList) + (ancienneValeur - produitScalaire(currentDelta, ancienDF.PriceList)) * Math.Exp(tauxSR / businessDays);
                         waitForRebalancing = oRebalancement ;
                         currentDelta = ancienPR.Deltas;
-                        Console.WriteLine(produitScalaire(currentDelta, df.PriceList));
-
                     }
                     else
                     {
