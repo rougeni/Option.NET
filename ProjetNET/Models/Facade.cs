@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
+    /**
+     * Facade gère le traitement des éléments modifiés dans la vue
+     * 
+     * */
     public class Facade
     {
         private IPricing pricing;
@@ -26,10 +30,6 @@ namespace ProjetNET.Models
             this.pricing = pricing;
         }
 
-        ///  3 éléments
-        ///     - liste datafield generateHitory
-        ///     - result pricing par pricing(datafield)
-        ///     - prix du portefeuille de couverture à toutes les dates (Pi(i))
         public void update()
         {
             List<DataFeed> ldf = generateHistory.generateHistory();

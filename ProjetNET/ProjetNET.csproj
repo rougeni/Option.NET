@@ -74,7 +74,6 @@
     </ApplicationDefinition>
     <Compile Include="Models\BackTestGenerate.cs" />
     <Compile Include="Models\BasketPricingModel.cs" />
-    <Compile Include="Models\iterator.cs" />
     <Compile Include="Models\Portefeuille.cs" />
     <Compile Include="ViewModels\ActionCheckBox.cs" />
     <Compile Include="ViewModels\BackTestGenerateHistoryVM.cs" />
