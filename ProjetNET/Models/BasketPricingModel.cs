@@ -69,6 +69,7 @@ namespace ProjetNET.Models
         {
             basketPricer = new Pricer();
             oName = "Basket";
+            oObservation = 30;
         }
         #endregion Constructor
 

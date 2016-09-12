@@ -63,6 +63,7 @@ namespace ProjetNET.Models
             oName = "Vanilla";
             tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
             oSpot = new double[1];
+            oObservation = 30;
         }
 
         /*
@@ -199,7 +200,7 @@ namespace ProjetNET.Models
             }
 
             double[,] cov = new double[1, 1];
-            int nbValuesCov = 30;
+            int nbValuesCov = oObservation;
             resultat = WREmodelingCov(ref nbValuesCov, ref nbAssets, assetsReturns, cov, ref info);
             if (resultat != 0)
             {
