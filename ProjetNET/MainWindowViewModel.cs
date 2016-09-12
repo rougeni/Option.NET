@@ -193,7 +193,7 @@ namespace ProjetNET
                                        System.Globalization.CultureInfo.InvariantCulture);
             selectedPricing.Pricing.oShares = actions.ToArray();
             selectedPricing.Pricing.oMaturity = maturityDate;
-            double[] oSpot = new double[1];
+            selectedPricing.Pricing.currentDate = startDateTime.AddDays(-30);
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
 
