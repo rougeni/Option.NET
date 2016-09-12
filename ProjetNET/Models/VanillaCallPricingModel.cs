@@ -193,7 +193,8 @@ namespace ProjetNET.Models
             );
              */
             double[,] cov = new double[1, 1];
-            resultat = WREmodelingCov(ref nbValues, ref nbAssets, assetsReturns, cov, ref info);
+            int nbValuesCov = 30;
+            resultat = WREmodelingCov(ref nbValuesCov, ref nbAssets, assetsReturns, cov, ref info);
             if (resultat != 0)
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREmodelingCov erreur numero : " + resultat);

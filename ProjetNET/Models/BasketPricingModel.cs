@@ -63,7 +63,6 @@ namespace ProjetNET.Models
         {
             basketPricer = new Pricer();
             oName = "Basket";
-            tauxSR = RiskFreeRateProvider.GetRiskFreeRate();
         }
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
@@ -80,38 +79,51 @@ namespace ProjetNET.Models
             BasketOption bask_o = new BasketOption(oName, oShares, oWeights, oMaturity, oStrike);
             foreach (DataFeed df in listDataFeed)
             {
-                Console.WriteLine("pass here A " + DateTime.Now);
+                //Console.WriteLine("pass here A " + DateTime.Now);
 
                 for (int myShare = 0; myShare < oShares.Length; myShare++){
                     oSpot[myShare] = (double) df.PriceList[oShares[myShare].Id];
                 }
-                Console.WriteLine("pass here B " + DateTime.Now);
+                //Console.WriteLine("pass here B " + DateTime.Now);
 
-                Console.WriteLine(bask_o.Maturity+ " " + bask_o.Name + " " + bask_o.Name + "  " + bask_o.Strike );
-                for (int i = 0; i < bask_o.Weights.Length; i++)
+                //Console.WriteLine(bask_o.Maturity+ " " + bask_o.Name + " " + bask_o.Name + "  " + bask_o.Strike );
+                //for (int i = 0; i < bask_o.Weights.Length; i++)
                 {
-                    Console.WriteLine("!!!! EREUR D ICI ''' " + bask_o.UnderlyingShareIds.Length);
+                    //Console.WriteLine("!!!! EREUR D ICI ''' " + bask_o.UnderlyingShareIds.Length);
                 }
-                for (int i = 0; i < bask_o.Weights.Length; i++)
+                //for (int i = 0; i < bask_o.Weights.Length; i++)
                 {
-                    Console.WriteLine(bask_o.Weights[i]);
+                    //Console.WriteLine(bask_o.Weights[i]);
                 }
-                Console.WriteLine(df.Date);
-                for (int i = 0; i < 2; i++)
+                //Console.WriteLine(df.Date);
+                //for (int i = 0; i < 2; i++)
                 {
-                    Console.WriteLine(oSpot[i] = 0.5);
+                    //Console.WriteLine(oSpot[i] = 0.5);
                 }
-                for (int i = 0; i < 1; i++)
+                //for (int i = 0; i < 1; i++)
                 {
-                    calculVolatility(listDataFeed);
-                    Console.WriteLine(" ??? " + oVolatility[i]);
+                    //calculVolatility(listDataFeed);
+                    //Console.WriteLine(" ??? " + oVolatility[i]);
                 }
-                Console.WriteLine(" !!! -> " + matriceCorr.Length); 
+                //Console.WriteLine(" !!! -> " + matriceCorr.Length); 
                 //Console.WriteLine();
-                PricingResults pr = basketPricer.PriceBasket(bask_o, df.Date, 252, oSpot, oVolatility, matriceCorr);
+                int last = 0;
+                if (last != 586)
+                {
+                    PricingResults pr = basketPricer.PriceBasket(bask_o, df.Date, businessDays, oSpot, oVolatility, matriceCorr);
+                    Console.WriteLine("pass here C" + DateTime.Now);
+                    listPrix.Add(pr);
+                    Console.WriteLine("pass here D" + DateTime.Now);
+                }
+                else
+                {
+                    PricingResults pr = basketPricer.PriceBasket(bask_o, df.Date, businessDays, oSpot, oVolatility, matriceCorr);
                 Console.WriteLine("pass here C" + DateTime.Now);
                 listPrix.Add(pr);
                 Console.WriteLine("pass here D" + DateTime.Now);
+                }
+                    last++;
+
 
             }
 
@@ -217,7 +229,8 @@ namespace ProjetNET.Models
             }
             //calcul de la covariance
             double[,] cov = new double[nbAssets,nbAssets];
-            resultat = WREmodelingCov(ref nbValues,ref nbAssets, assetsReturns, cov, ref info);
+            int nbValuesCov = 30;
+            resultat = WREmodelingCov(ref nbValuesCov,ref nbAssets, assetsReturns, cov, ref info);
             if (resultat != 0)
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour Basket: WREmodelingCov, erreur numero : " + resultat);
@@ -231,8 +244,8 @@ namespace ProjetNET.Models
                 }
             }
             double[,] corr = new double[nbAssets, nbAssets];
-
-            resultat = WREmodelingCorr(ref nbValues, ref nbAssets, assetsReturns, corr, ref info);
+            int nbValuesCorr = 30;
+            resultat = WREmodelingCorr(ref nbValuesCorr, ref nbAssets, assetsReturns, corr, ref info);
 
             if (resultat != 0) 
             {
