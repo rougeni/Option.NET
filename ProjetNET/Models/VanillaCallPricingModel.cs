@@ -239,6 +239,7 @@ namespace ProjetNET.Models
 
         public double[] oVolatility { get; set; }
 
+        public int oRebalancement { get; set; }
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
 

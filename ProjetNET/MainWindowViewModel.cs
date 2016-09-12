@@ -22,9 +22,7 @@ namespace ProjetNET
 
         //private bool fieldCompleted;
 
-        private String strike;
-        private String dateDebut;
-        private String dateFin;
+        private String rebalancement;
         private String optionInformation;
 
         #endregion Private Fields
@@ -33,37 +31,15 @@ namespace ProjetNET
 
         public ObservableCollection<IGenerateHistoryViewModel> TestGenerateHistory { get; private set; }
 
-        public ObservableCollection<IPricingViewModel> PricingMethods { get; private set; }
-
-        public ObservableCollection<ActionCheckBox> AvailableAction { get; private set; }
-
         public ObservableCollection<AbstractOptionCombobox> AvailableOptions { get; private set; }
 
 
-        public String Strike
+        public String Rebalancement
         {
-            get { return strike; }
+            get { return rebalancement; }
             set
             {
-                SetProperty(ref strike, value);
-            }
-        }
-
-        public String DateDebut
-        {
-            get { return dateDebut; }
-            set
-            {
-                SetProperty(ref dateDebut, value);
-            }
-        }
-
-        public String DateFin
-        {
-            get { return dateFin; }
-            set
-            {
-                SetProperty(ref dateFin, value);
+                SetProperty(ref rebalancement, value);
             }
         }
 
@@ -107,6 +83,7 @@ namespace ProjetNET
             set
             {
                 SetProperty(ref selectedOption, value);
+                selectedPricing = selectedOption.myPricer;
                 selectedPricing.Pricing.currentDate = selectedOption.currentDate;
                 selectedPricing.Pricing.oMaturity = selectedOption.oMaturity;
                 selectedPricing.Pricing.oName = selectedOption.oName;
@@ -121,9 +98,9 @@ namespace ProjetNET
                 selectedTesting.GenerateHistory.weight = selectedOption.oWeights;
                 selectedTesting.GenerateHistory.vanillaCallName = selectedOption.oName;
 
-                wholeView.PricingViewModel = selectedOption.myPricer;
-
                 OptionInformation = selectedOption.toTextBox();
+
+                wholeView.PricingViewModel = selectedPricing;
             }
         }
 
@@ -133,9 +110,7 @@ namespace ProjetNET
         public MainWindowViewModel()
         {
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-            dateFin = "20/08/2015";
-            dateDebut = "10/01/2014";
-            strike = "10";
+            rebalancement = "1";
 
             wholeView = new WholeViewModel();
             BackTestGenerateHistoryVM backTest = new BackTestGenerateHistoryVM();
@@ -147,19 +122,11 @@ namespace ProjetNET
 
             VanillaCallPricingVM vanille = new VanillaCallPricingVM();
             BasketPricingVM basket = new BasketPricingVM();
-            selectedPricing = vanille;
-
-            List<IPricingViewModel> myListPricing = new List<IPricingViewModel>() { vanille, basket };
-            PricingMethods = new ObservableCollection<IPricingViewModel>(myListPricing);
 
             Share accorSA = new Share("ACCOR SA", "AC FP     ");
             Share alstom = new Share("ALSTOM", "ALO FP    ");
             Share edf = new Share("EDF", "EDF FP    ");
             Share axaSA = new Share("AIR LIQUIDE SA", "AI FP     ");
-
-            List<ActionCheckBox> myListAction = new List<ActionCheckBox>() { new ActionCheckBox(accorSA, true), new ActionCheckBox(alstom),
-            new ActionCheckBox(edf),new ActionCheckBox(axaSA)};
-            AvailableAction = new ObservableCollection<ActionCheckBox>(myListAction);
 
             // Generation of options 
             
@@ -168,8 +135,8 @@ namespace ProjetNET
             OptionVanilla optVanilla2 = new OptionVanilla(vanille, "Second Vanilla Call", new DateTime(2014, 01, 17), new DateTime(2014, 01, 24), new Share[1] { axaSA }, 7);
             OptionBasket optBasket1 = new OptionBasket(basket, "First Basket Option", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[4] { accorSA, alstom, edf, axaSA }, 11, new double[4] { 0.2, 0.2, 0.2, 0.4 });
             OptionBasket optBasket2 = new OptionBasket(basket, "Second Basket Option", new DateTime(2014, 01, 17), new DateTime(2015, 08, 13), new Share[2] { alstom, edf }, 14, new double[2] { 0.8, 0.2 });
-            selectedOption = optVanilla1;
-            optionInformation = optVanilla1.toTextBox();
+            SelectedOption = optVanilla1;
+            OptionInformation = optVanilla1.toTextBox();
             List<AbstractOptionCombobox> myListOption = new List<AbstractOptionCombobox>() { optVanilla1, optVanilla2, optBasket1, optBasket2};
             AvailableOptions = new ObservableCollection<AbstractOptionCombobox>(myListOption);
         
@@ -179,39 +146,9 @@ namespace ProjetNET
 
         private void StartAnalyse()
         {
-            List<Share> actions = new List<Share>();
-            foreach(ActionCheckBox action in AvailableAction) 
-            {
-                if (action.IsSelected)
-                    actions.Add(action.Share);
-            }
+            selectedPricing.Pricing.oRebalancement = Convert.ToInt32(Rebalancement);
 
-            DateTime startDateTime = DateTime.ParseExact(dateDebut, "dd/MM/yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-
-            DateTime maturityDate = DateTime.ParseExact(DateFin, "dd/MM/yyyy",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-            selectedPricing.Pricing.oShares = actions.ToArray();
-            selectedPricing.Pricing.oMaturity = maturityDate;
-            double[] oSpot = new double[1];
-            selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
-            wholeView.PricingViewModel = selectedPricing;
-
-            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
-            selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
-            selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.startDate = startDateTime.AddDays(-30);
-            selectedTesting.GenerateHistory.endTime = maturityDate;
-
-            double[] weight = new double[4];
-            weight[0] = 0.25; weight[1] = 0.25; weight[2] = 0.25; weight[3] = 0.25;
-            selectedTesting.GenerateHistory.weight = weight;
-            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
-            selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.startDate = startDateTime;
-            selectedTesting.GenerateHistory.endTime = maturityDate;
             wholeView.GenrateHistory = selectedTesting;
-            wholeView.PricingViewModel = selectedPricing;
 
             wholeView.ViewFacade.Launch();
         }
