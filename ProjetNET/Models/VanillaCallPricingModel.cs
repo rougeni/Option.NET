@@ -81,13 +81,13 @@ namespace ProjetNET.Models
 
             VanillaCall vanny = new VanillaCall(oName, oShares, oMaturity, oStrike);
 
-            while (listdf.Count > 30)
+            while (listdf.Count > oObservation)
             {
                 calculVolatility(listdf);
-                double listPrice = (double)listdf[30].PriceList[oShares[0].Id];
+                double listPrice = (double)listdf[oObservation].PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
-                listPrix.Add(vanillaPricer.PriceCall(vanny, listdf[30].Date, businessDays, oSpot[0], oVolatility[0]));
-                vanillaPricer.PriceCall(vanny, listdf[30].Date, businessDays, oSpot[0], oVolatility[0]);
+                listPrix.Add(vanillaPricer.PriceCall(vanny, listdf[oObservation].Date, businessDays, oSpot[0], oVolatility[0]));
+                vanillaPricer.PriceCall(vanny, listdf[oObservation].Date, businessDays, oSpot[0], oVolatility[0]);
                 listdf.RemoveAt(0);
 
             }
@@ -123,7 +123,7 @@ namespace ProjetNET.Models
             List<Portefeuille> listePortefeuille = new List<Portefeuille>();
             IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
             int ind = 0;
-            while (ind < 30)
+            while (ind < oObservation)
             {
                 ind++;
                 listDataFeed.RemoveAt(0);
@@ -179,11 +179,11 @@ namespace ProjetNET.Models
          * */
         public void calculVolatility(List<DataFeed> listDataFeed)
         {
-            //calcul de la volatilité sur les 30 jours qui précèdent le début de la période
+            //calcul de la volatilité sur les oObservation (objet de classe) jours qui précèdent le début de la période
             int nbValues = listDataFeed.Count;
             int nbAssets = 1;
             double[,] assetsValues = new double[nbValues, nbAssets];
-            int horizon = nbValues - 30;
+            int horizon = nbValues - oObservation;
             double[,] assetsReturns = new double[nbValues - horizon, nbAssets];
             int info = 10;
 
@@ -245,7 +245,8 @@ namespace ProjetNET.Models
 
         public int oRebalancement { get; set; }
 
-     
+        public int oObservation { get; set; }
+
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
 
