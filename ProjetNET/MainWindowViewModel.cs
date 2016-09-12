@@ -100,10 +100,9 @@ namespace ProjetNET
 
         public MainWindowViewModel()
         {
+
+            // creation du delegate responsable de la génération du graphique
             StartCommand = new DelegateCommand(StartAnalyse, CanLaunch);
-
-            Rebalancement = "1";
-
             wholeView = new WholeViewModel();
 
             VanillaCallPricingVM vanille = new VanillaCallPricingVM();
@@ -125,6 +124,7 @@ namespace ProjetNET
             SelectedOption = optVanilla1;
             DateDebut = selectedOption.currentDate.ToShortDateString();
 
+
             DateDebut = selectedOption.currentDate.ToShortDateString();
             optionInformation = optVanilla1.toTextBox();
 
@@ -134,6 +134,8 @@ namespace ProjetNET
             BackTestGenerateHistoryVM backTest = new BackTestGenerateHistoryVM();
             ForwardTestGenerateHistoryVM forwardTest = new ForwardTestGenerateHistoryVM();
             SelectedTesting = backTest;
+            Rebalancement = "1";
+
             List<IGenerateHistoryViewModel> myListGenerator = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
             TestGenerateHistory = new ObservableCollection<IGenerateHistoryViewModel>(myListGenerator);
         }
@@ -146,6 +148,8 @@ namespace ProjetNET
             selectedOption.setPricer(selectedPricing, selectedTesting);
 
             selectedTesting.GenerateHistory.startDate = dateDebutTime.AddDays(-45);
+
+            selectedPricing.Pricing.oRebalancement = rebalancementValue;
 
             selectedPricing.Pricing.currentDate = dateDebutTime;
 
