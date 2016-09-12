@@ -9,6 +9,9 @@ namespace ProjetNET.ViewModels
 {
     public class OptionBasket : AbstractOptionCombobox
     {
+        /**
+         * Constructor for a hardcoded Basket Option.
+         * */
         public OptionBasket(IPricingViewModel ipricing, String name, DateTime startDate, DateTime maturity, Share[] shares, double strike, double[] weights)
         {
             myPricer = ipricing;
@@ -20,6 +23,9 @@ namespace ProjetNET.ViewModels
             oWeights = weights;
         }
 
+        /*
+         * Method to print all the information of this option.
+         * */
         public override string toTextBox()
         {
             String infoText = "Vanila Call : " + oName + "\n";

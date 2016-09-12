@@ -9,7 +9,9 @@ namespace ProjetNET.ViewModels
 {
     public class OptionVanilla : AbstractOptionCombobox
     {
-
+        /**
+         * Constructor for a hardcoded Vanilla Call Option.
+         * */
         public OptionVanilla(IPricingViewModel ipricing, String name, DateTime startDate, DateTime maturity, Share[] shares, double strike)
         {
             myPricer = ipricing;
@@ -20,6 +22,9 @@ namespace ProjetNET.ViewModels
             oStrike = strike;
         }
 
+        /*
+         * Method to print all the information of this option.
+         * */
         public override string toTextBox()
         {
             String infoText = "Vanila Call : " + oName + "\n";
