@@ -14,11 +14,22 @@ namespace ProjetNET.Models
      * */
     public interface IPricing
     {
-
+        /**
+         * Method to get the Payoff at maturity of an option.
+         * 
+         * */
         PricingResults getPayOff(List<DataFeed> listDataFeed);
 
+        /**
+         * Method to calculate all cotation in between a start date and maturity. Returns a list of PricingResults.
+         * 
+         * */
         List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed);
 
+        /**
+         * Method to calculate the portfolio value for each date and takes in count the balancing period.
+         *  
+         * */
         List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult);
 
         // nom de l option
