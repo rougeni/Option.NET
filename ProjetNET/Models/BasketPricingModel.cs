@@ -69,6 +69,7 @@ namespace ProjetNET.Models
         {
             basketPricer = new Pricer();
             oName = "Basket";
+            oObservation = 30;
             tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
         }
         #endregion Constructor
@@ -87,13 +88,13 @@ namespace ProjetNET.Models
             //This line wad added.
             oSpot = new double[oShares.Length];
             BasketOption bask_o = new BasketOption(oName, oShares, oWeights, oMaturity, oStrike);
-            while (listdf.Count > 30)
+            while (listdf.Count > oObservation)
             {
                 calculVolatility(listdf);
                 for (int myShare = 0; myShare < oShares.Length; myShare++){
-                    oSpot[myShare] = (double)listdf[30].PriceList[oShares[myShare].Id];
+                    oSpot[myShare] = (double)listdf[oObservation].PriceList[oShares[myShare].Id];
                 }
-                PricingResults pr = basketPricer.PriceBasket(bask_o, listdf[30].Date, businessDays, oSpot, oVolatility, matriceCorr);
+                PricingResults pr = basketPricer.PriceBasket(bask_o, listdf[oObservation].Date, businessDays, oSpot, oVolatility, matriceCorr);
                 if (listPrix.Count > 0)
                 {
                     var prev = listPrix.Last();
@@ -114,7 +115,7 @@ namespace ProjetNET.Models
             List<Portefeuille> listePortefeuille = new List<Portefeuille>();
             IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
             int ind = 0;
-            while (ind < 30)
+            while (ind < oObservation)
             {
                 ind++;
                 listDataFeed.RemoveAt(0);
@@ -200,7 +201,7 @@ namespace ProjetNET.Models
         }
 
         /**
-         * calcul du vecteur volatilité des 30 premières valeurs de la liste passée en paramètres
+         * calcul du vecteur volatilité des oObservations (paramètre de classe) premières valeurs de la liste passée en paramètres
          * */
         public void calculVolatility(List<DataFeed> listDataFeed)
         {
@@ -208,7 +209,7 @@ namespace ProjetNET.Models
             int nbAssets = listDataFeed.ToArray()[0].PriceList.Count;
             int nbValues = listDataFeed.Count();
             double[,] assetsValues = new double[nbValues,nbAssets];
-            int horizon = listDataFeed.Count - 30 ;
+            int horizon = listDataFeed.Count - oObservation ;
             double[,] assetsReturns = new double[(nbValues - horizon), nbAssets];
             int info = 10;
             for (int i = 0; i < nbValues; i++ )
@@ -228,7 +229,7 @@ namespace ProjetNET.Models
 
             //calcul de la covariance
             double[,] cov = new double[nbAssets,nbAssets];
-            int nbValuesCov = 30;
+            int nbValuesCov = oObservation;
             resultat = WREmodelingCov(ref nbValuesCov,ref nbAssets, assetsReturns, cov, ref info);
             if (resultat != 0)
             {
@@ -237,7 +238,7 @@ namespace ProjetNET.Models
             matriceCorr = new double[nbAssets, nbAssets];
 
             double[,] corr = new double[nbAssets, nbAssets];
-            int nbValuesCorr = 30;
+            int nbValuesCorr = oObservation;
             resultat = WREmodelingCorr(ref nbValuesCorr, ref nbAssets, assetsReturns, corr, ref info);
 
             if (resultat != 0)
@@ -370,6 +371,18 @@ namespace ProjetNET.Models
                 ;
             }
         }
+        public int OObservation
+        {
+            get
+            {
+                return oObservation;
+            }
+            set
+            {
+                oObservation = value;
+                ;
+            }
+        }
         #endregion Getter & Setter
 
         #region Public Properties
@@ -390,6 +403,7 @@ namespace ProjetNET.Models
 
         public string oName { get; set; }
 
+        public int oObservation { get; set; }
 
         public int oRebalancement { get; set; }
 
