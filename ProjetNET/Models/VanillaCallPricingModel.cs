@@ -26,13 +26,13 @@ namespace ProjetNET.Models
             ref int info
             );
 
-        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExanteVolatility", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int WREanalysisExanteVolatility(
-            ref int nbAssets,
-            double[,] cov,
-            double[] weight,
-            double[] exanteVolatility,
+        [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WREanalysisExpostVolatility(
+            ref int nbValues,
+            double[] portfolioReturns,
+            ref double expostVolatility,
             ref int info);
+
 
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCov", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCov(
@@ -76,15 +76,21 @@ namespace ProjetNET.Models
                 throw new NullReferenceException();  // TODO pls check if correct
             }
             List<PricingResults> listPrix = new List<PricingResults>();
-            calculVolatility(listDataFeed);
+            List<DataFeed> listdf = new List<DataFeed>(listDataFeed);
+
 
             VanillaCall vanny = new VanillaCall(oName, oShares, oMaturity, oStrike);
 
-            foreach (DataFeed df in listDataFeed)
+            while (listdf.Count > 30)
             {
-                double listPrice = (double)df.PriceList[oShares[0].Id];
+                calculVolatility(listdf);
+                //Console.WriteLine(oVolatility[0]);
+                double listPrice = (double)listdf[30].PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
-                listPrix.Add(vanillaPricer.PriceCall(vanny, df.Date, businessDays, oSpot[0], oVolatility[0]));
+                listPrix.Add(vanillaPricer.PriceCall(vanny, listdf[30].Date, businessDays, oSpot[0], oVolatility[0]));
+                vanillaPricer.PriceCall(vanny, listdf[30].Date, businessDays, oSpot[0], oVolatility[0]);
+                listdf.RemoveAt(0);
+
             }
             
             return listPrix;
@@ -114,8 +120,15 @@ namespace ProjetNET.Models
          * */
         public List<Portefeuille> getPortefeuillesCouverture(List<DataFeed> listDataFeed, List<PricingResults> ListePricingResult)
         {
+
             List<Portefeuille> listePortefeuille = new List<Portefeuille>();
             IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
+            int ind = 0;
+            while (ind < 30)
+            {
+                ind++;
+                listDataFeed.RemoveAt(0);
+            }
             IEnumerator<DataFeed> enumLDF = listDataFeed.GetEnumerator();
             bool estDebut = true;
             double valeur = 0;
@@ -123,6 +136,10 @@ namespace ProjetNET.Models
             PricingResults ancienPR = null;
             DataFeed ancienDF = null;
             string sousJacent = oShares[0].Id;
+            int waitForRebalancing = oRebalancement;
+
+            double currentDelta = 0;
+            Console.WriteLine(listDataFeed.Count + " " + ListePricingResult.Count);
             while(enumPR.MoveNext() && enumLDF.MoveNext())
             {
                 PricingResults pr = (PricingResults)enumPR.Current;
@@ -132,15 +149,30 @@ namespace ProjetNET.Models
                     //calcul de PI0
                     valeur = (double)pr.Price;
                     estDebut = false;
+                    currentDelta = pr.Deltas[0];
                 }
                 else
                 {
+                    if (waitForRebalancing == 0)
+                    {
+                        //Console.WriteLine("Coucou");
+                        valeur = currentDelta * (double)df.PriceList[sousJacent] + (ancienneValeur - currentDelta * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR / businessDays);
+                        waitForRebalancing = oRebalancement ;
+                        currentDelta = pr.Deltas[0];
+                        Console.WriteLine(currentDelta);
+
+                    }
+                    else
+                    {
+                        valeur = currentDelta * (double)df.PriceList[sousJacent] + (ancienneValeur - currentDelta * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR / businessDays);
+                        waitForRebalancing--;
+                    }
                     // calcul de PIn
-                    valeur = ancienPR.Deltas[0] * (double)df.PriceList[sousJacent] + (ancienneValeur - ancienPR.Deltas[0] * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR/businessDays);
                 }
                 ancienPR = pr;
                 ancienDF = df;
                 ancienneValeur = valeur;
+                //Console.WriteLine(valeur);
                 Portefeuille port = new Portefeuille(df.Date, valeur);
                 listePortefeuille.Add(port);
             }
@@ -211,16 +243,21 @@ namespace ProjetNET.Models
 
             double[] weight = new double[1];
             weight[0] = 1;
-            double[] exanteVolatility = new double[1];
-
-            resultat = WREanalysisExanteVolatility(ref nbAssets, cov, weight, exanteVolatility, ref info);
+            double exanteVolatility = 0;
+            double[] rendements = new double[nbValues-horizon];
+            for (int j = 0; j < nbValues-horizon; j++)
+            {
+                rendements[j] = assetsReturns[j,0];
+            }
+            int distTime = (nbValues - horizon);
+                resultat = WREanalysisExpostVolatility(ref distTime , rendements, ref exanteVolatility, ref info);
             if (resultat != 0)
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREanalysisExanteVolatility erreur numero : " + resultat);
             }
 
             oVolatility = new double[1];
-            oVolatility[0] = exanteVolatility[0];
+            oVolatility[0] = exanteVolatility;
         }
 
         #endregion public methods
@@ -241,6 +278,8 @@ namespace ProjetNET.Models
         public double[] oVolatility { get; set; }
 
         public int oRebalancement { get; set; }
+
+     
         public double[] oWeights { get; set; }
         #endregion Getter & Setter
 
