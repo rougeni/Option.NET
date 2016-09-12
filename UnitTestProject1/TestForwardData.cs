@@ -63,21 +63,6 @@ namespace UnitTestProject1
                     Console.WriteLine(dataf.PriceList[ele]);                
                 }
             }
-            //underlyingShares[0] = new Share(liste.ToArray()[0], dataConn.getName(liste.ToArray()[0]));
-            /*        Console.WriteLine(liste.ToArray()[0]);
-                    Console.WriteLine(liste.ToArray()[1]);
-                    Console.WriteLine(liste.ToArray()[2]);
-                    underlyingShares[1] = new Share(liste.ToArray()[1], dataConn.getName(liste.ToArray()[1]));
-                    underlyingShares[2] = new Share(liste.ToArray()[2], dataConn.getName(liste.ToArray()[2]));
-                    Console.WriteLine("----");
-                    Console.WriteLine(underlyingShares[0].Id);
-                    Console.WriteLine(underlyingShares[0].Name);
-                    Console.WriteLine(underlyingShares[1].Id);
-                    Console.WriteLine(underlyingShares[1].Name);
-                                  Console.WriteLine(underlyingShares[2].Id);
-                                  Console.WriteLine(underlyingShares[2].Name);
-                                  */
-
         }
     }
 }

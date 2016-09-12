@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Windows.Threading;
 using ProjetNET.ViewModels;
 using PricingLibrary.FinancialProducts;
+using System.Windows;
 
 namespace ProjetNET
 {
@@ -155,12 +156,32 @@ namespace ProjetNET
 
             wholeView.PricingViewModel = selectedPricing;
             wholeView.GenrateHistory = selectedTesting;
-            wholeView.ViewFacade.Launch();
+            try
+            {
+                wholeView.ViewFacade.Launch();
+            } 
+            catch (NullReferenceException nullRef) {
+                MessageBox.Show("La période considérée ne correspond à aucune donnée.");
+            }
+            catch (ApplicationException appli)
+            {
+                MessageBox.Show("Une erreur interne s'est produite.\nInformation supplémentaire : " + appli.Message);
+            }
         }
 
         private bool CanLaunch()
         {
-            return int.TryParse(rebalancement, out rebalancementValue) && DateTime.TryParse(dateDebut,out dateDebutTime);
+            if (!int.TryParse(rebalancement, out rebalancementValue))
+            {
+                MessageBox.Show("Le période de rebalancement doit être un entier correspondant aux nombres de jours entre deux réévaluations du portefeuille.");
+                return false;
+            }
+            if (!DateTime.TryParse(dateDebut, out dateDebutTime))
+            {
+                MessageBox.Show("Date de début doit être au format dd/MM/yyyy");
+                return false;
+            }
+            return true;
         }
 
     }

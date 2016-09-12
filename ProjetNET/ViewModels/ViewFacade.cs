@@ -35,6 +35,9 @@ namespace ProjetNET.ViewModels
 
         }
 
+        /*
+         * transformation des valeurs du modèle dans des objets observables par la vue
+         * */
         private PlotModel ToObservableView(List<PricingResults> pricingResults, List<Portefeuille> portefeuilles)
         {
 
@@ -51,6 +54,9 @@ namespace ProjetNET.ViewModels
             return model;
         }
 
+        /*
+         * créer une ligne de point pour l'affichage sur le graphique du portefeuille
+         * */
         private void drawPortefeuille(List<Portefeuille> portefeuilles, LineSeries plotPortefeuille)
         {
             int i = 0;
@@ -61,6 +67,9 @@ namespace ProjetNET.ViewModels
             }
         }
 
+        /*
+         * créer une ligne de point pour l'affichage sur le graphique des options
+        * */
         private void drawOption(List<PricingResults> pricingResults, LineSeries plotOption)
         {
             int i = 0;

@@ -138,7 +138,6 @@ namespace ProjetNET.Models
             int waitForRebalancing = oRebalancement;
 
             double currentDelta = 0;
-            Console.WriteLine(listDataFeed.Count + " " + ListePricingResult.Count);
             while(enumPR.MoveNext() && enumLDF.MoveNext())
             {
                 PricingResults pr = (PricingResults)enumPR.Current;
