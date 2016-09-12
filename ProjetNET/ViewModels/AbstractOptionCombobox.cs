@@ -8,12 +8,10 @@ using System.Threading.Tasks;
 namespace ProjetNET.ViewModels
 {
     /**
-     * Abstract class to provide a structure for hard-coded options.
+     * Abstract class to provide a structure for different types of hard-coded options.
      * */
     public abstract class AbstractOptionCombobox
     {
-
-        // commun
 
         public IPricingViewModel myPricer { get; set; }
 
@@ -29,11 +27,12 @@ namespace ProjetNET.ViewModels
 
         public double[] oWeight { get; set; }
 
-        /*
-         * Method to connect dynamicly the interface and the data in an option.
-         * */
+        /**
+         *
+         *  Method used to inform the pricer and the historical generator
+         *  of the specification of the selected Option
+         *  
+         **/
         abstract public void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM);
-
-        abstract public String toTextBox();
     }
 }

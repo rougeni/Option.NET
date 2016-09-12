@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.ViewModels
 {
+
+    /**
+     * 
+     *  All  the option of type OptionBasket should instantiate
+     *  this class with their specific data.
+     * 
+     * */
+
     public class OptionBasket : AbstractOptionCombobox
     {
         private double[] oWeights;
@@ -24,8 +32,8 @@ namespace ProjetNET.ViewModels
             oWeights = weights;
         }
 
-        /*
-         * Method to print all the information of this option.
+        /**
+         * see AbstractOptionCombobox.toTestBox
          * */
         public override string toTextBox()
         {
@@ -40,6 +48,10 @@ namespace ProjetNET.ViewModels
             return infoText;
         }
 
+
+        /**
+        * see AbstractOptionCombobox.setPricer
+        **/
         public override void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM)
         {
             myPricingVM.Pricing.oMaturity = oMaturity;

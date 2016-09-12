@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>bin\Debug\ProjetNET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -77,7 +78,6 @@
     <Compile Include="Models\Portefeuille.cs" />
     <Compile Include="ViewModels\ActionCheckBox.cs" />
     <Compile Include="ViewModels\BackTestGenerateHistoryVM.cs" />
-    <Compile Include="Data\Action.cs" />
     <Compile Include="Data\Base.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

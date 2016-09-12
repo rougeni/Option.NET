@@ -5,6 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/**
+ * 
+ *  All  the option of type VanillaCall should instantiate
+ *  this class with their specific data.
+ * 
+ * */
+
 namespace ProjetNET.ViewModels
 {
     public class OptionVanilla : AbstractOptionCombobox
@@ -24,9 +31,9 @@ namespace ProjetNET.ViewModels
             oWeight[0] = 1;
         }
 
-        /*
-         * Method to print all the information of this option.
-         * */
+        /**
+          * see AbstractOptionCombobox.toTestBox
+          * */
         public override string toTextBox()
         {
             String infoText = "Vanila Call : " + oName + "\n";
@@ -36,6 +43,9 @@ namespace ProjetNET.ViewModels
             return infoText;
         }
 
+        /**
+        * see AbstractOptionCombobox.setPricer
+        **/
         public override void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM)
         {
             myPricingVM.Pricing.oMaturity = oMaturity;
