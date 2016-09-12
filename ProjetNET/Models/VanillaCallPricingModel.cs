@@ -14,7 +14,7 @@ namespace ProjetNET.Models
 {
     public class VanillaCallPricingModel : IPricing
     {
-        #region WRE imports
+        #region Extern Declaration
         [DllImport("wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
 
         public static extern int WREmodelingLogReturns(
@@ -42,7 +42,7 @@ namespace ProjetNET.Models
             double[,] cov,
             ref int info
             );
-        #endregion WRE imports
+        #endregion Extern Declaration
 
 
         #region private fields
@@ -73,7 +73,7 @@ namespace ProjetNET.Models
         {
             if (oName.Equals(null) || oShares.Equals(null) || oMaturity == null || oStrike.Equals(null) || listDataFeed.Count == 0)
             {
-                throw new NullReferenceException();  // TODO pls check if correct
+                throw new NullReferenceException();
             }
             List<PricingResults> listPrix = new List<PricingResults>();
             List<DataFeed> listdf = new List<DataFeed>(listDataFeed);
@@ -84,7 +84,6 @@ namespace ProjetNET.Models
             while (listdf.Count > 30)
             {
                 calculVolatility(listdf);
-                //Console.WriteLine(oVolatility[0]);
                 double listPrice = (double)listdf[30].PriceList[oShares[0].Id];
                 oSpot[0] = listPrice;
                 listPrix.Add(vanillaPricer.PriceCall(vanny, listdf[30].Date, businessDays, oSpot[0], oVolatility[0]));
@@ -146,7 +145,6 @@ namespace ProjetNET.Models
                 DataFeed df = (DataFeed)enumLDF.Current;
                 if (estDebut)
                 {
-                    //calcul de PI0
                     valeur = (double)pr.Price;
                     estDebut = false;
                     currentDelta = pr.Deltas[0];
@@ -155,24 +153,19 @@ namespace ProjetNET.Models
                 {
                     if (waitForRebalancing == 0)
                     {
-                        //Console.WriteLine("Coucou");
                         valeur = currentDelta * (double)df.PriceList[sousJacent] + (ancienneValeur - currentDelta * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR / businessDays);
                         waitForRebalancing = oRebalancement ;
                         currentDelta = pr.Deltas[0];
-                        Console.WriteLine(currentDelta);
-
                     }
                     else
                     {
                         valeur = currentDelta * (double)df.PriceList[sousJacent] + (ancienneValeur - currentDelta * (double)ancienDF.PriceList[sousJacent]) * Math.Exp(tauxSR / businessDays);
                         waitForRebalancing--;
                     }
-                    // calcul de PIn
                 }
                 ancienPR = pr;
                 ancienDF = df;
                 ancienneValeur = valeur;
-                //Console.WriteLine(valeur);
                 Portefeuille port = new Portefeuille(df.Date, valeur);
                 listePortefeuille.Add(port);
             }
@@ -186,15 +179,6 @@ namespace ProjetNET.Models
          * */
         public void calculVolatility(List<DataFeed> listDataFeed)
         {
-            /*public static extern int WREmodelingLogReturns(
-                ref int nbValues,
-                ref int nbAssets,
-                double[,] assetsValues,
-                ref int horizon,
-                double[,] assetsReturns,
-                int[] info
-            );*/
-
             //calcul de la volatilité sur les 30 jours qui précèdent le début de la période
             int nbValues = listDataFeed.Count;
             int nbAssets = 1;
@@ -215,15 +199,6 @@ namespace ProjetNET.Models
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREmodelingLogReturns, erreur numero : " + resultat);
             }
 
-            /* 
-            public static extern int WREmodelingCov(
-                ref int nbValues,
-                ref int nbAssets,
-                double[,] assetsReturns,
-                double[,] cov,
-                ref int info
-            );
-             */
             double[,] cov = new double[1, 1];
             int nbValuesCov = 30;
             resultat = WREmodelingCov(ref nbValuesCov, ref nbAssets, assetsReturns, cov, ref info);
@@ -231,15 +206,6 @@ namespace ProjetNET.Models
             {
                 throw new ApplicationException("Erreur lors du calcul de la volatilité pour VaniliaCall: WREmodelingCov erreur numero : " + resultat);
             }
-
-
-            /*public static extern int WREanlysisExanteVolatility(
-                ref int nbAssets,
-                double[,] cov,
-                double[] weight,
-                double[] exanteVolatility,
-                int info
-             );*/
 
             double[] weight = new double[1];
             weight[0] = 1;
