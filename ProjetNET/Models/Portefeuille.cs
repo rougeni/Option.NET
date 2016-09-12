@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProjetNET.Models
 {
+    /*
+     * Objet qui modélise la valeur d'un portefeuille de couverture
+     * à une date donnée
+     * */
     public class Portefeuille
     {
         private DateTime date;

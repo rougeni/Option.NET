@@ -7,6 +7,12 @@ using ProjetNET.Models;
 
 namespace ProjetNET.ViewModels
 {
+    /**
+   * 
+    * Interface permettant de lie la vue et 
+    * les differents model d'historique (backward et forward)
+    * 
+    * */
     public interface IGenerateHistoryViewModel
     {
         #region Public Properties

@@ -19,6 +19,11 @@ namespace ProjetNET.Models
         public double strike { get; set; }
         public DateTime startDate { get; set; }
 
+        /**
+         * Transmet la liste des dataFeed venant de la base de données
+         * en précisant certains paramètres passés comme attributs de la classe
+         * 
+         * */
         public List<DataFeed> generateHistory()
         {
             DataGestion dg = new DataGestion();

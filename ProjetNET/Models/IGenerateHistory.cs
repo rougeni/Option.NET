@@ -8,6 +8,10 @@ using PricingLibrary.FinancialProducts;
 
 namespace ProjetNET.Models
 {
+    /**
+     * Interface to provide a structure for the creation of an history - backward or forwad.
+     * 
+     * */
     public interface IGenerateHistory
     {
 

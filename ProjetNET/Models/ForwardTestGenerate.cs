@@ -12,14 +12,16 @@ namespace ProjetNET.Models
     public class ForwardTestGenerate : IGenerateHistory
     {
 
-
+        /**
+         * Fonction qui transmet les données simulées à partir des paramèttres internes de la classe
+         * */
         public List<DataFeed> generateHistory()
         {
             ForwardData dg = new ForwardData();
             return dg.getForwardListDataField(vanillaCallName, underlyingShares, weight, startDate, endTime, strike);
         }
 
-
+        #region Getteur Setteur
         public string VanillaCallName
         {
             get
@@ -89,7 +91,9 @@ namespace ProjetNET.Models
                 strike = value;
             }
         }
+        #endregion Getteur Setteur
 
+        #region Public Properties
         public string vanillaCallName { get; set; }
 
         public Share[] underlyingShares { get; set; }
@@ -101,5 +105,6 @@ namespace ProjetNET.Models
         public DateTime startDate { get; set; }
 
         public double strike { get; set; }
+        #endregion Public Properties
     }
 }
