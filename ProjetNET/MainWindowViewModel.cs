@@ -22,11 +22,13 @@ namespace ProjetNET
         private AbstractOptionCombobox selectedOption;
 
         private String rebalancement;
+        private String estimation;
         private String optionInformation;
         private String dateDebut;
 
         private int rebalancementValue;
         private DateTime dateDebutTime;
+        private int estimationValue;
 
         #endregion Private Fields
 
@@ -48,6 +50,15 @@ namespace ProjetNET
             set
             {
                 SetProperty(ref dateDebut, value);
+            }
+        }
+
+        public String Estimation
+        {
+            get { return estimation; }
+            set
+            {
+                SetProperty(ref estimation, value);
             }
         }
 
@@ -136,7 +147,7 @@ namespace ProjetNET
             ForwardTestGenerateHistoryVM forwardTest = new ForwardTestGenerateHistoryVM();
             SelectedTesting = backTest;
             Rebalancement = "1";
-
+            Estimation = "30";
             List<IGenerateHistoryViewModel> myListGenerator = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
             TestGenerateHistory = new ObservableCollection<IGenerateHistoryViewModel>(myListGenerator);
         }
@@ -148,11 +159,13 @@ namespace ProjetNET
 
             selectedOption.setPricer(selectedPricing, selectedTesting);
 
-            selectedTesting.GenerateHistory.startDate = dateDebutTime.AddDays(-45);
+            selectedTesting.GenerateHistory.startDate = dateDebutTime.AddDays(-(int)(estimationValue * 8 / 5));
 
             selectedPricing.Pricing.oRebalancement = rebalancementValue;
 
             selectedPricing.Pricing.currentDate = dateDebutTime;
+
+            selectedPricing.Pricing.oObservation = estimationValue;
 
             wholeView.PricingViewModel = selectedPricing;
             wholeView.GenrateHistory = selectedTesting;
@@ -167,6 +180,10 @@ namespace ProjetNET
             {
                 MessageBox.Show("Une erreur interne s'est produite.\nInformation supplémentaire : " + appli.Message);
             }
+            catch (InvalidOperationException invalid)
+            {
+                MessageBox.Show(invalid.Message);
+            }
         }
 
         private bool CanLaunch()
@@ -179,6 +196,11 @@ namespace ProjetNET
             if (!DateTime.TryParse(dateDebut, out dateDebutTime))
             {
                 MessageBox.Show("Date de début doit être au format dd/MM/yyyy");
+                return false;
+            }
+            if (!int.TryParse(estimation, out estimationValue))
+            {
+                MessageBox.Show("Le période d'estimation doit être un entier correspondant à un nombre de jour.");
                 return false;
             }
             return true;

@@ -115,6 +115,10 @@ namespace ProjetNET.Models
             List<Portefeuille> listePortefeuille = new List<Portefeuille>();
             IEnumerator<PricingResults> enumPR = ListePricingResult.GetEnumerator();
             int ind = 0;
+
+            if (listDataFeed.Count < oObservation)
+                throw new InvalidOperationException("Il y a moins de données que nécessaire à l'estimation.");
+
             while (ind < oObservation)
             {
                 ind++;
