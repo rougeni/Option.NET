@@ -34,5 +34,11 @@ namespace ProjetNET.ViewModels
          *  
          **/
         abstract public void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM);
+
+        /**
+        * Method to print all the information of this option.
+         *
+        * */
+        abstract public String toTextBox();
     }
 }
