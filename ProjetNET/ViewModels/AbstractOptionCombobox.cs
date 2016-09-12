@@ -27,6 +27,9 @@ namespace ProjetNET.ViewModels
 
         public DateTime currentDate { get; set; }
 
+        /*
+         * Method to connect dynamicly the interface and the data in an option.
+         * */
         abstract public void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM);
 
         abstract public String toTextBox();
