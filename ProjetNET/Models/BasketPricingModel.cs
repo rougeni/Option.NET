@@ -63,6 +63,7 @@ namespace ProjetNET.Models
         {
             basketPricer = new Pricer();
             oName = "Basket";
+            tauxSR = RiskFreeRateProvider.GetRiskFreeRate();
         }
 
         public List<PricingResults> pricingUntilMaturity(List<DataFeed> listDataFeed)
