@@ -9,6 +9,7 @@ namespace ProjetNET.ViewModels
 {
     public class OptionBasket : AbstractOptionCombobox
     {
+        private double[] oWeights;
         /**
          * Constructor for a hardcoded Basket Option.
          * */
@@ -37,6 +38,23 @@ namespace ProjetNET.ViewModels
             }
 
             return infoText;
+        }
+
+        public override void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM)
+        {
+            myPricingVM.Pricing.currentDate = currentDate;
+            myPricingVM.Pricing.oMaturity = oMaturity;
+            myPricingVM.Pricing.oName = oName;
+            myPricingVM.Pricing.oShares = oShares;
+            myPricingVM.Pricing.oStrike = oStrike;
+            myPricingVM.Pricing.oWeights = oWeights;
+
+            myGenHistoryVM.GenerateHistory.startDate = currentDate;
+            myGenHistoryVM.GenerateHistory.endTime = oMaturity;
+            myGenHistoryVM.GenerateHistory.strike = oStrike;
+            myGenHistoryVM.GenerateHistory.underlyingShares = oShares;
+            myGenHistoryVM.GenerateHistory.vanillaCallName = oName;
+            myGenHistoryVM.GenerateHistory.weight = oWeights;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ProjetNET
 
         private WholeViewModel wholeView;
 
-        private IGenerateHistoryViewModel selectedTesting;
+        private IGenerateHistoryViewModel selectedHistory;
         private IPricingViewModel selectedPricing;
         private AbstractOptionCombobox selectedOption;
 
@@ -81,13 +81,13 @@ namespace ProjetNET
             get { return wholeView; }
         }
 
-        public IGenerateHistoryViewModel SelectedTesting
+        public IGenerateHistoryViewModel SelectedHistory
         {
-            get { return selectedTesting; }
+            get { return selectedHistory; }
             set
             {
-                SetProperty(ref selectedTesting, value);
-                wholeView.GenrateHistory = selectedTesting;
+                SetProperty(ref selectedHistory, value);
+                wholeView.GenrateHistory = selectedHistory;
             }
         }
 
@@ -107,19 +107,8 @@ namespace ProjetNET
             set
             {
                 SetProperty(ref selectedOption, value);
-                selectedPricing.Pricing.currentDate = selectedOption.currentDate;
-                selectedPricing.Pricing.oMaturity = selectedOption.oMaturity;
-                selectedPricing.Pricing.oName = selectedOption.oName;
-                selectedPricing.Pricing.oShares = selectedOption.oShares;
-                selectedPricing.Pricing.oStrike = selectedOption.oStrike;
-                selectedPricing.Pricing.oWeights = selectedOption.oWeights;
 
-                selectedTesting.GenerateHistory.startDate = selectedOption.currentDate;
-                selectedTesting.GenerateHistory.endTime = selectedOption.oMaturity;
-                selectedTesting.GenerateHistory.strike = selectedOption.oStrike;
-                selectedTesting.GenerateHistory.underlyingShares = selectedOption.oShares;
-                selectedTesting.GenerateHistory.weight = selectedOption.oWeights;
-                selectedTesting.GenerateHistory.vanillaCallName = selectedOption.oName;
+                selectedOption.setPricer(SelectedPricing, selectedHistory);
 
                 wholeView.PricingViewModel = selectedOption.myPricer;
 
@@ -140,7 +129,7 @@ namespace ProjetNET
             wholeView = new WholeViewModel();
             BackTestGenerateHistoryVM backTest = new BackTestGenerateHistoryVM();
             ForwardTestGenerateHistoryVM forwardTest = new ForwardTestGenerateHistoryVM();
-            selectedTesting = backTest;
+            selectedHistory = backTest;
 
             List<IGenerateHistoryViewModel> myListGenerator = new List<IGenerateHistoryViewModel>() { backTest, forwardTest };
             TestGenerateHistory = new ObservableCollection<IGenerateHistoryViewModel>(myListGenerator);
@@ -197,20 +186,20 @@ namespace ProjetNET
             selectedPricing.Pricing.oStrike = Convert.ToDouble(strike);
             wholeView.PricingViewModel = selectedPricing;
 
-            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
-            selectedTesting.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
-            selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.startDate = startDateTime.AddDays(-30);
-            selectedTesting.GenerateHistory.endTime = maturityDate;
+            selectedHistory.GenerateHistory.underlyingShares = actions.ToArray();
+            selectedHistory.GenerateHistory.weight = selectedPricing.Pricing.oWeights;
+            selectedHistory.GenerateHistory.vanillaCallName = "Vanilla";
+            selectedHistory.GenerateHistory.startDate = startDateTime.AddDays(-30);
+            selectedHistory.GenerateHistory.endTime = maturityDate;
 
             double[] weight = new double[4];
             weight[0] = 0.25; weight[1] = 0.25; weight[2] = 0.25; weight[3] = 0.25;
-            selectedTesting.GenerateHistory.weight = weight;
-            selectedTesting.GenerateHistory.underlyingShares = actions.ToArray();
-            selectedTesting.GenerateHistory.vanillaCallName = "Vanilla";
-            selectedTesting.GenerateHistory.startDate = startDateTime;
-            selectedTesting.GenerateHistory.endTime = maturityDate;
-            wholeView.GenrateHistory = selectedTesting;
+            selectedHistory.GenerateHistory.weight = weight;
+            selectedHistory.GenerateHistory.underlyingShares = actions.ToArray();
+            selectedHistory.GenerateHistory.vanillaCallName = "Vanilla";
+            selectedHistory.GenerateHistory.startDate = startDateTime;
+            selectedHistory.GenerateHistory.endTime = maturityDate;
+            wholeView.GenrateHistory = selectedHistory;
             wholeView.PricingViewModel = selectedPricing;
 
             wholeView.ViewFacade.Launch();

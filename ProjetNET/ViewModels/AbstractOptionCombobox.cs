@@ -26,9 +26,8 @@ namespace ProjetNET.ViewModels
         public double oStrike { get; set; }
 
         public DateTime currentDate { get; set; }
-        
-        // basket
-        public double[] oWeights { get; set; }
+
+        abstract public void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM);
 
         abstract public String toTextBox();
     }
