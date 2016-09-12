@@ -27,6 +27,8 @@ namespace ProjetNET.ViewModels
 
         public DateTime currentDate { get; set; }
 
+        public double[] oWeight { get; set; }
+
         /*
          * Method to connect dynamicly the interface and the data in an option.
          * */

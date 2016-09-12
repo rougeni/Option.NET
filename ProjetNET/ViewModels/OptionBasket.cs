@@ -30,7 +30,7 @@ namespace ProjetNET.ViewModels
         public override string toTextBox()
         {
             String infoText = "Vanila Call : " + oName + "\n";
-            infoText += "Date de début : " + currentDate + ", Date de maturité : " + oMaturity + "\n";
+            infoText += "Date de maturité : " + oMaturity + "\n";
             infoText += "Strike : " + oStrike  + "\n";
             for (int i = 0; i < oShares.Length; i++)
             {
@@ -42,14 +42,12 @@ namespace ProjetNET.ViewModels
 
         public override void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM)
         {
-            myPricingVM.Pricing.currentDate = currentDate;
             myPricingVM.Pricing.oMaturity = oMaturity;
             myPricingVM.Pricing.oName = oName;
             myPricingVM.Pricing.oShares = oShares;
             myPricingVM.Pricing.oStrike = oStrike;
             myPricingVM.Pricing.oWeights = oWeights;
 
-            myGenHistoryVM.GenerateHistory.startDate = currentDate;
             myGenHistoryVM.GenerateHistory.endTime = oMaturity;
             myGenHistoryVM.GenerateHistory.strike = oStrike;
             myGenHistoryVM.GenerateHistory.underlyingShares = oShares;

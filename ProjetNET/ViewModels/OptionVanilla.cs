@@ -14,12 +14,14 @@ namespace ProjetNET.ViewModels
          * */
         public OptionVanilla(IPricingViewModel ipricing, String name, DateTime startDate, DateTime maturity, Share[] shares, double strike)
         {
+            currentDate = startDate;
             myPricer = ipricing;
             oName = name;
-            currentDate = startDate;
             oMaturity = maturity;
             oShares = shares;
             oStrike = strike;
+            oWeight = new double[1];
+            oWeight[0] = 1;
         }
 
         /*
@@ -28,7 +30,7 @@ namespace ProjetNET.ViewModels
         public override string toTextBox()
         {
             String infoText = "Vanila Call : " + oName + "\n";
-            infoText += "Date de début : " + currentDate + ", Date de maturité : " + oMaturity + "\n";
+            infoText += "Date de maturité : " + oMaturity + "\n";
             infoText += "Strike : " + oStrike + ", Underlying Share : " + oShares[0].Name + "\n";
 
             return infoText;
@@ -36,17 +38,16 @@ namespace ProjetNET.ViewModels
 
         public override void setPricer(IPricingViewModel myPricingVM, IGenerateHistoryViewModel myGenHistoryVM)
         {
-            myPricingVM.Pricing.currentDate = currentDate;
             myPricingVM.Pricing.oMaturity = oMaturity;
             myPricingVM.Pricing.oName = oName;
             myPricingVM.Pricing.oShares = oShares;
             myPricingVM.Pricing.oStrike = oStrike;
 
-            myGenHistoryVM.GenerateHistory.startDate = currentDate;
             myGenHistoryVM.GenerateHistory.endTime = oMaturity;
             myGenHistoryVM.GenerateHistory.strike = oStrike;
             myGenHistoryVM.GenerateHistory.underlyingShares = oShares;
             myGenHistoryVM.GenerateHistory.vanillaCallName = oName;
+            myGenHistoryVM.GenerateHistory.weight = oWeight;
         }
     }
 }

@@ -142,21 +142,12 @@ namespace ProjetNET
 
         private void StartAnalyse()
         {
-            selectedTesting.GenerateHistory.startDate = dateDebutTime.AddDays(-45);
-            selectedTesting.GenerateHistory.endTime = selectedOption.oMaturity;
-            selectedTesting.GenerateHistory.strike = selectedOption.oStrike;
-            selectedTesting.GenerateHistory.underlyingShares = selectedOption.oShares;
-            selectedTesting.GenerateHistory.weight = selectedOption.oWeights;
-            selectedTesting.GenerateHistory.vanillaCallName = selectedOption.oName;
 
-            selectedPricing.Pricing.oRebalancement = rebalancementValue;
+            selectedOption.setPricer(selectedPricing, selectedTesting);
+
+            selectedTesting.GenerateHistory.startDate = dateDebutTime.AddDays(-45);
+
             selectedPricing.Pricing.currentDate = dateDebutTime;
-            selectedPricing.Pricing.currentDate = selectedOption.currentDate;
-            selectedPricing.Pricing.oMaturity = selectedOption.oMaturity;
-            selectedPricing.Pricing.oName = selectedOption.oName;
-            selectedPricing.Pricing.oShares = selectedOption.oShares;
-            selectedPricing.Pricing.oStrike = selectedOption.oStrike;
-            selectedPricing.Pricing.oWeights = selectedOption.oWeights;
 
             wholeView.PricingViewModel = selectedPricing;
             wholeView.GenrateHistory = selectedTesting;

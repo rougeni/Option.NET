@@ -23,7 +23,7 @@ namespace ProjetNET.ViewModels
         public ViewFacade(Facade facade)
         {
             underlyingFacade = facade;
-            MyModel = new PlotModel { Title = "Example 1" };
+            MyModel = new PlotModel { Title = "Graphique du portefeuille et de l'option" };
             
         }
 
