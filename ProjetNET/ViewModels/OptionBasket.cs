@@ -37,7 +37,7 @@ namespace ProjetNET.ViewModels
          * */
         public override string toTextBox()
         {
-            String infoText = "Vanila Call : " + oName + "\n";
+            String infoText = "Basket : " + oName + "\n";
             infoText += "Date de maturité : " + oMaturity + "\n";
             infoText += "Strike : " + oStrike  + "\n";
             for (int i = 0; i < oShares.Length; i++)
