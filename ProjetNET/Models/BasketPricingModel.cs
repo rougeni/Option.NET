@@ -70,6 +70,7 @@ namespace ProjetNET.Models
             basketPricer = new Pricer();
             oName = "Basket";
             oObservation = 30;
+            tauxSR = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRate();
         }
         #endregion Constructor
 
