@@ -117,7 +117,6 @@ namespace ProjetNET
 
             // Generation of options 
             
-            // First Vanilla Call
             OptionVanilla optVanilla1 = new OptionVanilla(vanille, "First Vanilla Call", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[1] { edf }, 24);
             OptionVanilla optVanilla2 = new OptionVanilla(vanille, "Second Vanilla Call", new DateTime(2014, 01, 17), new DateTime(2014, 01, 24), new Share[1] { axaSA }, 7);
             OptionBasket optBasket1 = new OptionBasket(basket, "First Basket Option", new DateTime(2014, 01, 10), new DateTime(2015, 08, 20), new Share[4] { accorSA, alstom, edf, axaSA }, 30, new double[4] { 0.2, 0.2, 0.2, 0.4 });
