@@ -20,19 +20,25 @@ namespace ProjetNET
         private IPricingViewModel selectedPricing;
         private AbstractOptionCombobox selectedOption;
 
-        //private bool fieldCompleted;
-
         private String rebalancement;
         private String optionInformation;
+        private String dateDebut;
+
+        private int rebalancementValue;
+        private DateTime dateDebutTime;
 
         #endregion Private Fields
 
+        #region Public Fields
         public DelegateCommand StartCommand { get; private set; }        
 
         public ObservableCollection<IGenerateHistoryViewModel> TestGenerateHistory { get; private set; }
 
         public ObservableCollection<AbstractOptionCombobox> AvailableOptions { get; private set; }
 
+        #endregion Public Fields
+
+        #region Public Getters and Setters
 
         public String Rebalancement
         {
@@ -40,6 +46,15 @@ namespace ProjetNET
             set
             {
                 SetProperty(ref rebalancement, value);
+            }
+        }
+
+        public String DateDebut
+        {
+            get { return dateDebut; }
+            set
+            {
+                SetProperty(ref dateDebut, value);
             }
         }
 
@@ -92,6 +107,7 @@ namespace ProjetNET
                 selectedPricing.Pricing.oWeights = selectedOption.oWeights;
 
                 selectedTesting.GenerateHistory.startDate = selectedOption.currentDate;
+                DateDebut = selectedOption.currentDate.ToShortDateString();
                 selectedTesting.GenerateHistory.endTime = selectedOption.oMaturity;
                 selectedTesting.GenerateHistory.strike = selectedOption.oStrike;
                 selectedTesting.GenerateHistory.underlyingShares = selectedOption.oShares;
@@ -103,7 +119,7 @@ namespace ProjetNET
                 wholeView.PricingViewModel = selectedPricing;
             }
         }
-
+        #endregion Public Getters and Setters
 
         #region Public Constructors
 
@@ -146,7 +162,9 @@ namespace ProjetNET
 
         private void StartAnalyse()
         {
-            selectedPricing.Pricing.oRebalancement = Convert.ToInt32(Rebalancement);
+            selectedPricing.Pricing.oRebalancement = rebalancementValue;
+
+            selectedPricing.Pricing.currentDate = dateDebutTime;
 
             wholeView.GenrateHistory = selectedTesting;
 
@@ -155,7 +173,7 @@ namespace ProjetNET
 
         private bool CanLaunch()
         {
-            return true;
+            return int.TryParse(rebalancement, out rebalancementValue) && DateTime.TryParse(dateDebut,out dateDebutTime);
         }
 
     }
