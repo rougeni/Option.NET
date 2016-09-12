@@ -30,5 +30,7 @@ namespace ProjetNET.Models
         // prix a la date de depart
         DateTime currentDate { get; set; }
         double[] oWeights { get; set; }
+
+        int oRebalancement { get; set; }
     }
 }
