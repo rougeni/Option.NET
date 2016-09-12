@@ -44,7 +44,7 @@ namespace ProjetNET.ViewModels
             LineSeries plotPortefeuille = new OxyPlot.Series.LineSeries();
 
             drawOption(pricingResults, plotOption);
-           // drawPortefeuille(portefeuilles, plotPortefeuille);
+            drawPortefeuille(portefeuilles, plotPortefeuille);
             model.Series.Add(plotOption);
             model.Series.Add(plotPortefeuille);
 
